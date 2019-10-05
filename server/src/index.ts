@@ -9,7 +9,8 @@ import { createConnection } from "typeorm";
 
 import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
-import { runCodegen } from "./helpers/helpers";
+import { runCodegen, nodeLogger } from "./helpers/helpers";
+import { sendEmail } from "./helpers/sendEmail";
 
 const main = async () => {
   const httpPort = 3001;
@@ -22,6 +23,17 @@ const main = async () => {
       .catch(error => attempts > maxAttempts ? reject(error) : attempts++), 500);
   });
   await connect();
+
+
+  // sendEmail({
+  //   to: 'chuku0929@gmail.com',
+  //   subject: 'testing email sent',
+  //   html: `
+  //     <h1>test</h1>    
+  //   `
+  // }).then(() => nodeLogger('email sent'))
+  // .catch(error => nodeLogger(error)) 
+
 
   // Generate TypeGraphQL Schema 
   const schema = await buildSchema({

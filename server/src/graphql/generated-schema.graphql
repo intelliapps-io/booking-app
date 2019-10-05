@@ -3,6 +3,22 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Event {
+  id: ID!
+  date: DateTime!
+  time: String!
+
+  """duration in minutes"""
+  duration: Int!
+  customer: User!
+  employee: User!
+}
+
 type Mutation {
   login(password: String!, email: String!): User
   logout: String
@@ -24,6 +40,7 @@ input RegisterInput {
 """User access role"""
 enum role {
   USER
+  EMPLOYEE
   ADMIN
 }
 

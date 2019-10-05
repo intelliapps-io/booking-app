@@ -8,15 +8,15 @@ export interface SendMailOptions {
 }
 
 export const sendEmail = async ({ to, subject, html }: SendMailOptions) => {
-  const accountAddress = "example@example.com"
+  const accountAddress = "test@dommentee.com"
   const testAccount = await nodemailer.createTestAccount()
   const transporter = nodemailer.createTransport({
-    host: testAccount.smtp.host,
-    port: testAccount.smtp.port,
-    secure: testAccount.smtp.secure, 
+    host: 'mail.dommentee.com',
+    port: 465,
+    secure: true, 
     auth: {
-      user: testAccount.user, // generated ethereal user
-      pass: testAccount.pass // generated ethereal password
+      user: 'test@dommentee.com', // generated ethereal user
+      pass: 'milkNhon3y!' // generated ethereal password
     }
   })
   return transporter.sendMail({ from: accountAddress, to, subject, html })

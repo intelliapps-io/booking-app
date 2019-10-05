@@ -7,6 +7,7 @@ import Login from "./components/account/Login";
 import Signup from "./components/account/Signup";
 import ConfirmAccount from "./components/account/ConfirmAccount";
 import { Home } from "./pages/home/Home";
+import { Account } from "./pages/account/Account";
 
 class AppLayout extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class AppLayout extends React.Component {
             <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/account" component={Account}/>
             <Route path="/" component={Home} />
           </Switch>
         </Layout.Content>

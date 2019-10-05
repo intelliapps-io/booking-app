@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 export enum UserRole {
   USER = "USER",
+  EMPLOYEE = "EMPLOYEE",
   ADMIN = "ADMIN"
 }
 

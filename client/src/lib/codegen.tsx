@@ -8,6 +8,18 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
+};
+
+export type Event = {
+  id: Scalars["ID"];
+  date: Scalars["DateTime"];
+  time: Scalars["String"];
+  /** duration in minutes */
+  duration: Scalars["Int"];
+  customer: User;
+  employee: User;
 };
 
 export type Mutation = {
@@ -40,6 +52,7 @@ export type RegisterInput = {
 /** User access role */
 export enum Role {
   User = "USER",
+  Employee = "EMPLOYEE",
   Admin = "ADMIN"
 }
 
@@ -93,7 +106,11 @@ export type UsersQuery = { __typename?: "Query" } & {
   users: Array<{ __typename?: "User" } & UserFieldsFragment>;
 };
 
-import { GraphQLResolveInfo } from "graphql";
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig
+} from "graphql";
 
  
 
@@ -175,6 +192,26 @@ export type ResolversTypes = {
   Mutation: {};
   RegisterInput: RegisterInput;
   Boolean: Scalars["Boolean"];
+  DateTime: Scalars["DateTime"];
+  Event: Event;
+  Int: Scalars["Int"];
+};
+
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes["DateTime"], any> {
+  name: "DateTime";
+}
+
+export type EventResolvers<
+  ContextType = any,
+  ParentType = ResolversTypes["Event"]
+> = {
+  id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  time?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  duration?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
+  customer?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
+  employee?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
 };
 
 export type MutationResolvers<
@@ -218,6 +255,8 @@ export type UserResolvers<
 };
 
 export type Resolvers<ContextType = any> = {
+  DateTime?: GraphQLScalarType;
+  Event?: EventResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

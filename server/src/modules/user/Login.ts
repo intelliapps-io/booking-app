@@ -6,7 +6,7 @@ import { createTokens } from "../../helpers/auth";
 
 @Resolver()
 export class LoginResolver {
-  @Mutation(() => User, { nullable: true })
+  @Mutation(type => User, { nullable: true })
   async login(
     @Arg('email') email: string,
     @Arg('password') password: string,
