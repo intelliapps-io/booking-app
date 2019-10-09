@@ -1,4 +1,4 @@
-import nodemailer from "nodemailer"
+import nodemailer from "nodemailer";
 import { User } from "../entity/User";
 
 export interface SendMailOptions {
@@ -9,7 +9,6 @@ export interface SendMailOptions {
 
 export const sendEmail = async ({ to, subject, html }: SendMailOptions) => {
   const accountAddress = "test@dommentee.com"
-  const testAccount = await nodemailer.createTestAccount()
   const transporter = nodemailer.createTransport({
     host: 'mail.dommentee.com',
     port: 465,

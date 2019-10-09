@@ -2,7 +2,7 @@ import { ObjectType, Field, ID, Root, registerEnumType, Arg } from 'type-graphql
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
 
 export enum UserRole {
-  USER = "USER",
+  CUSTOMER = "CUSTOMER",
   EMPLOYEE = "EMPLOYEE",
   ADMIN = "ADMIN"
 }
@@ -33,7 +33,7 @@ export class User extends BaseEntity {
   email: string
 
   @Field(type => UserRole)
-  @Column('enum', { default: UserRole["USER"], enum: UserRole })
+  @Column('enum', { default: UserRole["CUSTOMER"], enum: UserRole })
   role: UserRole
 
   @Field({ nullable: true })

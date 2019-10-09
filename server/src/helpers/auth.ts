@@ -78,11 +78,15 @@ export const authChecker: AuthChecker<MyContext, UserRole> = (
   const userRole = context.req.role;
 
   // admin role has access to all of user 
+  // import
   roles.forEach(role => {
     switch (role) {
-      case UserRole["USER"]:
-        isAuthorized = userRole === "USER" || userRole === "ADMIN"
+      case UserRole["CUSTOMER"]:
+        isAuthorized = userRole === "CUSTOMER" || userRole === "EMPLOYEE" || userRole === "ADMIN"
         break;
+      case UserRole['EMPLOYEE']:
+        isAuthorized = userRole === "EMPLOYEE" || userRole === "ADMIN" 
+        break
       case UserRole["ADMIN"]:
         isAuthorized = userRole === "ADMIN";
     }

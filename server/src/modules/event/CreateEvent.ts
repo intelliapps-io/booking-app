@@ -4,35 +4,19 @@ import { UserRole, User } from "../../entity/User";
 import { ManyToOne } from "typeorm";
 import { MyContext } from "../../ts/context";
 import { rejects } from "assert";
+import { EventInput } from "./EventInput";
 
-
-
-
-@InputType()
-export class EventInput {
-  @Field(type => Date)//define type grapghql
-  date: Date
-
-  @Field(type => String)
-  time: string
-
-  @Field(type => Int, { description: 'duration in minutes' })
-  duration: number
-
-  @Field(type => ID)
-  employeeId: string
-}
 
 
 @Resolver()
 export class CreateEventResolver {
   @Mutation(type => Event)
-  @Authorized([UserRole['USER']])
+  @Authorized([UserRole['CUSTOMER']])
   createEvent(@Arg('data') data: EventInput, @Ctx() ctx: MyContext) {
     return new Promise(async (resolve, reject) => {
-      let user = await User.findOne({ where: { id: ctx.req.userId } }).catch(err => reject(err))
+      let customer = await User.findOne({ where: { id: ctx.req.userId } }).catch(err => reject(err))
       let employee = await User.findOne({ where: { id: data.employeeId, role: UserRole['EMPLOYEE'] } }).catch(err => reject(err))
-      if (!user) {
+      if (!customer) {
         reject(new Error('error user not found'))
         return
       }
@@ -40,7 +24,17 @@ export class CreateEventResolver {
         reject(new Error('error employee not found'))
         return
       }
-      let event = await Event.create()
+      let event = await Event.create({
+        customer, 
+        employee,
+        datetime: data.datetime,
+        duration: data.duration
+      }).save().catch(err => reject(err))
+      if (!event) {
+        reject(new Error('error event not created'))
+        return
+      }
+      resolve(event);
   })
     
   }

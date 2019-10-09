@@ -14,18 +14,28 @@ export type Scalars = {
 
 export type Event = {
   id: Scalars["ID"];
-  date: Scalars["DateTime"];
-  time: Scalars["String"];
+  datetime: Scalars["DateTime"];
+  date: Scalars["String"];
+  begins: Scalars["String"];
+  ends: Scalars["String"];
   /** duration in minutes */
   duration: Scalars["Int"];
   customer: User;
   employee: User;
 };
 
+export type EventInput = {
+  datetime: Scalars["DateTime"];
+  /** duration in minutes */
+  duration: Scalars["Int"];
+  employeeId: Scalars["ID"];
+};
+
 export type Mutation = {
   login?: Maybe<User>;
   logout?: Maybe<Scalars["String"]>;
   register: User;
+  createEvent: Event;
 };
 
 export type MutationLoginArgs = {
@@ -37,9 +47,14 @@ export type MutationRegisterArgs = {
   data: RegisterInput;
 };
 
+export type MutationCreateEventArgs = {
+  data: EventInput;
+};
+
 export type Query = {
   users: Array<User>;
   me?: Maybe<User>;
+  queryEvents: Array<Event>;
 };
 
 export type RegisterInput = {
@@ -51,7 +66,7 @@ export type RegisterInput = {
 
 /** User access role */
 export enum Role {
-  User = "USER",
+  Customer = "CUSTOMER",
   Employee = "EMPLOYEE",
   Admin = "ADMIN"
 }
@@ -189,12 +204,13 @@ export type ResolversTypes = {
   String: Scalars["String"];
   role: Role;
   Float: Scalars["Float"];
+  Event: Event;
+  DateTime: Scalars["DateTime"];
+  Int: Scalars["Int"];
   Mutation: {};
   RegisterInput: RegisterInput;
+  EventInput: EventInput;
   Boolean: Scalars["Boolean"];
-  DateTime: Scalars["DateTime"];
-  Event: Event;
-  Int: Scalars["Int"];
 };
 
 export interface DateTimeScalarConfig
@@ -207,8 +223,10 @@ export type EventResolvers<
   ParentType = ResolversTypes["Event"]
 > = {
   id?: Resolver<ResolversTypes["ID"], ParentType, ContextType>;
-  date?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
-  time?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  datetime?: Resolver<ResolversTypes["DateTime"], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  begins?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
+  ends?: Resolver<ResolversTypes["String"], ParentType, ContextType>;
   duration?: Resolver<ResolversTypes["Int"], ParentType, ContextType>;
   customer?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
   employee?: Resolver<ResolversTypes["User"], ParentType, ContextType>;
@@ -231,6 +249,12 @@ export type MutationResolvers<
     ContextType,
     MutationRegisterArgs
   >;
+  createEvent?: Resolver<
+    ResolversTypes["Event"],
+    ParentType,
+    ContextType,
+    MutationCreateEventArgs
+  >;
 };
 
 export type QueryResolvers<
@@ -239,6 +263,11 @@ export type QueryResolvers<
 > = {
   users?: Resolver<Array<ResolversTypes["User"]>, ParentType, ContextType>;
   me?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
+  queryEvents?: Resolver<
+    Array<ResolversTypes["Event"]>,
+    ParentType,
+    ContextType
+  >;
 };
 
 export type UserResolvers<

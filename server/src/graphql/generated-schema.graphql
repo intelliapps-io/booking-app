@@ -10,8 +10,10 @@ scalar DateTime
 
 type Event {
   id: ID!
-  date: DateTime!
-  time: String!
+  datetime: DateTime!
+  date: String!
+  begins: String!
+  ends: String!
 
   """duration in minutes"""
   duration: Int!
@@ -19,15 +21,25 @@ type Event {
   employee: User!
 }
 
+input EventInput {
+  datetime: DateTime!
+
+  """duration in minutes"""
+  duration: Int!
+  employeeId: ID!
+}
+
 type Mutation {
   login(password: String!, email: String!): User
   logout: String
   register(data: RegisterInput!): User!
+  createEvent(data: EventInput!): Event!
 }
 
 type Query {
   users: [User!]!
   me: User
+  queryEvents: [Event!]!
 }
 
 input RegisterInput {
@@ -39,7 +51,7 @@ input RegisterInput {
 
 """User access role"""
 enum role {
-  USER
+  CUSTOMER
   EMPLOYEE
   ADMIN
 }
