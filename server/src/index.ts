@@ -18,12 +18,15 @@ const main = async () => {
   // Connect to Postgres DB
   const connect = () => new Promise((resolve, reject) => {
     let attempts = 0, maxAttempts = 10;
-    const interval = setInterval(() => createConnection()
-      .then(() => { clearInterval(interval); resolve(); })
-      .catch(error => attempts > maxAttempts ? reject(error) : attempts++), 500);
+    const interval = setInterval(
+      () => createConnection()
+        .then(() => { clearInterval(interval); resolve(); })
+        .catch(error => attempts > maxAttempts ? reject(error) : attempts++),
+      500
+    );
   });
-  await connect();
-
+  await connect()
+    .catch(err => { throw err });
 
   // sendEmail({
   //   to: 'chuku0929@gmail.com',
@@ -34,7 +37,6 @@ const main = async () => {
   // }).then(() => nodeLogger('email sent'))
   // .catch(error => nodeLogger(error)) 
 
-
   // Generate TypeGraphQL Schema 
   const schema = await buildSchema({
     resolvers,
@@ -43,7 +45,7 @@ const main = async () => {
       path: "./src/graphql/generated-schema.graphql"
     }
   });
-  
+
   // Create GraphQL Server
   const apolloServer = new ApolloServer({
     schema,
