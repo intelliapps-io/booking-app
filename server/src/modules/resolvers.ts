@@ -4,6 +4,8 @@ import { MeResolver } from "./user/Me";
 import { RegisterResolver } from "./user/Register";
 import { CreateEventResolver } from "./event/CreateEvent";
 import { QueryEventsResolver } from "./event/QueryEvents";
+import { QueryEventResolver } from "./event/QueryEvent";
+import { DeleteEventResolver } from "./event/DeleteEvent";
 
 export const resolvers = [
   // User
@@ -14,6 +16,9 @@ export const resolvers = [
 
   //Event
   CreateEventResolver,
-  QueryEventsResolver
+  QueryEventsResolver,
+  QueryEventResolver,
+  DeleteEventResolver
+  
 
 ]

@@ -36,6 +36,7 @@ export type Mutation = {
   logout?: Maybe<Scalars["String"]>;
   register: User;
   createEvent: Event;
+  deleteEvent: Scalars["String"];
 };
 
 export type MutationLoginArgs = {
@@ -51,10 +52,19 @@ export type MutationCreateEventArgs = {
   data: EventInput;
 };
 
+export type MutationDeleteEventArgs = {
+  id: Scalars["String"];
+};
+
 export type Query = {
   users: Array<User>;
   me?: Maybe<User>;
   queryEvents: Array<Event>;
+  queryEvent: Event;
+};
+
+export type QueryQueryEventArgs = {
+  id: Scalars["String"];
 };
 
 export type RegisterInput = {
@@ -255,6 +265,12 @@ export type MutationResolvers<
     ContextType,
     MutationCreateEventArgs
   >;
+  deleteEvent?: Resolver<
+    ResolversTypes["String"],
+    ParentType,
+    ContextType,
+    MutationDeleteEventArgs
+  >;
 };
 
 export type QueryResolvers<
@@ -267,6 +283,12 @@ export type QueryResolvers<
     Array<ResolversTypes["Event"]>,
     ParentType,
     ContextType
+  >;
+  queryEvent?: Resolver<
+    ResolversTypes["Event"],
+    ParentType,
+    ContextType,
+    QueryQueryEventArgs
   >;
 };
 

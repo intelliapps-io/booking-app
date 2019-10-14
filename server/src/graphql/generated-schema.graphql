@@ -34,12 +34,14 @@ type Mutation {
   logout: String
   register(data: RegisterInput!): User!
   createEvent(data: EventInput!): Event!
+  deleteEvent(id: String!): String!
 }
 
 type Query {
   users: [User!]!
   me: User
   queryEvents: [Event!]!
+  queryEvent(id: String!): Event!
 }
 
 input RegisterInput {
