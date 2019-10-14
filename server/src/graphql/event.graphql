@@ -1,0 +1,31 @@
+mutation CreateEvent($data: EventInput!) {
+  createEvent(data: $data){
+    ...Event
+  }   
+}
+mutation DeleteEvent($id: String!) {
+	deleteEvent(id: $id)  
+}
+query Events {
+  queryEvents{
+	  ...Event
+  }
+}
+query Event($id: String!) {
+  queryEvent(id: $id){
+	...Event
+  }
+}
+fragment Event on Event {
+  id,
+  datetime,
+  begins,
+  ends,
+  duration,
+  customer {
+    ...UserFields
+  }
+  employee {
+    ...UserFields
+  }
+}
