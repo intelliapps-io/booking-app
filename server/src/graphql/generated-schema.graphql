@@ -34,7 +34,7 @@ type Mutation {
   logout: String
   register(data: RegisterInput!): User!
   createEvent(data: EventInput!): Event!
-  deleteEvent(id: String!): String!
+  deleteEvent(id: String!): Boolean!
 }
 
 type Query {

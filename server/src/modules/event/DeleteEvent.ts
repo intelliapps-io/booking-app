@@ -10,7 +10,7 @@ import { EventInput } from "./EventInput";
 
 @Resolver()
 export class DeleteEventResolver {
-  @Mutation(type => String)
+  @Mutation(type => Boolean)
   @Authorized([UserRole['CUSTOMER']])
   deleteEvent(@Arg('id') id: string, @Ctx() ctx: MyContext) {
     return new Promise(async (resolve, reject) => {
@@ -29,11 +29,11 @@ export class DeleteEventResolver {
       
         // different if
       if (!event) {
-        reject(new Error('event no found'))
+        reject(new Error('event not found'))
         return
       }
       //@ts-ignore
-      event.remove().then(() => resolve(event.id))
+      event.remove().then(() => resolve(true))
       .catch(error => reject(error))
   })
     

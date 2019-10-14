@@ -36,7 +36,7 @@ export type Mutation = {
   logout?: Maybe<Scalars["String"]>;
   register: User;
   createEvent: Event;
-  deleteEvent: Scalars["String"];
+  deleteEvent: Scalars["Boolean"];
 };
 
 export type MutationLoginArgs = {
@@ -266,7 +266,7 @@ export type MutationResolvers<
     MutationCreateEventArgs
   >;
   deleteEvent?: Resolver<
-    ResolversTypes["String"],
+    ResolversTypes["Boolean"],
     ParentType,
     ContextType,
     MutationDeleteEventArgs
