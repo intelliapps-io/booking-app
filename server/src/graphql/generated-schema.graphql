@@ -37,11 +37,27 @@ type Mutation {
   deleteEvent(id: String!): Boolean!
 }
 
+input PaginatedResponseInput {
+  offset: Float
+  limit: Float
+}
+
+type PaginatedUsersResponse {
+  items: [User!]!
+  total: Int!
+}
+
 type Query {
-  users: [User!]!
   me: User
+  users(data: QueryUsersInput!): PaginatedUsersResponse!
   queryEvents: [Event!]!
   queryEvent(id: String!): Event!
+}
+
+input QueryUsersInput {
+  offset: Float
+  limit: Float
+  role: String
 }
 
 input RegisterInput {

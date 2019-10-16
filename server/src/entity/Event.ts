@@ -3,9 +3,6 @@ import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne } from 't
 import { User } from './User';
 import moment = require('moment');
 
-
-
-
 @Entity() @ObjectType()
 export class Event extends BaseEntity {
   @Field(() => ID)
