@@ -4,12 +4,6 @@ import { MyContext } from "../../ts/context";
 
 @Resolver()
 export class MeResolver {
-  @Query(() => [User])
-  @Authorized("ADMIN")
-  async users(): Promise<User[]> {
-    return await User.find();
-  }
-
   @Query(() => User, { nullable: true })
   async me(@Ctx() ctx: MyContext): Promise<User | null | undefined> {
     if (!ctx.req.userId) return null;

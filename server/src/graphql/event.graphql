@@ -23,9 +23,9 @@ fragment Event on Event {
   ends,
   duration,
   customer {
-    ...UserFields
+    ...User
   }
   employee {
-    ...UserFields
+    ...User
   }
 }

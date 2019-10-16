@@ -66,16 +66,37 @@ export type MutationDeleteEventArgs = {
   id: Scalars['String']
 };
 
+export type PaginatedResponseInput = {
+  offset?: Maybe<Scalars['Float']>,
+  limit?: Maybe<Scalars['Float']>,
+};
+
+export type PaginatedUsersResponse = {
+  items: Array<User>,
+  total: Scalars['Int'],
+};
+
 export type Query = {
-  users: Array<User>,
   me?: Maybe<User>,
+  users: PaginatedUsersResponse,
   queryEvents: Array<Event>,
   queryEvent: Event,
 };
 
 
+export type QueryUsersArgs = {
+  data: QueryUsersInput
+};
+
+
 export type QueryQueryEventArgs = {
   id: Scalars['String']
+};
+
+export type QueryUsersInput = {
+  offset?: Maybe<Scalars['Float']>,
+  limit?: Maybe<Scalars['Float']>,
+  role?: Maybe<Scalars['String']>,
 };
 
 export type RegisterInput = {
@@ -130,17 +151,17 @@ export type EventQuery = { queryEvent: EventFragment };
 
 export type EventFragment = (
   Pick<Event, 'id' | 'datetime' | 'begins' | 'ends' | 'duration'>
-  & { customer: UserFieldsFragment, employee: UserFieldsFragment }
+  & { customer: UserFragment, employee: UserFragment }
 );
 
-export type UserFieldsFragment = Pick<User, 'id' | 'firstName' | 'lastName' | 'name' | 'email' | 'role'>;
+export type UserFragment = Pick<User, 'id' | 'firstName' | 'lastName' | 'name' | 'email' | 'role'>;
 
 export type RegisterMutationVariables = {
   data: RegisterInput
 };
 
 
-export type RegisterMutation = { register: UserFieldsFragment };
+export type RegisterMutation = { register: UserFragment };
 
 export type LoginMutationVariables = {
   email: Scalars['String'],
@@ -148,7 +169,7 @@ export type LoginMutationVariables = {
 };
 
 
-export type LoginMutation = { login: Maybe<UserFieldsFragment> };
+export type LoginMutation = { login: Maybe<UserFragment> };
 
 export type LogoutMutationVariables = {};
 
@@ -158,15 +179,20 @@ export type LogoutMutation = Pick<Mutation, 'logout'>;
 export type MeQueryVariables = {};
 
 
-export type MeQuery = { me: Maybe<UserFieldsFragment> };
+export type MeQuery = { me: Maybe<UserFragment> };
 
-export type UsersQueryVariables = {};
+export type UsersQueryVariables = {
+  data: QueryUsersInput
+};
 
 
-export type UsersQuery = { users: Array<UserFieldsFragment> };
+export type UsersQuery = { users: (
+    Pick<PaginatedUsersResponse, 'total'>
+    & { items: Array<UserFragment> }
+  ) };
 
-export const UserFieldsFragmentDoc = gql`
-    fragment UserFields on User {
+export const UserFragmentDoc = gql`
+    fragment User on User {
   id
   firstName
   lastName
@@ -183,13 +209,13 @@ export const EventFragmentDoc = gql`
   ends
   duration
   customer {
-    ...UserFields
+    ...User
   }
   employee {
-    ...UserFields
+    ...User
   }
 }
-    ${UserFieldsFragmentDoc}`;
+    ${UserFragmentDoc}`;
 export const CreateEventDocument = gql`
     mutation CreateEvent($data: EventInput!) {
   createEvent(data: $data) {
@@ -388,10 +414,10 @@ export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQu
 export const RegisterDocument = gql`
     mutation Register($data: RegisterInput!) {
   register(data: $data) {
-    ...UserFields
+    ...User
   }
 }
-    ${UserFieldsFragmentDoc}`;
+    ${UserFragmentDoc}`;
 export type RegisterMutationFn = ApolloReactCommon.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 export type RegisterComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<RegisterMutation, RegisterMutationVariables>, 'mutation'>;
 
@@ -437,10 +463,10 @@ export type RegisterMutationOptions = ApolloReactCommon.BaseMutationOptions<Regi
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
-    ...UserFields
+    ...User
   }
 }
-    ${UserFieldsFragmentDoc}`;
+    ${UserFragmentDoc}`;
 export type LoginMutationFn = ApolloReactCommon.MutationFunction<LoginMutation, LoginMutationVariables>;
 export type LoginComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<LoginMutation, LoginMutationVariables>, 'mutation'>;
 
@@ -533,10 +559,10 @@ export type LogoutMutationOptions = ApolloReactCommon.BaseMutationOptions<Logout
 export const MeDocument = gql`
     query Me {
   me {
-    ...UserFields
+    ...User
   }
 }
-    ${UserFieldsFragmentDoc}`;
+    ${UserFragmentDoc}`;
 export type MeComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<MeQuery, MeQueryVariables>, 'query'>;
 
     export const MeComponent = (props: MeComponentProps) => (
@@ -580,13 +606,16 @@ export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
 export const UsersDocument = gql`
-    query Users {
-  users {
-    ...UserFields
+    query Users($data: QueryUsersInput!) {
+  users(data: $data) {
+    items {
+      ...User
+    }
+    total
   }
 }
-    ${UserFieldsFragmentDoc}`;
-export type UsersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UsersQuery, UsersQueryVariables>, 'query'>;
+    ${UserFragmentDoc}`;
+export type UsersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UsersQuery, UsersQueryVariables>, 'query'> & ({ variables: UsersQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const UsersComponent = (props: UsersComponentProps) => (
       <ApolloReactComponents.Query<UsersQuery, UsersQueryVariables> query={UsersDocument} {...props} />
@@ -616,6 +645,7 @@ export function withUsers<TProps, TChildProps = {}>(operationOptions?: ApolloRea
  * @example
  * const { data, loading, error } = useUsersQuery({
  *   variables: {
+ *      data: // value for 'data'
  *   },
  * });
  */

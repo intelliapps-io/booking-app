@@ -1,7 +1,10 @@
+// User
 import { LoginResolver } from "./user/Login";
 import { LogoutResolver } from "./user/Logout";
 import { MeResolver } from "./user/Me";
 import { RegisterResolver } from "./user/Register";
+import { QueryUsersResolver } from "./user/QueryUsers";
+// Event
 import { CreateEventResolver } from "./event/CreateEvent";
 import { QueryEventsResolver } from "./event/QueryEvents";
 import { QueryEventResolver } from "./event/QueryEvent";
@@ -13,12 +16,11 @@ export const resolvers = [
   LogoutResolver,
   MeResolver,
   RegisterResolver,
+  QueryUsersResolver,
 
-  //Event
+  // Event
   CreateEventResolver,
   QueryEventsResolver,
   QueryEventResolver,
   DeleteEventResolver
-  
-
 ]
