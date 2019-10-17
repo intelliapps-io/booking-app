@@ -30,4 +30,4 @@ const googleCloud = {
   ]
 }
 
-module.exports = elephantsql
+module.exports = googleCloud;

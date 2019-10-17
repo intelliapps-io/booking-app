@@ -67,19 +67,19 @@ input RegisterInput {
   password: String!
 }
 
-"""User access role"""
-enum role {
-  CUSTOMER
-  EMPLOYEE
-  ADMIN
-}
-
 type User {
   id: ID!
   firstName: String!
   lastName: String!
   name: String!
   email: String!
-  role: role!
+  role: UserRole!
   authCount: Float
+}
+
+"""User access role"""
+enum UserRole {
+  CUSTOMER
+  EMPLOYEE
+  ADMIN
 }

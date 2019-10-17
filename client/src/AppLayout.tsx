@@ -11,6 +11,7 @@ import { Account } from "./pages/account/Account";
 import { useResponsive } from "./lib/helpers/hooks/useResponsive";
 import { useMeQuery } from "./lib/codegen";
 import { AppContext } from "./lib/helpers/AppContext";
+import { Events } from "./pages/events/Events";
 
 export const AppLayout: React.FC = props => {
   const { responsiveSize, responsiveCalc } = useResponsive()
@@ -31,6 +32,7 @@ export const AppLayout: React.FC = props => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/account" component={Account} />
+            <Route exact path="/events" component={Events} />
             <Route path="/" component={Home} />
           </Switch>
         </Layout.Content>

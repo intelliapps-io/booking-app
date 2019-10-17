@@ -7,7 +7,7 @@ export enum UserRole {
   ADMIN = "ADMIN"
 }
 
-registerEnumType(UserRole, { name: "role", description: "User access role" });
+registerEnumType(UserRole, { name: "UserRole", description: "User access role" });
 
 @Entity() @ObjectType()
 export class User extends BaseEntity {

@@ -106,22 +106,22 @@ export type RegisterInput = {
   password: Scalars['String'],
 };
 
-/** User access role */
-export enum Role {
-  Customer = 'CUSTOMER',
-  Employee = 'EMPLOYEE',
-  Admin = 'ADMIN'
-}
-
 export type User = {
   id: Scalars['ID'],
   firstName: Scalars['String'],
   lastName: Scalars['String'],
   name: Scalars['String'],
   email: Scalars['String'],
-  role: Role,
+  role: UserRole,
   authCount?: Maybe<Scalars['Float']>,
 };
+
+/** User access role */
+export enum UserRole {
+  Customer = 'CUSTOMER',
+  Employee = 'EMPLOYEE',
+  Admin = 'ADMIN'
+}
 
 export type CreateEventMutationVariables = {
   data: EventInput
