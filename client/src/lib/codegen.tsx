@@ -17,6 +17,22 @@ export type Scalars = {
   DateTime: any,
 };
 
+export type BaseStoreEntity = {
+  name: Scalars['String'],
+  cost: Scalars['Float'],
+  description?: Maybe<Scalars['String']>,
+  /** Product or Service ID */
+  UPCCode?: Maybe<Scalars['String']>,
+};
+
+export type BaseStoreEntityInput = {
+  name: Scalars['String'],
+  cost: Scalars['Float'],
+  description?: Maybe<Scalars['String']>,
+  /** Product or Service ID */
+  UPCCode?: Maybe<Scalars['String']>,
+};
+
 
 export type Event = {
   id: Scalars['ID'],
@@ -43,6 +59,9 @@ export type Mutation = {
   register: User,
   createEvent: Event,
   deleteEvent: Scalars['Boolean'],
+  createService: Service,
+  updateService: Service,
+  deleteService: Scalars['ID'],
 };
 
 
@@ -66,9 +85,41 @@ export type MutationDeleteEventArgs = {
   id: Scalars['String']
 };
 
+
+export type MutationCreateServiceArgs = {
+  data: ServiceInput
+};
+
+
+export type MutationUpdateServiceArgs = {
+  data: ServiceInput,
+  id: Scalars['String']
+};
+
+
+export type MutationDeleteServiceArgs = {
+  id: Scalars['String']
+};
+
+export enum NumberOperator {
+  Greater = 'GREATER',
+  Lesser = 'LESSER',
+  Equal = 'EQUAL'
+}
+
+export type PaginatedEventsResponse = {
+  items: Array<Event>,
+  total: Scalars['Int'],
+};
+
 export type PaginatedResponseInput = {
   offset?: Maybe<Scalars['Float']>,
   limit?: Maybe<Scalars['Float']>,
+};
+
+export type PaginatedServiesResponse = {
+  items: Array<Service>,
+  total: Scalars['Int'],
 };
 
 export type PaginatedUsersResponse = {
@@ -76,11 +127,32 @@ export type PaginatedUsersResponse = {
   total: Scalars['Int'],
 };
 
+export type Product = {
+  name: Scalars['String'],
+  cost: Scalars['Float'],
+  description?: Maybe<Scalars['String']>,
+  /** Product or Service ID */
+  UPCCode?: Maybe<Scalars['String']>,
+  id: Scalars['ID'],
+  inventory: Scalars['Int'],
+};
+
+export type ProductInput = {
+  name: Scalars['String'],
+  cost: Scalars['Float'],
+  description?: Maybe<Scalars['String']>,
+  /** Product or Service ID */
+  UPCCode?: Maybe<Scalars['String']>,
+  inventory: Scalars['Int'],
+};
+
 export type Query = {
   me?: Maybe<User>,
   users: PaginatedUsersResponse,
-  queryEvents: Array<Event>,
+  queryEvents: PaginatedEventsResponse,
   queryEvent: Event,
+  services: PaginatedServiesResponse,
+  service: Service,
 };
 
 
@@ -89,8 +161,37 @@ export type QueryUsersArgs = {
 };
 
 
+export type QueryQueryEventsArgs = {
+  data: QueryEventsInput
+};
+
+
 export type QueryQueryEventArgs = {
   id: Scalars['String']
+};
+
+
+export type QueryServicesArgs = {
+  data: QueryServicesInput
+};
+
+
+export type QueryServiceArgs = {
+  id: Scalars['String']
+};
+
+export type QueryEventsInput = {
+  offset?: Maybe<Scalars['Float']>,
+  limit?: Maybe<Scalars['Float']>,
+};
+
+export type QueryServicesInput = {
+  offset?: Maybe<Scalars['Float']>,
+  limit?: Maybe<Scalars['Float']>,
+  name?: Maybe<Scalars['String']>,
+  cost?: Maybe<Scalars['Float']>,
+  costOperator?: Maybe<NumberOperator>,
+  employeeIds?: Maybe<Array<Scalars['ID']>>,
 };
 
 export type QueryUsersInput = {
@@ -104,6 +205,29 @@ export type RegisterInput = {
   lastName: Scalars['String'],
   email: Scalars['String'],
   password: Scalars['String'],
+};
+
+export type Service = {
+  name: Scalars['String'],
+  cost: Scalars['Float'],
+  description?: Maybe<Scalars['String']>,
+  /** Product or Service ID */
+  UPCCode?: Maybe<Scalars['String']>,
+  id: Scalars['ID'],
+  /** duration in minutes */
+  duration: Scalars['Int'],
+  employees?: Maybe<Array<User>>,
+};
+
+export type ServiceInput = {
+  name: Scalars['String'],
+  cost: Scalars['Float'],
+  description?: Maybe<Scalars['String']>,
+  /** Product or Service ID */
+  UPCCode?: Maybe<Scalars['String']>,
+  /** duration in minutes */
+  duration: Scalars['Int'],
+  employeeIds: Array<Scalars['ID']>,
 };
 
 export type User = {
@@ -137,10 +261,15 @@ export type DeleteEventMutationVariables = {
 
 export type DeleteEventMutation = Pick<Mutation, 'deleteEvent'>;
 
-export type EventsQueryVariables = {};
+export type EventsQueryVariables = {
+  data: QueryEventsInput
+};
 
 
-export type EventsQuery = { queryEvents: Array<EventFragment> };
+export type EventsQuery = { queryEvents: (
+    Pick<PaginatedEventsResponse, 'total'>
+    & { items: Array<EventFragment> }
+  ) };
 
 export type EventQueryVariables = {
   id: Scalars['String']
@@ -153,6 +282,50 @@ export type EventFragment = (
   Pick<Event, 'id' | 'datetime' | 'begins' | 'ends' | 'duration'>
   & { customer: UserFragment, employee: UserFragment }
 );
+
+export type ServiceFragment = (
+  Pick<Service, 'id' | 'name' | 'cost' | 'description' | 'UPCCode'>
+  & { employees: Maybe<Array<UserFragment>> }
+);
+
+export type CreateServiceMutationVariables = {
+  data: ServiceInput
+};
+
+
+export type CreateServiceMutation = { createService: ServiceFragment };
+
+export type UpdateServiceMutationVariables = {
+  id: Scalars['String'],
+  data: ServiceInput
+};
+
+
+export type UpdateServiceMutation = { updateService: ServiceFragment };
+
+export type DeleteServiceMutationVariables = {
+  id: Scalars['String']
+};
+
+
+export type DeleteServiceMutation = Pick<Mutation, 'deleteService'>;
+
+export type ServicesQueryVariables = {
+  data: QueryServicesInput
+};
+
+
+export type ServicesQuery = { services: (
+    Pick<PaginatedServiesResponse, 'total'>
+    & { items: Array<ServiceFragment> }
+  ) };
+
+export type ServiceQueryVariables = {
+  id: Scalars['String']
+};
+
+
+export type ServiceQuery = { service: ServiceFragment };
 
 export type UserFragment = Pick<User, 'id' | 'firstName' | 'lastName' | 'name' | 'email' | 'role'>;
 
@@ -212,6 +385,18 @@ export const EventFragmentDoc = gql`
     ...User
   }
   employee {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+export const ServiceFragmentDoc = gql`
+    fragment Service on Service {
+  id
+  name
+  cost
+  description
+  UPCCode
+  employees {
     ...User
   }
 }
@@ -313,13 +498,16 @@ export type DeleteEventMutationHookResult = ReturnType<typeof useDeleteEventMuta
 export type DeleteEventMutationResult = ApolloReactCommon.MutationResult<DeleteEventMutation>;
 export type DeleteEventMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteEventMutation, DeleteEventMutationVariables>;
 export const EventsDocument = gql`
-    query Events {
-  queryEvents {
-    ...Event
+    query Events($data: QueryEventsInput!) {
+  queryEvents(data: $data) {
+    items {
+      ...Event
+    }
+    total
   }
 }
     ${EventFragmentDoc}`;
-export type EventsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EventsQuery, EventsQueryVariables>, 'query'>;
+export type EventsComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EventsQuery, EventsQueryVariables>, 'query'> & ({ variables: EventsQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const EventsComponent = (props: EventsComponentProps) => (
       <ApolloReactComponents.Query<EventsQuery, EventsQueryVariables> query={EventsDocument} {...props} />
@@ -349,6 +537,7 @@ export function withEvents<TProps, TChildProps = {}>(operationOptions?: ApolloRe
  * @example
  * const { data, loading, error } = useEventsQuery({
  *   variables: {
+ *      data: // value for 'data'
  *   },
  * });
  */
@@ -411,6 +600,255 @@ export function useEventLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
+export const CreateServiceDocument = gql`
+    mutation CreateService($data: ServiceInput!) {
+  createService(data: $data) {
+    ...Service
+  }
+}
+    ${ServiceFragmentDoc}`;
+export type CreateServiceMutationFn = ApolloReactCommon.MutationFunction<CreateServiceMutation, CreateServiceMutationVariables>;
+export type CreateServiceComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateServiceMutation, CreateServiceMutationVariables>, 'mutation'>;
+
+    export const CreateServiceComponent = (props: CreateServiceComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateServiceMutation, CreateServiceMutationVariables> mutation={CreateServiceDocument} {...props} />
+    );
+    
+export type CreateServiceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateServiceMutation, CreateServiceMutationVariables> & TChildProps;
+export function withCreateService<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateServiceMutation,
+  CreateServiceMutationVariables,
+  CreateServiceProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateServiceMutation, CreateServiceMutationVariables, CreateServiceProps<TChildProps>>(CreateServiceDocument, {
+      alias: 'createService',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateServiceMutation__
+ *
+ * To run a mutation, you first call `useCreateServiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateServiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createServiceMutation, { data, loading, error }] = useCreateServiceMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateServiceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateServiceMutation, CreateServiceMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateServiceMutation, CreateServiceMutationVariables>(CreateServiceDocument, baseOptions);
+      }
+export type CreateServiceMutationHookResult = ReturnType<typeof useCreateServiceMutation>;
+export type CreateServiceMutationResult = ApolloReactCommon.MutationResult<CreateServiceMutation>;
+export type CreateServiceMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateServiceMutation, CreateServiceMutationVariables>;
+export const UpdateServiceDocument = gql`
+    mutation UpdateService($id: String!, $data: ServiceInput!) {
+  updateService(id: $id, data: $data) {
+    ...Service
+  }
+}
+    ${ServiceFragmentDoc}`;
+export type UpdateServiceMutationFn = ApolloReactCommon.MutationFunction<UpdateServiceMutation, UpdateServiceMutationVariables>;
+export type UpdateServiceComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateServiceMutation, UpdateServiceMutationVariables>, 'mutation'>;
+
+    export const UpdateServiceComponent = (props: UpdateServiceComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateServiceMutation, UpdateServiceMutationVariables> mutation={UpdateServiceDocument} {...props} />
+    );
+    
+export type UpdateServiceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateServiceMutation, UpdateServiceMutationVariables> & TChildProps;
+export function withUpdateService<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateServiceMutation,
+  UpdateServiceMutationVariables,
+  UpdateServiceProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateServiceMutation, UpdateServiceMutationVariables, UpdateServiceProps<TChildProps>>(UpdateServiceDocument, {
+      alias: 'updateService',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateServiceMutation__
+ *
+ * To run a mutation, you first call `useUpdateServiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateServiceMutation, { data, loading, error }] = useUpdateServiceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateServiceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateServiceMutation, UpdateServiceMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateServiceMutation, UpdateServiceMutationVariables>(UpdateServiceDocument, baseOptions);
+      }
+export type UpdateServiceMutationHookResult = ReturnType<typeof useUpdateServiceMutation>;
+export type UpdateServiceMutationResult = ApolloReactCommon.MutationResult<UpdateServiceMutation>;
+export type UpdateServiceMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateServiceMutation, UpdateServiceMutationVariables>;
+export const DeleteServiceDocument = gql`
+    mutation DeleteService($id: String!) {
+  deleteService(id: $id)
+}
+    `;
+export type DeleteServiceMutationFn = ApolloReactCommon.MutationFunction<DeleteServiceMutation, DeleteServiceMutationVariables>;
+export type DeleteServiceComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteServiceMutation, DeleteServiceMutationVariables>, 'mutation'>;
+
+    export const DeleteServiceComponent = (props: DeleteServiceComponentProps) => (
+      <ApolloReactComponents.Mutation<DeleteServiceMutation, DeleteServiceMutationVariables> mutation={DeleteServiceDocument} {...props} />
+    );
+    
+export type DeleteServiceProps<TChildProps = {}> = ApolloReactHoc.MutateProps<DeleteServiceMutation, DeleteServiceMutationVariables> & TChildProps;
+export function withDeleteService<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteServiceMutation,
+  DeleteServiceMutationVariables,
+  DeleteServiceProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteServiceMutation, DeleteServiceMutationVariables, DeleteServiceProps<TChildProps>>(DeleteServiceDocument, {
+      alias: 'deleteService',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteServiceMutation__
+ *
+ * To run a mutation, you first call `useDeleteServiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteServiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteServiceMutation, { data, loading, error }] = useDeleteServiceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteServiceMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteServiceMutation, DeleteServiceMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteServiceMutation, DeleteServiceMutationVariables>(DeleteServiceDocument, baseOptions);
+      }
+export type DeleteServiceMutationHookResult = ReturnType<typeof useDeleteServiceMutation>;
+export type DeleteServiceMutationResult = ApolloReactCommon.MutationResult<DeleteServiceMutation>;
+export type DeleteServiceMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteServiceMutation, DeleteServiceMutationVariables>;
+export const ServicesDocument = gql`
+    query Services($data: QueryServicesInput!) {
+  services(data: $data) {
+    total
+    items {
+      ...Service
+    }
+  }
+}
+    ${ServiceFragmentDoc}`;
+export type ServicesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ServicesQuery, ServicesQueryVariables>, 'query'> & ({ variables: ServicesQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const ServicesComponent = (props: ServicesComponentProps) => (
+      <ApolloReactComponents.Query<ServicesQuery, ServicesQueryVariables> query={ServicesDocument} {...props} />
+    );
+    
+export type ServicesProps<TChildProps = {}> = ApolloReactHoc.DataProps<ServicesQuery, ServicesQueryVariables> & TChildProps;
+export function withServices<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ServicesQuery,
+  ServicesQueryVariables,
+  ServicesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ServicesQuery, ServicesQueryVariables, ServicesProps<TChildProps>>(ServicesDocument, {
+      alias: 'services',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useServicesQuery__
+ *
+ * To run a query within a React component, call `useServicesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServicesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServicesQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useServicesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ServicesQuery, ServicesQueryVariables>) {
+        return ApolloReactHooks.useQuery<ServicesQuery, ServicesQueryVariables>(ServicesDocument, baseOptions);
+      }
+export function useServicesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ServicesQuery, ServicesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ServicesQuery, ServicesQueryVariables>(ServicesDocument, baseOptions);
+        }
+export type ServicesQueryHookResult = ReturnType<typeof useServicesQuery>;
+export type ServicesLazyQueryHookResult = ReturnType<typeof useServicesLazyQuery>;
+export type ServicesQueryResult = ApolloReactCommon.QueryResult<ServicesQuery, ServicesQueryVariables>;
+export const ServiceDocument = gql`
+    query Service($id: String!) {
+  service(id: $id) {
+    ...Service
+  }
+}
+    ${ServiceFragmentDoc}`;
+export type ServiceComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<ServiceQuery, ServiceQueryVariables>, 'query'> & ({ variables: ServiceQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const ServiceComponent = (props: ServiceComponentProps) => (
+      <ApolloReactComponents.Query<ServiceQuery, ServiceQueryVariables> query={ServiceDocument} {...props} />
+    );
+    
+export type ServiceProps<TChildProps = {}> = ApolloReactHoc.DataProps<ServiceQuery, ServiceQueryVariables> & TChildProps;
+export function withService<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ServiceQuery,
+  ServiceQueryVariables,
+  ServiceProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, ServiceQuery, ServiceQueryVariables, ServiceProps<TChildProps>>(ServiceDocument, {
+      alias: 'service',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useServiceQuery__
+ *
+ * To run a query within a React component, call `useServiceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useServiceQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useServiceQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useServiceQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ServiceQuery, ServiceQueryVariables>) {
+        return ApolloReactHooks.useQuery<ServiceQuery, ServiceQueryVariables>(ServiceDocument, baseOptions);
+      }
+export function useServiceLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ServiceQuery, ServiceQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<ServiceQuery, ServiceQueryVariables>(ServiceDocument, baseOptions);
+        }
+export type ServiceQueryHookResult = ReturnType<typeof useServiceQuery>;
+export type ServiceLazyQueryHookResult = ReturnType<typeof useServiceLazyQuery>;
+export type ServiceQueryResult = ApolloReactCommon.QueryResult<ServiceQuery, ServiceQueryVariables>;
 export const RegisterDocument = gql`
     mutation Register($data: RegisterInput!) {
   register(data: $data) {

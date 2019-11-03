@@ -1,9 +1,25 @@
-import { Column, ColumnOptions } from "typeorm";
+import { Column, ColumnOptions, BaseEntity, SelectQueryBuilder } from "typeorm";
 import { exec } from "child_process";
 import * as readline from 'readline'
 
+// Query Helpers
 export function RelationColumn(options?: ColumnOptions) {
   return Column({ nullable: true, ...options });
+}
+
+export function joinRelation<T extends BaseEntity>(query: SelectQueryBuilder<T>, entityName: string, entityField: keyof T, alias?: string) {
+  return query.leftJoinAndSelect(`${entityName}.${entityField}`, alias ? alias : entityField as string)
+}
+
+export function queryPaginatedResponse<T extends BaseEntity>(query: SelectQueryBuilder<T>): Promise<{ items: T[], total: number }> {
+  return new Promise((resolve: (args: { items: T[], total: number }) => void, reject: (err: Error) => void) => {
+    query.getManyAndCount().then(result => resolve({ items: result[0], total: result[1] })).catch((err: Error) => reject(err))
+  })
+}
+
+export function toSqlArray(items: string[] | string) {
+  if (typeof items === "string") items = [items];
+  return items.map(item => `'${item}'`).toString()
 }
 
 export const nodeLogger = require('debug')('logger');
