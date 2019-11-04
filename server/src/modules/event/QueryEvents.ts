@@ -24,7 +24,7 @@ export class QueryEventsResolver {
       
         // different if
       if (!events) {
-        reject(new Error('events no found'))
+        reject(new Error('events not found'))
         return
       }
       resolve(events)

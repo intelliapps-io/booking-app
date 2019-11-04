@@ -25,14 +25,11 @@ const _Navbar: React.FC<NavbarProps> = props => {
 
   function UserMenu() {
     return [
-<<<<<<< HEAD
       <Menu.Item key="1">nav 1</Menu.Item>,
       <Menu.Item key="2">nav 2</Menu.Item>,
       <Menu.Item key="3"><Link to='/account'>Account</Link></Menu.Item>,
-=======
       <Menu.Item key="/events"><Link to="/events"><Icon type="calendar"/> Events</Link></Menu.Item>,
       <Menu.Item key="/account"><Link to="/account"><Icon type="user"/> Account</Link></Menu.Item>,
->>>>>>> 24ba922a6150fe153f531336a8d68d0dfa4f68e9
       <Menu.Item key="4" className="account" onClick={() => handleLogout()}>
         <Icon type="logout" /> Logout
       </Menu.Item>
