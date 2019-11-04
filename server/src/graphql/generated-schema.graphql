@@ -3,6 +3,24 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type BaseStoreEntity {
+  name: String!
+  cost: Float!
+  description: String
+
+  """Product or Service ID"""
+  UPCCode: String
+}
+
+input BaseStoreEntityInput {
+  name: String!
+  cost: Float!
+  description: String
+
+  """Product or Service ID"""
+  UPCCode: String
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
@@ -35,6 +53,20 @@ type Mutation {
   register(data: RegisterInput!): User!
   createEvent(data: EventInput!): Event!
   deleteEvent(id: String!): Boolean!
+  createService(data: ServiceInput!): Service!
+  updateService(data: ServiceInput!, id: String!): Service!
+  deleteService(id: String!): ID!
+}
+
+enum NumberOperator {
+  GREATER
+  LESSER
+  EQUAL
+}
+
+type PaginatedEventsResponse {
+  items: [Event!]!
+  total: Int!
 }
 
 input PaginatedResponseInput {
@@ -42,16 +74,58 @@ input PaginatedResponseInput {
   limit: Float
 }
 
+type PaginatedServiesResponse {
+  items: [Service!]!
+  total: Int!
+}
+
 type PaginatedUsersResponse {
   items: [User!]!
   total: Int!
 }
 
+type Product {
+  name: String!
+  cost: Float!
+  description: String
+
+  """Product or Service ID"""
+  UPCCode: String
+  id: ID!
+  inventory: Int!
+}
+
+input ProductInput {
+  name: String!
+  cost: Float!
+  description: String
+
+  """Product or Service ID"""
+  UPCCode: String
+  inventory: Int!
+}
+
 type Query {
   me: User
   users(data: QueryUsersInput!): PaginatedUsersResponse!
-  queryEvents: [Event!]!
+  queryEvents(data: QueryEventsInput!): PaginatedEventsResponse!
   queryEvent(id: String!): Event!
+  services(data: QueryServicesInput!): PaginatedServiesResponse!
+  service(id: String!): Service!
+}
+
+input QueryEventsInput {
+  offset: Float
+  limit: Float
+}
+
+input QueryServicesInput {
+  offset: Float
+  limit: Float
+  name: String
+  cost: Float
+  costOperator: NumberOperator
+  employeeIds: [ID!]
 }
 
 input QueryUsersInput {
@@ -65,6 +139,33 @@ input RegisterInput {
   lastName: String!
   email: String!
   password: String!
+}
+
+type Service {
+  name: String!
+  cost: Float!
+  description: String
+
+  """Product or Service ID"""
+  UPCCode: String
+  id: ID!
+
+  """duration in minutes"""
+  duration: Int!
+  employees: [User!]
+}
+
+input ServiceInput {
+  name: String!
+  cost: Float!
+  description: String
+
+  """Product or Service ID"""
+  UPCCode: String
+
+  """duration in minutes"""
+  duration: Int!
+  employeeIds: [ID!]!
 }
 
 type User {

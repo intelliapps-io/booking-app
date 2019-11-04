@@ -9,6 +9,12 @@ import { CreateEventResolver } from "./event/CreateEvent";
 import { QueryEventsResolver } from "./event/QueryEvents";
 import { QueryEventResolver } from "./event/QueryEvent";
 import { DeleteEventResolver } from "./event/DeleteEvent";
+// Service
+import { CreateServiceResolver } from "./store/service/CreateService";
+import { UpdateServiceResolver } from "./store/service/UpdateService";
+import { DeleteServiceResolver } from "./store/service/DeleteService";
+import { QueryServicesResolver } from "./store/service/QueryServices";
+import { QueryServiceResolver } from "./store/service/QueryService";
 
 export const resolvers = [
   // User
@@ -22,5 +28,12 @@ export const resolvers = [
   CreateEventResolver,
   QueryEventsResolver,
   QueryEventResolver,
-  DeleteEventResolver
+  DeleteEventResolver,
+
+  // Service
+  CreateServiceResolver,
+  UpdateServiceResolver,
+  DeleteServiceResolver,
+  QueryServicesResolver,
+  QueryServiceResolver,
 ]

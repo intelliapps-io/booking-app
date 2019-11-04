@@ -6,14 +6,17 @@ mutation CreateEvent($data: EventInput!) {
 mutation DeleteEvent($id: String!) {
 	deleteEvent(id: $id)  
 }
-query Events {
-  queryEvents{
-	  ...Event
+query Events($data: QueryEventsInput!) {
+  queryEvents(data: $data) {
+  	items {
+      ...Event
+    }
+    total
   }
 }
 query Event($id: String!) {
   queryEvent(id: $id){
-	...Event
+	  ...Event
   }
 }
 fragment Event on Event {

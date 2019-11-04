@@ -29,7 +29,7 @@ export class Event extends BaseEntity {
   } 
 
   @Field(type => Int, { description: 'duration in minutes' })
-  @Column('int')
+  @Column('int', { comment: 'duration in minutes' })
   duration: number
     
   @Field(type => User)

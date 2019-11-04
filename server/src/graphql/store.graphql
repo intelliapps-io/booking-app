@@ -1,0 +1,41 @@
+fragment Service on Service {
+  id
+  name
+  cost
+  description
+  UPCCode
+  employees {
+    ...User
+  }
+}
+
+mutation CreateService($data: ServiceInput!) {
+  createService(data: $data) {
+    ...Service
+  }
+}
+
+mutation UpdateService($id: String!, $data: ServiceInput!) {
+  updateService(id: $id, data: $data) {
+    ...Service
+  }
+}
+
+mutation DeleteService($id: String!) {
+  deleteService(id: $id)
+}
+
+query Services($data: QueryServicesInput!) {
+  services(data: $data) {
+    total
+    items {
+      ...Service
+    }
+  }
+}
+
+query Service($id: String!) {
+  service(id: $id) {
+		...Service
+  }
+}
