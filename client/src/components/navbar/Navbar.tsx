@@ -25,9 +25,6 @@ const _Navbar: React.FC<NavbarProps> = props => {
 
   function UserMenu() {
     return [
-      <Menu.Item key="1">nav 1</Menu.Item>,
-      <Menu.Item key="2">nav 2</Menu.Item>,
-      <Menu.Item key="3"><Link to='/account'>Account</Link></Menu.Item>,
       <Menu.Item key="/events"><Link to="/events"><Icon type="calendar"/> Events</Link></Menu.Item>,
       <Menu.Item key="/account"><Link to="/account"><Icon type="user"/> Account</Link></Menu.Item>,
       <Menu.Item key="4" className="account" onClick={() => handleLogout()}>

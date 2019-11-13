@@ -26,6 +26,29 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type EmployeeSchedule {
+  id: ID!
+  begins: DateTime!
+  ends: DateTime!
+  isRecurring: Boolean!
+  recurrencePeriod: RecurrencePeriod
+  recurrenceInterval: Int
+  recursOn: [Boolean!]
+  recurrenceEndsOn: DateTime
+  employee: User!
+}
+
+input EmployeeScheduleInput {
+  begins: DateTime!
+  ends: DateTime!
+  isRecurring: Boolean!
+  recurrencePeriod: RecurrencePeriod
+  recurrenceInterval: Int
+  recursOn: [Boolean!]
+  recurrenceEndsOn: DateTime
+  employeeId: ID
+}
+
 type Event {
   id: ID!
   datetime: DateTime!
@@ -56,6 +79,11 @@ type Mutation {
   createService(data: ServiceInput!): Service!
   updateService(data: ServiceInput!, id: String!): Service!
   deleteService(id: String!): ID!
+  createEmployeeSchedule(data: EmployeeScheduleInput!): EmployeeSchedule!
+  updateEmployeeSchedule(data: EmployeeScheduleInput!, id: String!): EmployeeSchedule!
+  deleteEmployeeSchedule(id: String!): String!
+  employeeSchedule(id: String!): EmployeeSchedule!
+  employeeSchedules(data: QueryEmployeeSchedulesInput): [EmployeeSchedule!]!
 }
 
 enum NumberOperator {
@@ -114,6 +142,12 @@ type Query {
   service(id: String!): Service!
 }
 
+input QueryEmployeeSchedulesInput {
+  before: DateTime
+  after: DateTime
+  employeeId: ID
+}
+
 input QueryEventsInput {
   offset: Float
   limit: Float
@@ -132,6 +166,14 @@ input QueryUsersInput {
   offset: Float
   limit: Float
   role: String
+}
+
+"""Interval for repeating schedule"""
+enum RecurrencePeriod {
+  DAY
+  WEEK
+  MONTH
+  YEAR
 }
 
 input RegisterInput {

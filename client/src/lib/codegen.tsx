@@ -34,6 +34,29 @@ export type BaseStoreEntityInput = {
 };
 
 
+export type EmployeeSchedule = {
+  id: Scalars['ID'],
+  begins: Scalars['DateTime'],
+  ends: Scalars['DateTime'],
+  isRecurring: Scalars['Boolean'],
+  recurrencePeriod?: Maybe<RecurrencePeriod>,
+  recurrenceInterval?: Maybe<Scalars['Int']>,
+  recursOn?: Maybe<Array<Scalars['Boolean']>>,
+  recurrenceEndsOn?: Maybe<Scalars['DateTime']>,
+  employee: User,
+};
+
+export type EmployeeScheduleInput = {
+  begins: Scalars['DateTime'],
+  ends: Scalars['DateTime'],
+  isRecurring: Scalars['Boolean'],
+  recurrencePeriod?: Maybe<RecurrencePeriod>,
+  recurrenceInterval?: Maybe<Scalars['Int']>,
+  recursOn?: Maybe<Array<Scalars['Boolean']>>,
+  recurrenceEndsOn?: Maybe<Scalars['DateTime']>,
+  employeeId?: Maybe<Scalars['ID']>,
+};
+
 export type Event = {
   id: Scalars['ID'],
   datetime: Scalars['DateTime'],
@@ -62,6 +85,10 @@ export type Mutation = {
   createService: Service,
   updateService: Service,
   deleteService: Scalars['ID'],
+  createEmployeeSchedule: EmployeeSchedule,
+  updateEmployeeSchedule: EmployeeSchedule,
+  deleteEmployeeSchedule: Scalars['String'],
+  employeeSchedule: EmployeeSchedule,
 };
 
 
@@ -98,6 +125,27 @@ export type MutationUpdateServiceArgs = {
 
 
 export type MutationDeleteServiceArgs = {
+  id: Scalars['String']
+};
+
+
+export type MutationCreateEmployeeScheduleArgs = {
+  data: EmployeeScheduleInput
+};
+
+
+export type MutationUpdateEmployeeScheduleArgs = {
+  data: EmployeeScheduleInput,
+  id: Scalars['String']
+};
+
+
+export type MutationDeleteEmployeeScheduleArgs = {
+  id: Scalars['String']
+};
+
+
+export type MutationEmployeeScheduleArgs = {
   id: Scalars['String']
 };
 
@@ -200,6 +248,14 @@ export type QueryUsersInput = {
   role?: Maybe<Scalars['String']>,
 };
 
+/** Interval for repeating schedule */
+export enum RecurrencePeriod {
+  Day = 'DAY',
+  Week = 'WEEK',
+  Month = 'MONTH',
+  Year = 'YEAR'
+}
+
 export type RegisterInput = {
   firstName: Scalars['String'],
   lastName: Scalars['String'],
@@ -246,6 +302,33 @@ export enum UserRole {
   Employee = 'EMPLOYEE',
   Admin = 'ADMIN'
 }
+
+export type EmployeeScheduleFragment = (
+  Pick<EmployeeSchedule, 'id' | 'begins' | 'ends' | 'isRecurring' | 'recurrencePeriod' | 'recurrenceInterval' | 'recursOn' | 'recurrenceEndsOn'>
+  & { employee: UserFragment }
+);
+
+export type CreateEmployeeScheduleMutationVariables = {
+  data: EmployeeScheduleInput
+};
+
+
+export type CreateEmployeeScheduleMutation = { createEmployeeSchedule: EmployeeScheduleFragment };
+
+export type UpdateEmployeeScheduleMutationVariables = {
+  id: Scalars['String'],
+  data: EmployeeScheduleInput
+};
+
+
+export type UpdateEmployeeScheduleMutation = { updateEmployeeSchedule: EmployeeScheduleFragment };
+
+export type DeleteEmployeeScheduleMutationVariables = {
+  id: Scalars['String']
+};
+
+
+export type DeleteEmployeeScheduleMutation = Pick<Mutation, 'deleteEmployeeSchedule'>;
 
 export type CreateEventMutationVariables = {
   data: EventInput
@@ -374,6 +457,21 @@ export const UserFragmentDoc = gql`
   role
 }
     `;
+export const EmployeeScheduleFragmentDoc = gql`
+    fragment EmployeeSchedule on EmployeeSchedule {
+  id
+  begins
+  ends
+  isRecurring
+  recurrencePeriod
+  recurrenceInterval
+  recursOn
+  recurrenceEndsOn
+  employee {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
 export const EventFragmentDoc = gql`
     fragment Event on Event {
   id
@@ -401,6 +499,152 @@ export const ServiceFragmentDoc = gql`
   }
 }
     ${UserFragmentDoc}`;
+export const CreateEmployeeScheduleDocument = gql`
+    mutation CreateEmployeeSchedule($data: EmployeeScheduleInput!) {
+  createEmployeeSchedule(data: $data) {
+    ...EmployeeSchedule
+  }
+}
+    ${EmployeeScheduleFragmentDoc}`;
+export type CreateEmployeeScheduleMutationFn = ApolloReactCommon.MutationFunction<CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables>;
+export type CreateEmployeeScheduleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables>, 'mutation'>;
+
+    export const CreateEmployeeScheduleComponent = (props: CreateEmployeeScheduleComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables> mutation={CreateEmployeeScheduleDocument} {...props} />
+    );
+    
+export type CreateEmployeeScheduleProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables> & TChildProps;
+export function withCreateEmployeeSchedule<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateEmployeeScheduleMutation,
+  CreateEmployeeScheduleMutationVariables,
+  CreateEmployeeScheduleProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables, CreateEmployeeScheduleProps<TChildProps>>(CreateEmployeeScheduleDocument, {
+      alias: 'createEmployeeSchedule',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateEmployeeScheduleMutation__
+ *
+ * To run a mutation, you first call `useCreateEmployeeScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateEmployeeScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createEmployeeScheduleMutation, { data, loading, error }] = useCreateEmployeeScheduleMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateEmployeeScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables>(CreateEmployeeScheduleDocument, baseOptions);
+      }
+export type CreateEmployeeScheduleMutationHookResult = ReturnType<typeof useCreateEmployeeScheduleMutation>;
+export type CreateEmployeeScheduleMutationResult = ApolloReactCommon.MutationResult<CreateEmployeeScheduleMutation>;
+export type CreateEmployeeScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateEmployeeScheduleMutation, CreateEmployeeScheduleMutationVariables>;
+export const UpdateEmployeeScheduleDocument = gql`
+    mutation UpdateEmployeeSchedule($id: String!, $data: EmployeeScheduleInput!) {
+  updateEmployeeSchedule(id: $id, data: $data) {
+    ...EmployeeSchedule
+  }
+}
+    ${EmployeeScheduleFragmentDoc}`;
+export type UpdateEmployeeScheduleMutationFn = ApolloReactCommon.MutationFunction<UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables>;
+export type UpdateEmployeeScheduleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables>, 'mutation'>;
+
+    export const UpdateEmployeeScheduleComponent = (props: UpdateEmployeeScheduleComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables> mutation={UpdateEmployeeScheduleDocument} {...props} />
+    );
+    
+export type UpdateEmployeeScheduleProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables> & TChildProps;
+export function withUpdateEmployeeSchedule<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateEmployeeScheduleMutation,
+  UpdateEmployeeScheduleMutationVariables,
+  UpdateEmployeeScheduleProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables, UpdateEmployeeScheduleProps<TChildProps>>(UpdateEmployeeScheduleDocument, {
+      alias: 'updateEmployeeSchedule',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateEmployeeScheduleMutation__
+ *
+ * To run a mutation, you first call `useUpdateEmployeeScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateEmployeeScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateEmployeeScheduleMutation, { data, loading, error }] = useUpdateEmployeeScheduleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateEmployeeScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables>(UpdateEmployeeScheduleDocument, baseOptions);
+      }
+export type UpdateEmployeeScheduleMutationHookResult = ReturnType<typeof useUpdateEmployeeScheduleMutation>;
+export type UpdateEmployeeScheduleMutationResult = ApolloReactCommon.MutationResult<UpdateEmployeeScheduleMutation>;
+export type UpdateEmployeeScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateEmployeeScheduleMutation, UpdateEmployeeScheduleMutationVariables>;
+export const DeleteEmployeeScheduleDocument = gql`
+    mutation DeleteEmployeeSchedule($id: String!) {
+  deleteEmployeeSchedule(id: $id)
+}
+    `;
+export type DeleteEmployeeScheduleMutationFn = ApolloReactCommon.MutationFunction<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables>;
+export type DeleteEmployeeScheduleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables>, 'mutation'>;
+
+    export const DeleteEmployeeScheduleComponent = (props: DeleteEmployeeScheduleComponentProps) => (
+      <ApolloReactComponents.Mutation<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables> mutation={DeleteEmployeeScheduleDocument} {...props} />
+    );
+    
+export type DeleteEmployeeScheduleProps<TChildProps = {}> = ApolloReactHoc.MutateProps<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables> & TChildProps;
+export function withDeleteEmployeeSchedule<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  DeleteEmployeeScheduleMutation,
+  DeleteEmployeeScheduleMutationVariables,
+  DeleteEmployeeScheduleProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables, DeleteEmployeeScheduleProps<TChildProps>>(DeleteEmployeeScheduleDocument, {
+      alias: 'deleteEmployeeSchedule',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useDeleteEmployeeScheduleMutation__
+ *
+ * To run a mutation, you first call `useDeleteEmployeeScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteEmployeeScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteEmployeeScheduleMutation, { data, loading, error }] = useDeleteEmployeeScheduleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteEmployeeScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables>(DeleteEmployeeScheduleDocument, baseOptions);
+      }
+export type DeleteEmployeeScheduleMutationHookResult = ReturnType<typeof useDeleteEmployeeScheduleMutation>;
+export type DeleteEmployeeScheduleMutationResult = ApolloReactCommon.MutationResult<DeleteEmployeeScheduleMutation>;
+export type DeleteEmployeeScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($data: EventInput!) {
   createEvent(data: $data) {
