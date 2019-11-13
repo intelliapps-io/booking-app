@@ -1,0 +1,37 @@
+fragment EmployeeSchedule on EmployeeSchedule {
+  id
+  begins
+  ends
+  isRecurring
+  recurrencePeriod
+  recurrenceInterval
+  recursOn
+  recurrenceEndsOn
+  employee {
+    ...User
+  }
+}
+
+mutation CreateEmployeeSchedule($data: EmployeeScheduleInput!) {
+  createEmployeeSchedule(data: $data) {
+    ...EmployeeSchedule
+  }
+}
+
+mutation UpdateEmployeeSchedule($id: String!, $data: EmployeeScheduleInput!) {
+  updateEmployeeSchedule(id: $id, data: $data) {
+    ...EmployeeSchedule
+  }
+}
+
+mutation DeleteEmployeeSchedule($id: String!) {
+  deleteEmployeeSchedule(id: $id)
+}
+
+mutation EmployeeSchedule($id: String!) {
+  employeeSchedule(id: $id) {
+    ...EmployeeSchedule
+  }
+}
+
+mutation EmployeeSchedules

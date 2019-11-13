@@ -15,6 +15,12 @@ import { UpdateServiceResolver } from "./store/service/UpdateService";
 import { DeleteServiceResolver } from "./store/service/DeleteService";
 import { QueryServicesResolver } from "./store/service/QueryServices";
 import { QueryServiceResolver } from "./store/service/QueryService";
+// Employee Schedule
+import { CreateEmployeeSchedule } from "./employeeSchedule/createEmployeeSchedule";
+import { UpdateEmployeeSchedule } from "./employeeSchedule/updateEmployeeSchedule";
+import { DeleteEmployeeSchedule } from "./employeeSchedule/deleteEmployeeSchedule";
+import { QueryEmployeeSchedule } from "./employeeSchedule/QueryEmployeeSchedule";
+import { QueryEmployeeSchedules } from "./employeeSchedule/QueryEmployeeSchedules";
 
 export const resolvers = [
   // User
@@ -36,4 +42,11 @@ export const resolvers = [
   DeleteServiceResolver,
   QueryServicesResolver,
   QueryServiceResolver,
+
+  // Employee Schedule
+  CreateEmployeeSchedule,
+  UpdateEmployeeSchedule,
+  DeleteEmployeeSchedule,
+  QueryEmployeeSchedule,
+  QueryEmployeeSchedules
 ]

@@ -6,8 +6,6 @@ import { MyContext } from "../../ts/context";
 import { rejects } from "assert";
 import { EventInput } from "./EventInput";
 
-
-
 @Resolver()
 export class CreateEventResolver {
   @Mutation(type => Event)
