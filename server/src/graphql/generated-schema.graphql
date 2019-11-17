@@ -10,6 +10,7 @@ type BaseStoreEntity {
 
   """Product or Service ID"""
   UPCCode: String
+  organization: Organization!
 }
 
 input BaseStoreEntityInput {
@@ -60,6 +61,7 @@ type Event {
   duration: Int!
   customer: User!
   employee: User!
+  organization: Organization!
 }
 
 input EventInput {
@@ -68,6 +70,16 @@ input EventInput {
   """duration in minutes"""
   duration: Int!
   employeeId: ID!
+}
+
+type HoursOfOperation {
+  monday: Timeframe!
+  tuesday: Timeframe!
+  wednesday: Timeframe!
+  thursday: Timeframe!
+  friday: Timeframe!
+  saturday: Timeframe!
+  sunday: Timeframe!
 }
 
 type Mutation {
@@ -90,6 +102,16 @@ enum NumberOperator {
   GREATER
   LESSER
   EQUAL
+}
+
+type Organization {
+  id: ID!
+  name: String!
+  phone: String!
+  address: String!
+  contactEmail: String!
+  hoursOfOperation: HoursOfOperation!
+  landingHtml: String!
 }
 
 type PaginatedEventsResponse {
@@ -119,6 +141,7 @@ type Product {
 
   """Product or Service ID"""
   UPCCode: String
+  organization: Organization!
   id: ID!
   inventory: Int!
 }
@@ -190,6 +213,7 @@ type Service {
 
   """Product or Service ID"""
   UPCCode: String
+  organization: Organization!
   id: ID!
 
   """duration in minutes"""
@@ -210,6 +234,14 @@ input ServiceInput {
   employeeIds: [ID!]!
 }
 
+type Timeframe {
+  """Minutes since beginning of day"""
+  start: Int!
+
+  """Minutes since beginning of day"""
+  end: Int!
+}
+
 type User {
   id: ID!
   firstName: String!
@@ -218,6 +250,7 @@ type User {
   email: String!
   role: UserRole!
   authCount: Float
+  organization: Organization!
 }
 
 """User access role"""

@@ -2,6 +2,7 @@ import { ObjectType, Field, ID, Root, registerEnumType, Arg, Int } from 'type-gr
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne } from 'typeorm';
 import { User } from './User';
 import moment = require('moment');
+import { Organization } from './Organization';
 
 @Entity() @ObjectType()
 export class Event extends BaseEntity {
@@ -40,11 +41,7 @@ export class Event extends BaseEntity {
   @ManyToOne(type => User, {eager: true})
   employee: User
   
-
-  //add comment field 
-  // no admin 
-  
-
-
-
+  @Field(type => Organization)
+  @ManyToOne(type => Organization, { eager: true })
+  organization: Organization
 }

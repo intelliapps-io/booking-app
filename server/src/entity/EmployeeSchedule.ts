@@ -10,7 +10,7 @@ export enum RecurrencePeriod {
 }
 
 /**
- * @type boolean corresponds to day of the week [sun, mon, tue, wed, thr, fri, sat]
+ * @type boolean corresponds to day of the week [mon, tue, wed, thr, fri, sat, sun]
  */
 export type RecursOn = [boolean, boolean, boolean, boolean, boolean, boolean, boolean]
 

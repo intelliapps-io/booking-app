@@ -1,6 +1,7 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { ObjectType, Field, ID, Float, Int } from "type-graphql";
 import { User } from "./User";
+import { Organization } from "./Organization";
 
 @Entity() @ObjectType()
 abstract class BaseStoreEntity extends BaseEntity {
@@ -19,6 +20,10 @@ abstract class BaseStoreEntity extends BaseEntity {
   @Field({ nullable: true, description: 'Product or Service ID' })
   @Column({ nullable: true, comment: 'Product or Service ID' })
   UPCCode?: string
+
+  @Field(type => Organization)
+  @ManyToOne(type => Organization, { eager: true })
+  organization: Organization
 }
 
 @Entity() @ObjectType()

@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID, Root, registerEnumType, Arg } from 'type-graphql';
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne } from 'typeorm';
+import { Organization } from './Organization';
 
 export enum UserRole {
   CUSTOMER = "CUSTOMER",
@@ -29,7 +30,7 @@ export class User extends BaseEntity {
   }
 
   @Field()
-  @Column({ unique: true })
+  @Column({ unique: false })
   email: string
 
   @Field(type => UserRole)
@@ -42,4 +43,8 @@ export class User extends BaseEntity {
   
   @Column()
   password: string
+
+  @Field(type => Organization)
+  @ManyToOne(type => Organization, { eager: true })
+  organization: Organization
 }
