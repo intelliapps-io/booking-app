@@ -1,44 +1,50 @@
-// import { Resolver, Mutation, Authorized, InputType, Field, Int, ID, Arg, Ctx } from "type-graphql";
-// import { Organization } from "../../entity/Organization";
-// import { UserRole } from "../../entity/User";
-// import { OrganizationInput } from "./OrganizationInput";
+import { Resolver, Mutation, Authorized, InputType, Field, Int, ID, Arg, Ctx } from "type-graphql";
+import { Organization, validateHoursOfOperation } from "../../entity/Organization";
+import { UserRole, User } from "../../entity/User";
+import { OrganizationInput } from "./OrganizationInput";
+import { MyContext } from "../../ts/context";
 
-// @Resolver()
-// export class UpdateOrganizationResolver {
-//   @Mutation(type => Organization)
-//   @Authorized([UserRole['ADMIN']])
-//   createService(@Arg('data') data: OrganizationInput) {
-//     return new Promise(async (resolve, reject) => {
-//       // const { name, cost, duration, description, UPCCode, employeeIds } = data;
-//       // const employees = await User.findByIds(employeeIds, { where: { role: UserRole['EMPLOYEE'] } })
-//       //   .catch(err => reject(err))
+@Resolver()
+export class UpdateOrganizationResolver {
+  @Mutation(type => Organization)
+  @Authorized([UserRole['ADMIN']])
+  updateOrganization(@Arg('id') organizationId: string, @Arg('data') data: OrganizationInput, @Ctx() ctx: MyContext) {
+    return new Promise(async (resolve, reject) => {
+      // find user
+      const user = await User.findOne({ where: { id: ctx.req.userId } }).catch(err => reject(err))
+      if (!user)
+        return reject(new Error('Please login, no user found with your id'))
+      
+      // find organization
+      const organization = await Organization.findOne({ where: { id: organizationId } }).catch(err => reject(err))
+      if (!organization)
+        return reject(new Error('No organization found with that id'))
 
-//       if (typeof employees !== 'object') {
-//         reject(new Error('Employees not found'))
-//         return
-//       }
+      // verify user is admin
+      if (user.role !== UserRole['ADMIN'])
+        return reject(new Error('Permission denied, you are not an admin'))
 
-//       if (cost < 0) {
-//         reject(new Error('Cost must be equal to or greater than zero'))
-//         return
-//       }
+      // verify user belongs to organization
+      if (!user.organization || user.organization.id !== organizationId) 
+        return reject(new Error('Permission denied, you do not belong to the organization with that id'))
+      
+      // validate hours of operation
+      if (!validateHoursOfOperation(data.hoursOfOperation))
+        return reject(new Error('hours of operation is invalid'))
+      
+      // update organization record
+      organization.urlName = data.urlName
+      organization.name = data.name
+      organization.phone = data.phone
+      organization.address = data.address
+      organization.contactEmail = data.contactEmail
+      organization.hoursOfOperation = data.hoursOfOperation
+      organization.landingHtml = data.landingHtml
 
-//       if (duration < 0) {
-//         reject(new Error('Duration must be equal to or greater than zero'))
-//         return
-//       }
-
-//       // create service
-//       Service.create({
-//         name,
-//         cost,
-//         duration,
-//         description,
-//         UPCCode,
-//         employees
-//       }).save()
-//         .then(result => resolve(result))
-//         .catch(err => reject(err))
-//     })
-//   }
-// }
+      // save updated data
+      organization.save()
+        .catch(err => reject(err))
+        .then(() => resolve(organization))
+    })
+  }
+}

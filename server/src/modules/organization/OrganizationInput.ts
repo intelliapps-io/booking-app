@@ -4,6 +4,9 @@ import { HoursOfOperation } from "../../entity/Organization";
 @InputType()
 export class OrganizationInput {
   @Field(type => String)
+  urlName: string
+
+  @Field(type => String)
   name: string
 
   @Field(type => String)

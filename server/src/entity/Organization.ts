@@ -41,19 +41,23 @@ export class Organization extends BaseEntity {
   id: string
 
   @Field(type => String)
-  @Column('text')
+  @Column('varchar')
+  urlName: string
+    
+  @Field(type => String)
+  @Column('varchar')
   name: string
 
   @Field(type => String)
-  @Column('text')
+  @Column('varchar')
   phone: string
 
   @Field(type => String)
-  @Column('text')
+  @Column('varchar')
   address: string
 
   @Field(type => String)
-  @Column('text')
+  @Column('varchar')
   contactEmail: string
 
   @Field(type => HoursOfOperation)
