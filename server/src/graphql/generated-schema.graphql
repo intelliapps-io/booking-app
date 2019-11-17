@@ -106,6 +106,7 @@ enum NumberOperator {
 
 type Organization {
   id: ID!
+  urlName: String!
   name: String!
   phone: String!
   address: String!

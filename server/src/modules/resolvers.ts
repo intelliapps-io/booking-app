@@ -21,6 +21,8 @@ import { UpdateEmployeeSchedule } from "./employeeSchedule/updateEmployeeSchedul
 import { DeleteEmployeeSchedule } from "./employeeSchedule/deleteEmployeeSchedule";
 import { QueryEmployeeSchedule } from "./employeeSchedule/QueryEmployeeSchedule";
 import { QueryEmployeeSchedules } from "./employeeSchedule/QueryEmployeeSchedules";
+import { UpdateOrganizationResolver } from "./organization/UpdateOrganizationResolver";
+import { QueryOrganizationResolver } from "./organization/QueryOrganizationResolver";
 
 export const resolvers = [
   // User
@@ -48,5 +50,9 @@ export const resolvers = [
   UpdateEmployeeSchedule,
   DeleteEmployeeSchedule,
   QueryEmployeeSchedule,
-  QueryEmployeeSchedules
+  QueryEmployeeSchedules,
+
+  //Organization 
+  UpdateOrganizationResolver,
+  QueryOrganizationResolver
 ]

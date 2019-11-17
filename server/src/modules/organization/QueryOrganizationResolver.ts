@@ -5,12 +5,19 @@ import { OrganizationInput } from "./OrganizationInput";
 import { MyContext } from "../../ts/context";
 
 @Resolver()
-export class UpdateOrganizationResolver {
+export class QueryOrganizationResolver {
   @Mutation(type => Organization)
   @Authorized([UserRole['ADMIN']])
-  queryOrganization(@Arg('id') organizationId: string, @Ctx() ctx: MyContext) {
+  organization(@Arg('id') organizationId: string, @Ctx() ctx: MyContext) {
     return new Promise(async (resolve, reject) => {
-      
+      Organization.findOne({ where: { id: organizationId } })
+        .catch((error) => reject(error))
+        .then(record => {
+          if (record)
+            resolve(record)
+          else
+            reject(new Error("no matching organization"))
+      })
     })
   }
 }
