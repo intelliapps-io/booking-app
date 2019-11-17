@@ -82,6 +82,16 @@ type HoursOfOperation {
   sunday: Timeframe!
 }
 
+input HoursOfOperationInput {
+  monday: TimeframeInput!
+  tuesday: TimeframeInput!
+  wednesday: TimeframeInput!
+  thursday: TimeframeInput!
+  friday: TimeframeInput!
+  saturday: TimeframeInput!
+  sunday: TimeframeInput!
+}
+
 type Mutation {
   login(password: String!, email: String!): User
   logout: String
@@ -96,6 +106,8 @@ type Mutation {
   deleteEmployeeSchedule(id: String!): String!
   employeeSchedule(id: String!): EmployeeSchedule!
   employeeSchedules(data: QueryEmployeeSchedulesInput): [EmployeeSchedule!]!
+  updateOrganization(data: OrganizationInput!, id: String!): Organization!
+  organization(id: String!): Organization!
 }
 
 enum NumberOperator {
@@ -112,6 +124,16 @@ type Organization {
   address: String!
   contactEmail: String!
   hoursOfOperation: HoursOfOperation!
+  landingHtml: String!
+}
+
+input OrganizationInput {
+  urlName: String!
+  name: String!
+  phone: String!
+  address: String!
+  contactEmail: String!
+  hoursOfOperation: HoursOfOperationInput!
   landingHtml: String!
 }
 
@@ -236,6 +258,14 @@ input ServiceInput {
 }
 
 type Timeframe {
+  """Minutes since beginning of day"""
+  start: Int!
+
+  """Minutes since beginning of day"""
+  end: Int!
+}
+
+input TimeframeInput {
   """Minutes since beginning of day"""
   start: Int!
 

@@ -1,7 +1,7 @@
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from "typeorm"
-import { ObjectType, Field, ID, Int } from "type-graphql"
+import { ObjectType, Field, ID, Int, InputType } from "type-graphql"
 
-@ObjectType() 
+@ObjectType()
 class Timeframe {
   @Field(type => Int, { description: 'Minutes since beginning of day'})
   start: number
