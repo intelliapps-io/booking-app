@@ -23,6 +23,7 @@ export type BaseStoreEntity = {
   description?: Maybe<Scalars['String']>,
   /** Product or Service ID */
   UPCCode?: Maybe<Scalars['String']>,
+  organization: Organization,
 };
 
 export type BaseStoreEntityInput = {
@@ -67,6 +68,7 @@ export type Event = {
   duration: Scalars['Int'],
   customer: User,
   employee: User,
+  organization: Organization,
 };
 
 export type EventInput = {
@@ -76,10 +78,32 @@ export type EventInput = {
   employeeId: Scalars['ID'],
 };
 
+export type HoursOfOperation = {
+  monday: Timeframe,
+  tuesday: Timeframe,
+  wednesday: Timeframe,
+  thursday: Timeframe,
+  friday: Timeframe,
+  saturday: Timeframe,
+  sunday: Timeframe,
+};
+
+export type HoursOfOperationInput = {
+  monday: TimeframeInput,
+  tuesday: TimeframeInput,
+  wednesday: TimeframeInput,
+  thursday: TimeframeInput,
+  friday: TimeframeInput,
+  saturday: TimeframeInput,
+  sunday: TimeframeInput,
+};
+
 export type Mutation = {
   login?: Maybe<User>,
   logout?: Maybe<Scalars['String']>,
   register: User,
+  createUser: User,
+  updateUser: User,
   createEvent: Event,
   deleteEvent: Scalars['Boolean'],
   createService: Service,
@@ -89,6 +113,8 @@ export type Mutation = {
   updateEmployeeSchedule: EmployeeSchedule,
   deleteEmployeeSchedule: Scalars['String'],
   employeeSchedule: EmployeeSchedule,
+  employeeSchedules: Array<EmployeeSchedule>,
+  updateOrganization: Organization,
 };
 
 
@@ -100,6 +126,16 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   data: RegisterInput
+};
+
+
+export type MutationCreateUserArgs = {
+  data: RegisterInput
+};
+
+
+export type MutationUpdateUserArgs = {
+  data: UpdateUserInput
 };
 
 
@@ -149,11 +185,43 @@ export type MutationEmployeeScheduleArgs = {
   id: Scalars['String']
 };
 
+
+export type MutationEmployeeSchedulesArgs = {
+  data?: Maybe<QueryEmployeeSchedulesInput>
+};
+
+
+export type MutationUpdateOrganizationArgs = {
+  data: OrganizationInput,
+  id: Scalars['String']
+};
+
 export enum NumberOperator {
   Greater = 'GREATER',
   Lesser = 'LESSER',
   Equal = 'EQUAL'
 }
+
+export type Organization = {
+  id: Scalars['ID'],
+  urlName: Scalars['String'],
+  name: Scalars['String'],
+  phone: Scalars['String'],
+  address: Scalars['String'],
+  contactEmail: Scalars['String'],
+  hoursOfOperation: HoursOfOperation,
+  landingHtml: Scalars['String'],
+};
+
+export type OrganizationInput = {
+  urlName: Scalars['String'],
+  name: Scalars['String'],
+  phone: Scalars['String'],
+  address: Scalars['String'],
+  contactEmail: Scalars['String'],
+  hoursOfOperation: HoursOfOperationInput,
+  landingHtml: Scalars['String'],
+};
 
 export type PaginatedEventsResponse = {
   items: Array<Event>,
@@ -181,6 +249,7 @@ export type Product = {
   description?: Maybe<Scalars['String']>,
   /** Product or Service ID */
   UPCCode?: Maybe<Scalars['String']>,
+  organization: Organization,
   id: Scalars['ID'],
   inventory: Scalars['Int'],
 };
@@ -201,6 +270,7 @@ export type Query = {
   queryEvent: Event,
   services: PaginatedServiesResponse,
   service: Service,
+  organization: Organization,
 };
 
 
@@ -226,6 +296,17 @@ export type QueryServicesArgs = {
 
 export type QueryServiceArgs = {
   id: Scalars['String']
+};
+
+
+export type QueryOrganizationArgs = {
+  id: Scalars['String']
+};
+
+export type QueryEmployeeSchedulesInput = {
+  before?: Maybe<Scalars['DateTime']>,
+  after?: Maybe<Scalars['DateTime']>,
+  employeeId?: Maybe<Scalars['ID']>,
 };
 
 export type QueryEventsInput = {
@@ -261,6 +342,9 @@ export type RegisterInput = {
   lastName: Scalars['String'],
   email: Scalars['String'],
   password: Scalars['String'],
+  organizationUrl?: Maybe<Scalars['String']>,
+  organizationId?: Maybe<Scalars['String']>,
+  role?: Maybe<Scalars['String']>,
 };
 
 export type Service = {
@@ -269,6 +353,7 @@ export type Service = {
   description?: Maybe<Scalars['String']>,
   /** Product or Service ID */
   UPCCode?: Maybe<Scalars['String']>,
+  organization: Organization,
   id: Scalars['ID'],
   /** duration in minutes */
   duration: Scalars['Int'],
@@ -286,6 +371,29 @@ export type ServiceInput = {
   employeeIds: Array<Scalars['ID']>,
 };
 
+export type Timeframe = {
+  /** Minutes since beginning of day */
+  start: Scalars['Int'],
+  /** Minutes since beginning of day */
+  end: Scalars['Int'],
+};
+
+export type TimeframeInput = {
+  /** Minutes since beginning of day */
+  start: Scalars['Int'],
+  /** Minutes since beginning of day */
+  end: Scalars['Int'],
+};
+
+export type UpdateUserInput = {
+  userId?: Maybe<Scalars['String']>,
+  firstName?: Maybe<Scalars['String']>,
+  lastName?: Maybe<Scalars['String']>,
+  email?: Maybe<Scalars['String']>,
+  password?: Maybe<Scalars['String']>,
+  role?: Maybe<Scalars['String']>,
+};
+
 export type User = {
   id: Scalars['ID'],
   firstName: Scalars['String'],
@@ -294,6 +402,7 @@ export type User = {
   email: Scalars['String'],
   role: UserRole,
   authCount?: Maybe<Scalars['Float']>,
+  organization?: Maybe<Organization>,
 };
 
 /** User access role */
@@ -330,6 +439,13 @@ export type DeleteEmployeeScheduleMutationVariables = {
 
 export type DeleteEmployeeScheduleMutation = Pick<Mutation, 'deleteEmployeeSchedule'>;
 
+export type EmployeeScheduleMutationVariables = {
+  id: Scalars['String']
+};
+
+
+export type EmployeeScheduleMutation = { employeeSchedule: EmployeeScheduleFragment };
+
 export type CreateEventMutationVariables = {
   data: EventInput
 };
@@ -365,6 +481,26 @@ export type EventFragment = (
   Pick<Event, 'id' | 'datetime' | 'begins' | 'ends' | 'duration'>
   & { customer: UserFragment, employee: UserFragment }
 );
+
+export type OrganizationFragment = (
+  Pick<Organization, 'id' | 'urlName' | 'name' | 'phone' | 'address' | 'contactEmail' | 'landingHtml'>
+  & { hoursOfOperation: { monday: Pick<Timeframe, 'start' | 'end'>, tuesday: Pick<Timeframe, 'start' | 'end'>, wednesday: Pick<Timeframe, 'start' | 'end'>, thursday: Pick<Timeframe, 'start' | 'end'>, friday: Pick<Timeframe, 'start' | 'end'>, saturday: Pick<Timeframe, 'start' | 'end'>, sunday: Pick<Timeframe, 'start' | 'end'> } }
+);
+
+export type OrganizationQueryVariables = {
+  id: Scalars['String']
+};
+
+
+export type OrganizationQuery = { organization: OrganizationFragment };
+
+export type UpdateOrganizationMutationVariables = {
+  id: Scalars['String'],
+  data: OrganizationInput
+};
+
+
+export type UpdateOrganizationMutation = { updateOrganization: OrganizationFragment };
 
 export type ServiceFragment = (
   Pick<Service, 'id' | 'name' | 'cost' | 'description' | 'UPCCode'>
@@ -410,7 +546,10 @@ export type ServiceQueryVariables = {
 
 export type ServiceQuery = { service: ServiceFragment };
 
-export type UserFragment = Pick<User, 'id' | 'firstName' | 'lastName' | 'name' | 'email' | 'role'>;
+export type UserFragment = (
+  Pick<User, 'id' | 'firstName' | 'lastName' | 'name' | 'email' | 'role'>
+  & { organization: Maybe<Pick<Organization, 'id' | 'urlName' | 'name'>> }
+);
 
 export type RegisterMutationVariables = {
   data: RegisterInput
@@ -418,6 +557,20 @@ export type RegisterMutationVariables = {
 
 
 export type RegisterMutation = { register: UserFragment };
+
+export type CreateUserMutationVariables = {
+  data: RegisterInput
+};
+
+
+export type CreateUserMutation = { createUser: UserFragment };
+
+export type UpdateUserMutationVariables = {
+  data: UpdateUserInput
+};
+
+
+export type UpdateUserMutation = { updateUser: UserFragment };
 
 export type LoginMutationVariables = {
   email: Scalars['String'],
@@ -455,6 +608,11 @@ export const UserFragmentDoc = gql`
   name
   email
   role
+  organization {
+    id
+    urlName
+    name
+  }
 }
     `;
 export const EmployeeScheduleFragmentDoc = gql`
@@ -487,6 +645,47 @@ export const EventFragmentDoc = gql`
   }
 }
     ${UserFragmentDoc}`;
+export const OrganizationFragmentDoc = gql`
+    fragment Organization on Organization {
+  id
+  urlName
+  name
+  phone
+  address
+  contactEmail
+  landingHtml
+  hoursOfOperation {
+    monday {
+      start
+      end
+    }
+    tuesday {
+      start
+      end
+    }
+    wednesday {
+      start
+      end
+    }
+    thursday {
+      start
+      end
+    }
+    friday {
+      start
+      end
+    }
+    saturday {
+      start
+      end
+    }
+    sunday {
+      start
+      end
+    }
+  }
+}
+    `;
 export const ServiceFragmentDoc = gql`
     fragment Service on Service {
   id
@@ -645,6 +844,55 @@ export function useDeleteEmployeeScheduleMutation(baseOptions?: ApolloReactHooks
 export type DeleteEmployeeScheduleMutationHookResult = ReturnType<typeof useDeleteEmployeeScheduleMutation>;
 export type DeleteEmployeeScheduleMutationResult = ApolloReactCommon.MutationResult<DeleteEmployeeScheduleMutation>;
 export type DeleteEmployeeScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables>;
+export const EmployeeScheduleDocument = gql`
+    mutation EmployeeSchedule($id: String!) {
+  employeeSchedule(id: $id) {
+    ...EmployeeSchedule
+  }
+}
+    ${EmployeeScheduleFragmentDoc}`;
+export type EmployeeScheduleMutationFn = ApolloReactCommon.MutationFunction<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>;
+export type EmployeeScheduleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>, 'mutation'>;
+
+    export const EmployeeScheduleComponent = (props: EmployeeScheduleComponentProps) => (
+      <ApolloReactComponents.Mutation<EmployeeScheduleMutation, EmployeeScheduleMutationVariables> mutation={EmployeeScheduleDocument} {...props} />
+    );
+    
+export type EmployeeScheduleProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EmployeeScheduleMutation, EmployeeScheduleMutationVariables> & TChildProps;
+export function withEmployeeSchedule<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EmployeeScheduleMutation,
+  EmployeeScheduleMutationVariables,
+  EmployeeScheduleProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, EmployeeScheduleMutation, EmployeeScheduleMutationVariables, EmployeeScheduleProps<TChildProps>>(EmployeeScheduleDocument, {
+      alias: 'employeeSchedule',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEmployeeScheduleMutation__
+ *
+ * To run a mutation, you first call `useEmployeeScheduleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEmployeeScheduleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [employeeScheduleMutation, { data, loading, error }] = useEmployeeScheduleMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEmployeeScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>) {
+        return ApolloReactHooks.useMutation<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>(EmployeeScheduleDocument, baseOptions);
+      }
+export type EmployeeScheduleMutationHookResult = ReturnType<typeof useEmployeeScheduleMutation>;
+export type EmployeeScheduleMutationResult = ApolloReactCommon.MutationResult<EmployeeScheduleMutation>;
+export type EmployeeScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($data: EventInput!) {
   createEvent(data: $data) {
@@ -844,6 +1092,106 @@ export function useEventLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
+export const OrganizationDocument = gql`
+    query Organization($id: String!) {
+  organization(id: $id) {
+    ...Organization
+  }
+}
+    ${OrganizationFragmentDoc}`;
+export type OrganizationComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<OrganizationQuery, OrganizationQueryVariables>, 'query'> & ({ variables: OrganizationQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const OrganizationComponent = (props: OrganizationComponentProps) => (
+      <ApolloReactComponents.Query<OrganizationQuery, OrganizationQueryVariables> query={OrganizationDocument} {...props} />
+    );
+    
+export type OrganizationProps<TChildProps = {}> = ApolloReactHoc.DataProps<OrganizationQuery, OrganizationQueryVariables> & TChildProps;
+export function withOrganization<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  OrganizationQuery,
+  OrganizationQueryVariables,
+  OrganizationProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, OrganizationQuery, OrganizationQueryVariables, OrganizationProps<TChildProps>>(OrganizationDocument, {
+      alias: 'organization',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useOrganizationQuery__
+ *
+ * To run a query within a React component, call `useOrganizationQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganizationQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganizationQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useOrganizationQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
+        return ApolloReactHooks.useQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, baseOptions);
+      }
+export function useOrganizationLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrganizationQuery, OrganizationQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OrganizationQuery, OrganizationQueryVariables>(OrganizationDocument, baseOptions);
+        }
+export type OrganizationQueryHookResult = ReturnType<typeof useOrganizationQuery>;
+export type OrganizationLazyQueryHookResult = ReturnType<typeof useOrganizationLazyQuery>;
+export type OrganizationQueryResult = ApolloReactCommon.QueryResult<OrganizationQuery, OrganizationQueryVariables>;
+export const UpdateOrganizationDocument = gql`
+    mutation UpdateOrganization($id: String!, $data: OrganizationInput!) {
+  updateOrganization(id: $id, data: $data) {
+    ...Organization
+  }
+}
+    ${OrganizationFragmentDoc}`;
+export type UpdateOrganizationMutationFn = ApolloReactCommon.MutationFunction<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
+export type UpdateOrganizationComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>, 'mutation'>;
+
+    export const UpdateOrganizationComponent = (props: UpdateOrganizationComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateOrganizationMutation, UpdateOrganizationMutationVariables> mutation={UpdateOrganizationDocument} {...props} />
+    );
+    
+export type UpdateOrganizationProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateOrganizationMutation, UpdateOrganizationMutationVariables> & TChildProps;
+export function withUpdateOrganization<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateOrganizationMutation,
+  UpdateOrganizationMutationVariables,
+  UpdateOrganizationProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateOrganizationMutation, UpdateOrganizationMutationVariables, UpdateOrganizationProps<TChildProps>>(UpdateOrganizationDocument, {
+      alias: 'updateOrganization',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateOrganizationMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrganizationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrganizationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrganizationMutation, { data, loading, error }] = useUpdateOrganizationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateOrganizationMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>(UpdateOrganizationDocument, baseOptions);
+      }
+export type UpdateOrganizationMutationHookResult = ReturnType<typeof useUpdateOrganizationMutation>;
+export type UpdateOrganizationMutationResult = ApolloReactCommon.MutationResult<UpdateOrganizationMutation>;
+export type UpdateOrganizationMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateOrganizationMutation, UpdateOrganizationMutationVariables>;
 export const CreateServiceDocument = gql`
     mutation CreateService($data: ServiceInput!) {
   createService(data: $data) {
@@ -1142,6 +1490,104 @@ export function useRegisterMutation(baseOptions?: ApolloReactHooks.MutationHookO
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = ApolloReactCommon.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = ApolloReactCommon.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const CreateUserDocument = gql`
+    mutation CreateUser($data: RegisterInput!) {
+  createUser(data: $data) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+export type CreateUserMutationFn = ApolloReactCommon.MutationFunction<CreateUserMutation, CreateUserMutationVariables>;
+export type CreateUserComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<CreateUserMutation, CreateUserMutationVariables>, 'mutation'>;
+
+    export const CreateUserComponent = (props: CreateUserComponentProps) => (
+      <ApolloReactComponents.Mutation<CreateUserMutation, CreateUserMutationVariables> mutation={CreateUserDocument} {...props} />
+    );
+    
+export type CreateUserProps<TChildProps = {}> = ApolloReactHoc.MutateProps<CreateUserMutation, CreateUserMutationVariables> & TChildProps;
+export function withCreateUser<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  CreateUserMutation,
+  CreateUserMutationVariables,
+  CreateUserProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, CreateUserMutation, CreateUserMutationVariables, CreateUserProps<TChildProps>>(CreateUserDocument, {
+      alias: 'createUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useCreateUserMutation__
+ *
+ * To run a mutation, you first call `useCreateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserMutation, { data, loading, error }] = useCreateUserMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreateUserMutation, CreateUserMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreateUserMutation, CreateUserMutationVariables>(CreateUserDocument, baseOptions);
+      }
+export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
+export type CreateUserMutationResult = ApolloReactCommon.MutationResult<CreateUserMutation>;
+export type CreateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const UpdateUserDocument = gql`
+    mutation UpdateUser($data: UpdateUserInput!) {
+  updateUser(data: $data) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+export type UpdateUserMutationFn = ApolloReactCommon.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+export type UpdateUserComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<UpdateUserMutation, UpdateUserMutationVariables>, 'mutation'>;
+
+    export const UpdateUserComponent = (props: UpdateUserComponentProps) => (
+      <ApolloReactComponents.Mutation<UpdateUserMutation, UpdateUserMutationVariables> mutation={UpdateUserDocument} {...props} />
+    );
+    
+export type UpdateUserProps<TChildProps = {}> = ApolloReactHoc.MutateProps<UpdateUserMutation, UpdateUserMutationVariables> & TChildProps;
+export function withUpdateUser<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UpdateUserMutation,
+  UpdateUserMutationVariables,
+  UpdateUserProps<TChildProps>>) {
+    return ApolloReactHoc.withMutation<TProps, UpdateUserMutation, UpdateUserMutationVariables, UpdateUserProps<TChildProps>>(UpdateUserDocument, {
+      alias: 'updateUser',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUpdateUserMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserMutation, { data, loading, error }] = useUpdateUserMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, baseOptions);
+      }
+export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
+export type UpdateUserMutationResult = ApolloReactCommon.MutationResult<UpdateUserMutation>;
+export type UpdateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

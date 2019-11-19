@@ -96,6 +96,8 @@ type Mutation {
   login(password: String!, email: String!): User
   logout: String
   register(data: RegisterInput!): User!
+  createUser(data: RegisterInput!): User!
+  updateUser(data: UpdateUserInput!): User!
   createEvent(data: EventInput!): Event!
   deleteEvent(id: String!): Boolean!
   createService(data: ServiceInput!): Service!
@@ -227,6 +229,9 @@ input RegisterInput {
   lastName: String!
   email: String!
   password: String!
+  organizationUrl: String
+  organizationId: String
+  role: String
 }
 
 type Service {
@@ -273,6 +278,15 @@ input TimeframeInput {
   end: Int!
 }
 
+input UpdateUserInput {
+  userId: String
+  firstName: String
+  lastName: String
+  email: String
+  password: String
+  role: String
+}
+
 type User {
   id: ID!
   firstName: String!
@@ -281,7 +295,7 @@ type User {
   email: String!
   role: UserRole!
   authCount: Float
-  organization: Organization!
+  organization: Organization
 }
 
 """User access role"""

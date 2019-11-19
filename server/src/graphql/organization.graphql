@@ -1,0 +1,51 @@
+fragment Organization on Organization {
+  id
+  urlName
+  name
+  phone
+  address
+  contactEmail
+  landingHtml
+  hoursOfOperation {
+    monday {
+      start
+      end
+    }
+    tuesday {
+      start
+      end
+    }
+    wednesday {
+      start
+      end
+    }
+    thursday {
+      start
+      end
+    }
+    friday {
+      start
+      end
+    }
+    saturday {
+      start
+      end
+    }
+    sunday {
+      start
+      end
+    }
+  }
+}
+
+query Organization($id: String!) {
+  organization(id: $id) {
+    ...Organization
+  }
+}
+
+mutation UpdateOrganization($id: String!, $data: OrganizationInput!) {
+  updateOrganization(id: $id, data: $data) {
+    ...Organization
+  }
+}

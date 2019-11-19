@@ -4,6 +4,8 @@ import { LogoutResolver } from "./user/Logout";
 import { MeResolver } from "./user/Me";
 import { RegisterResolver } from "./user/Register";
 import { QueryUsersResolver } from "./user/QueryUsers";
+import { CreateUserResolver } from "./user/CreateUser";
+import { UpdateUserResolver } from "./user/UpdateUser";
 // Event
 import { CreateEventResolver } from "./event/CreateEvent";
 import { QueryEventsResolver } from "./event/QueryEvents";
@@ -21,6 +23,7 @@ import { UpdateEmployeeSchedule } from "./employeeSchedule/updateEmployeeSchedul
 import { DeleteEmployeeSchedule } from "./employeeSchedule/deleteEmployeeSchedule";
 import { QueryEmployeeSchedule } from "./employeeSchedule/QueryEmployeeSchedule";
 import { QueryEmployeeSchedules } from "./employeeSchedule/QueryEmployeeSchedules";
+// Organization
 import { UpdateOrganizationResolver } from "./organization/UpdateOrganizationResolver";
 import { QueryOrganizationResolver } from "./organization/QueryOrganizationResolver";
 
@@ -31,6 +34,8 @@ export const resolvers = [
   MeResolver,
   RegisterResolver,
   QueryUsersResolver,
+  CreateUserResolver,
+  UpdateUserResolver,
 
   // Event
   CreateEventResolver,

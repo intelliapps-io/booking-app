@@ -33,5 +33,3 @@ mutation EmployeeSchedule($id: String!) {
     ...EmployeeSchedule
   }
 }
-
-mutation EmployeeSchedules

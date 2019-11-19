@@ -41,7 +41,7 @@ export class Organization extends BaseEntity {
   id: string
 
   @Field(type => String)
-  @Column('varchar')
+  @Column('varchar', { unique: true })
   urlName: string
     
   @Field(type => String)
@@ -70,7 +70,7 @@ export class Organization extends BaseEntity {
 }
 
 export function validateHoursOfOperation(hoo: HoursOfOperation): boolean {
-  const validateTimeframe = ({ start, end }: Timeframe) => (start < 0 || end < 0 || start >= 1439 || end > 1439)
+  const validateTimeframe = ({ start, end }: Timeframe) => !(start < 0 || end < 0 || start >= 1439 || end > 1439)
   return (
     validateTimeframe(hoo.monday) &&
     validateTimeframe(hoo.tuesday) &&
