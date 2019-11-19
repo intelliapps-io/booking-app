@@ -5,10 +5,28 @@ fragment User on User {
   name
   email
   role
+  organization {
+    id
+    urlName
+    name
+  }
 }
+
 
 mutation Register($data: RegisterInput!) {
 	register(data: $data) {
+    ...User
+  }
+}
+
+mutation CreateUser($data: RegisterInput!) {
+	createUser(data: $data) {
+    ...User
+  }
+}
+
+mutation UpdateUser($data: UpdateUserInput!) {
+	updateUser(data: $data) {
     ...User
   }
 }

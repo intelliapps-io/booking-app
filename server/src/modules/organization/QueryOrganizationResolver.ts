@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Authorized, InputType, Field, Int, ID, Arg, Ctx } from "type-graphql";
+import { Resolver, Mutation, Authorized, InputType, Field, Int, ID, Arg, Ctx, Query } from "type-graphql";
 import { Organization, validateHoursOfOperation } from "../../entity/Organization";
 import { UserRole, User } from "../../entity/User";
 import { OrganizationInput } from "./OrganizationInput";
@@ -6,8 +6,7 @@ import { MyContext } from "../../ts/context";
 
 @Resolver()
 export class QueryOrganizationResolver {
-  @Mutation(type => Organization)
-  @Authorized([UserRole['ADMIN']])
+  @Query(type => Organization)
   organization(@Arg('id') organizationId: string, @Ctx() ctx: MyContext) {
     return new Promise(async (resolve, reject) => {
       Organization.findOne({ where: { id: organizationId } })

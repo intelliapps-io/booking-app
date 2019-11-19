@@ -30,6 +30,7 @@ export class Limiter {
       this.func()
     } else {
       if (this.timeout) clearTimeout(this.timeout)
+      // @ts-ignore
       this.timeout = setTimeout(() => {
         this.lastRun = new Date()
         this.func()

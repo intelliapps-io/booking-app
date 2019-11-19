@@ -44,7 +44,7 @@ export class User extends BaseEntity {
   @Column()
   password: string
 
-  @Field(type => Organization)
+  @Field(type => Organization, { nullable: true })
   @ManyToOne(type => Organization, { eager: true })
   organization: Organization
 }
