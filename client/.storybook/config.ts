@@ -6,6 +6,7 @@ import { configure } from '@storybook/react';
 // const req = require.context('../src', true, /\.stories\.tsx?$/);
 
 function loadStories() {
+  require('../src/stories/productCard.stories')
   require('../src/stories/scheduler.stories')
   // req.keys().forEach(req);
 }

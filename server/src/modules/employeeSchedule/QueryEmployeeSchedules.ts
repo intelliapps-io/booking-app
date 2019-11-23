@@ -31,7 +31,6 @@ export class QueryEmployeeSchedules {
       if (!user)
         return reject(new Error('Please login'))
       
-
       // find schedule 
       const employeeSchedules = await EmployeeSchedule.find({
         where: {
