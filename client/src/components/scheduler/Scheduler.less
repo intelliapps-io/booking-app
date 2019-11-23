@@ -1,0 +1,42 @@
+.scheduler-container {
+  .time-block {
+    position: absolute;
+    border-radius: 5px;
+    min-height: 40px;
+    background: #0078D4;
+  }
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+
+    .time-cell {
+      border-right: 1px solid #d6d6d6;
+      border-left: 1px solid #d6d6d6;
+      border-top: 1px solid #eeeeee;
+      border-bottom: 1px solid #eeeeee;
+    }
+    .day-header {
+      background-image: linear-gradient(to bottom, white, #06060608);
+    }
+
+    .day-header::before {
+      background-image: linear-gradient(to bottom, white, #06060626);
+      content: "";
+      height: 71px;
+      position: absolute;
+      width: 1px;
+      margin-left: -1px
+    }
+
+    .time-row-cell::before {
+      background-image: linear-gradient(to right, white, #06060626);
+      content: "";
+      height: 1px;
+      position: absolute;
+      width: 50px;
+      margin-top: -1px;
+      z-index: 504;
+    }
+  }
+}
