@@ -28,7 +28,8 @@ export const TimeBlock: React.FC<TimeBlockProps> = props => {
       top,
       height
     }}>
-      {""}
+      <h5>Duration: {(props.endMin - props.startMin) / 60} hours</h5>
     </div>
   );
 }
+
