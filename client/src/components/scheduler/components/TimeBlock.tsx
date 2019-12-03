@@ -7,7 +7,7 @@ interface TimeBlockProps {
 }
 
 export const TimeBlock: React.FC<TimeBlockProps> = props => {
-  const [startCell, setStartCell] = useState<ClientRect | DOMRect | null>(null)
+  const [startCell, setStartCell] = useState<ClientRect | DOMRect | null>(null)// displayed of rerender
 
   useLayoutEffect(() => {
     const startElement = document.getElementById(`${props.dayNumber}-${props.startMin - props.startMin % 60}`)
