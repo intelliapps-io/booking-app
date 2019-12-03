@@ -1,4 +1,4 @@
-import "./Navbar.scss"
+import "./Navbar.less"
 import React, { useContext } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Menu, Icon, Layout } from "antd";
