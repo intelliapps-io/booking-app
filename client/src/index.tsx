@@ -10,7 +10,7 @@ import './lib/less/index.less'
 import AppLayout from './AppLayout'
 
 const client = new ApolloClient({
-  uri: "http://localhost:3001/graphql",
+  uri: process.env.NODE_ENV !== 'production' ? "http://localhost:3001/graphql" : `http://${window.location.hostname}/graphql`,
   credentials: "include",
   cache: new InMemoryCache({ addTypename: true, dataIdFromObject: (object) => object.id }),
   headers: {
