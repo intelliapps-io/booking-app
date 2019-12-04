@@ -10,9 +10,10 @@ const Parent = () => {
   const [isSelected, setIsSelected] = useState(false)//togle between state
   return (
     <ProductCard
-      name={<a>Apples</a>}
-      imageUrl='https://www.aldi.us/fileadmin/_processed_/e/f/csm_Apples_D_01_552c95e84b.jpg'
-      description={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged`}
+      category={<a>Artworks</a>}
+      name={<a>Off RED & BlUE</a>}
+      imageUrl='https://images.pexels.com/photos/2471235/pexels-photo-2471235.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+      description={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the`}
       cost={15}
       isSelected={isSelected}
       onSelect={(toggle) => setIsSelected(toggle)}
