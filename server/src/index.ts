@@ -11,9 +11,10 @@ import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
 import { runCodegen, nodeLogger } from "./helpers/helpers";
 import { sendEmail } from "./helpers/sendEmail";
+import { join } from "path";
 
 const main = async () => {
-  const httpPort = 3001;
+  const httpPort = process.env.NODE_ENV === 'production' ? 80 : 3001;
 
   // Connect to Postgres DB
   const connect = () => new Promise((resolve, reject) => {
@@ -27,15 +28,6 @@ const main = async () => {
   });
   await connect()
     .catch(err => { throw err });
-
-  // sendEmail({
-  //   to: 'chuku0929@gmail.com',
-  //   subject: 'testing email sent',
-  //   html: `
-  //     <h1>test</h1>    
-  //   `
-  // }).then(() => nodeLogger('email sent'))
-  // .catch(error => nodeLogger(error)) 
 
   // Generate TypeGraphQL Schema 
   const schema = await buildSchema({
@@ -70,6 +62,16 @@ const main = async () => {
 
   // Integrate GraphQL Server with Express
   apolloServer.applyMiddleware({ app, cors: corsOptions });
+
+  // Foward React Doc For Production
+  if (process.env.NODE_ENV === "production") {
+    const buildFolder = join(__dirname, "../", "../", "client", "build");
+    const indexHtml = join(buildFolder, "index.html");
+    app.use("/", Express.static(buildFolder))
+    app.get('/', (req, res, next) => {
+      res.sendFile(indexHtml);
+    })
+  }
 
   app.listen(httpPort, () => console.log(`
   > GraphQL: http://localhost:${httpPort}/graphql

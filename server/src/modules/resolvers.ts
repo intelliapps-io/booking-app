@@ -21,7 +21,7 @@ import { QueryServiceResolver } from "./store/service/QueryService";
 import { CreateEmployeeSchedule } from "./employeeSchedule/createEmployeeSchedule";
 import { UpdateEmployeeSchedule } from "./employeeSchedule/updateEmployeeSchedule";
 import { DeleteEmployeeSchedule } from "./employeeSchedule/deleteEmployeeSchedule";
-import { QueryEmployeeSchedule } from "./employeeSchedule/QueryEmployeeSchedule";
+import { QueryEmployeeSchedule } from "./employeeSchedule/queryEmployeeSchedule";
 import { QueryEmployeeSchedules } from "./employeeSchedule/QueryEmployeeSchedules";
 // Organization
 import { UpdateOrganizationResolver } from "./organization/UpdateOrganizationResolver";
