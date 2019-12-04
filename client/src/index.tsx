@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import * as serviceWorker from './lib/helpers/serviceWorker';
-import ApolloClient, { InMemoryCache } from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
-import { HashRouter } from "react-router-dom";
+import React from 'react'
+import ReactDOM from 'react-dom'
+import * as serviceWorker from './lib/helpers/serviceWorker'
+import ApolloClient, { InMemoryCache } from "apollo-boost"
+import { ApolloProvider } from "react-apollo"
+import { HashRouter } from "react-router-dom"
 
-import "antd/dist/antd.css";
-import './lib/scss/index.scss';
-import AppLayout from './AppLayout';
+import "antd/dist/antd.css"
+import './lib/less/index.less'
+import AppLayout from './AppLayout'
 
 const client = new ApolloClient({
   uri: "http://localhost:3001/graphql",
@@ -16,7 +16,7 @@ const client = new ApolloClient({
   headers: {
     "Access-Control-Allow-Origin": "http://localhost:3001"
   }
-});
+})
 
 const WithApollo = () => (
   <ApolloProvider client={client}>
@@ -26,9 +26,9 @@ const WithApollo = () => (
   </ApolloProvider>
 )
 
-ReactDOM.render(<WithApollo />, document.getElementById('root'));
+ReactDOM.render(<WithApollo />, document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.unregister()

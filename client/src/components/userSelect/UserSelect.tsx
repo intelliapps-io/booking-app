@@ -1,5 +1,5 @@
 import React from "react";
-import { useUsersQuery, UserRole, User } from "../../lib/codegen";
+import { useUsersQuery, UserRole } from "../../lib/codegen";
 import { Alert, Select } from "antd";
 
 interface UserSelectProps {
@@ -9,7 +9,7 @@ interface UserSelectProps {
 }
 
 export const UserSelect: React.FC<UserSelectProps> = props => {
-  const { loading, error, data } = useUsersQuery({
+  const { error, data } = useUsersQuery({
     variables: {
       data: {
         limit: 100,

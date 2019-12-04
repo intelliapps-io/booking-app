@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
-import "./account.scss";
+import "./account.less";
 import { Button, Input, Form, Icon, Card } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { withLogin, LoginProps, MeDocument } from "../../lib/codegen";

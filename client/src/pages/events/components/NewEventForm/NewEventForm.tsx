@@ -1,6 +1,6 @@
-import "./NewEventForm.scss"
+import "./NewEventForm.less"
 import React from "react"
-import { Form, Input, DatePicker, TimePicker, InputNumber, Button } from "antd"
+import { Form, DatePicker, TimePicker, InputNumber, Button } from "antd"
 import { FormComponentProps } from "antd/lib/form"
 import { UserSelect } from "../../../../components/userSelect/UserSelect"
 import { UserRole, useCreateEventMutation } from "../../../../lib/codegen"

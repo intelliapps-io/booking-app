@@ -1,9 +1,9 @@
 import * as React from "react";
-import "./account.scss";
+import "./account.less";
 import { Link, RouteComponentProps, withRouter } from "react-router-dom";
 import { Button, Input, Form, Icon, Row, Col, Card } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import { withRegister, RegisterProps, MeDocument } from "../../lib/codegen";
+import { withRegister, RegisterProps } from "../../lib/codegen";
 import { allowFormSubmit } from "../../lib/helpers/helpers";
 import { parseApolloErrors } from "../../lib/helpers/parseApolloErrors";
 

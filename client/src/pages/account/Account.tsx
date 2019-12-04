@@ -1,5 +1,5 @@
 import React from "react";
-import { useUsersQuery, User } from "../../lib/codegen";
+import { useUsersQuery } from "../../lib/codegen";
 import { Spin, Alert, List, Typography } from "antd";
 
 interface IProps {
