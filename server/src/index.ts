@@ -64,7 +64,7 @@ const main = async () => {
   apolloServer.applyMiddleware({ app, cors: corsOptions });
 
   // Foward React Doc For Production
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV !== "development") {
     const buildFolder = join(__dirname, "../", "../", "client", "build");
     const indexHtml = join(buildFolder, "index.html");
     app.use("/", Express.static(buildFolder))

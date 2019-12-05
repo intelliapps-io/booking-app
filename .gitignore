@@ -57,8 +57,9 @@ typings/
 # dotenv environment variables file
 # .env
 
-# react build
+# Ignore Build Output
 client/build
+server/dist
 
 # next.js build output
 .next
