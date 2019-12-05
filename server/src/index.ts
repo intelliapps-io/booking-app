@@ -5,29 +5,32 @@ import cookieParser from "cookie-parser";
 import cors, { CorsOptions } from "cors";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
-import { createConnection } from "typeorm";
+import { createConnection, getConnectionOptions } from "typeorm";
 
 import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
 import { runCodegen, nodeLogger } from "./helpers/helpers";
-import { sendEmail } from "./helpers/sendEmail";
 import { join } from "path";
 
 const main = async () => {
   const httpPort = process.env.NODE_ENV === 'production' ? 80 : 3001;
 
   // Connect to Postgres DB
-  const connect = () => new Promise((resolve, reject) => {
-    let attempts = 0, maxAttempts = 10;
+  const connect = () => new Promise(async (resolve, reject) => {
+    let attempts = 0, maxAttempts = 10
+    const connectionOptions = await getConnectionOptions()
+
+    if (process.env.NODE_ENV === 'development')
+      Object.assign(connectionOptions, { entities: ["src/entity/*.*"] })
+    
     const interval = setInterval(
       () => createConnection()
         .then(() => { clearInterval(interval); resolve(); })
         .catch(error => attempts > maxAttempts ? reject(error) : attempts++),
       500
-    );
-  });
-  await connect()
-    .catch(err => { throw err });
+    )
+  })
+  await connect().catch(err => { throw err });
 
   // Generate TypeGraphQL Schema 
   const schema = await buildSchema({

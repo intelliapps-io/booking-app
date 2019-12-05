@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
+    "module": "CommonJS",
     "lib": ["es6"],
     "sourceMap": true,
     "outDir": "./dist",
+    "baseUrl": "./src",
     "moduleResolution": "node",
     "declaration": false,
     "composite": false,
@@ -21,6 +22,5 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "skipLibCheck": true
   }
 }

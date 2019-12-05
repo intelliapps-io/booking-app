@@ -26,7 +26,7 @@ const googleCloud = {
   "synchronize": true,
   "logging": false,
   "entities": [
-    "src/entity/*.*"
+    "dist/entity/*.*"
   ]
 }
 
