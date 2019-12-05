@@ -6,6 +6,7 @@ import { Button, Input, Form, Icon, Card } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { withLogin, LoginProps, MeDocument } from "../../lib/codegen";
 import { allowFormSubmit } from "../../lib/helpers/helpers";
+import { getOrganizationUrlName } from "../../lib/helpers/AppContext";
 
 interface IState {
   error: string | null
@@ -27,7 +28,7 @@ class Login extends React.Component<IProps, IState> {
     event.preventDefault();
     const { email, password } = this.props.form.getFieldsValue(this.fieldNames) as { email: string, password: string };
     this.props.mutate!({
-      variables: { email, password },
+      variables: { email, password, organizationUrlName: getOrganizationUrlName()! },
       refetchQueries: [{ query: MeDocument }],
       awaitRefetchQueries: true
     }).then(() => { this.props.history.push("/account") }).catch(() => this.setState({ error: "Email or password is incorrect" }));

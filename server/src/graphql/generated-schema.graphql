@@ -93,7 +93,7 @@ input HoursOfOperationInput {
 }
 
 type Mutation {
-  login(password: String!, email: String!): User
+  login(organizationUrlName: String!, password: String!, email: String!): User
   logout: String
   register(data: RegisterInput!): User!
   createUser(data: RegisterInput!): User!

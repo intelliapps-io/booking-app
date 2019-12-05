@@ -6,6 +6,7 @@ import { FormComponentProps } from "antd/lib/form";
 import { withRegister, RegisterProps } from "../../lib/codegen";
 import { allowFormSubmit } from "../../lib/helpers/helpers";
 import { parseApolloErrors } from "../../lib/helpers/parseApolloErrors";
+import { getOrganizationUrlName } from "../../lib/helpers/AppContext";
 
 interface IState {
   errors: string[]
@@ -26,7 +27,7 @@ class Signup extends React.Component<IProps, IState> {
   onSubmit(event: React.FormEvent) {
     event.preventDefault();
     const { firstName, lastName, email, password } = this.props.form.getFieldsValue(this.fieldNames);
-    this.props.mutate!({ variables: { data: { firstName, lastName, email, password } } })
+    this.props.mutate!({ variables: { data: { firstName, lastName, email, password, organizationUrl: getOrganizationUrlName()! } } })
       .then(() => this.props.history.push("/login"))
       .catch((error) => this.setState({ errors: parseApolloErrors(error) }));
   }

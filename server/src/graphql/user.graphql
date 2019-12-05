@@ -31,8 +31,8 @@ mutation UpdateUser($data: UpdateUserInput!) {
   }
 }
 
-mutation Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
+mutation Login($email: String!, $password: String!, $organizationUrlName: String!) {
+  login(email: $email, password: $password, organizationUrlName: $organizationUrlName) {
     ...User
   }
 }

@@ -3,6 +3,7 @@ import { User } from "../../entity/User";
 import bcrypt from "bcryptjs";
 import { MyContext } from "../../ts/context";
 import { createTokens } from "../../helpers/auth";
+import { Organization } from "../../entity/Organization";
 
 @Resolver()
 export class LoginResolver {
@@ -10,9 +11,13 @@ export class LoginResolver {
   async login(
     @Arg('email') email: string,
     @Arg('password') password: string,
+    @Arg('organizationUrlName') organizationUrlName: string,
     @Ctx() ctx: MyContext
   ): Promise<User | null> {
-    const user = await User.findOne({ where: { email } });
+    const organization = await Organization.findOne({ where: { urlName: organizationUrlName.trim().toLowerCase() }})
+    if (!organization) throw "organization not found by url name";
+
+    const user = await User.findOne({ where: { email, organization } });
     if (!user) throw "email and or password are invalid";
 
     const valid = await bcrypt.compare(password, user.password);

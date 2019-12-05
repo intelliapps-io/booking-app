@@ -119,6 +119,7 @@ export type Mutation = {
 
 
 export type MutationLoginArgs = {
+  organizationUrlName: Scalars['String'],
   password: Scalars['String'],
   email: Scalars['String']
 };
@@ -579,7 +580,8 @@ export type UpdateUserMutation = { updateUser: UserFragment };
 
 export type LoginMutationVariables = {
   email: Scalars['String'],
-  password: Scalars['String']
+  password: Scalars['String'],
+  organizationUrlName: Scalars['String']
 };
 
 
@@ -1594,8 +1596,8 @@ export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutati
 export type UpdateUserMutationResult = ApolloReactCommon.MutationResult<UpdateUserMutation>;
 export type UpdateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
 export const LoginDocument = gql`
-    mutation Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
+    mutation Login($email: String!, $password: String!, $organizationUrlName: String!) {
+  login(email: $email, password: $password, organizationUrlName: $organizationUrlName) {
     ...User
   }
 }
@@ -1634,6 +1636,7 @@ export function withLogin<TProps, TChildProps = {}>(operationOptions?: ApolloRea
  *   variables: {
  *      email: // value for 'email'
  *      password: // value for 'password'
+ *      organizationUrlName: // value for 'organizationUrlName'
  *   },
  * });
  */
