@@ -12,7 +12,7 @@ export function allowFormSubmit(fieldNames: string[], formProps: FormComponentPr
 }
 
 export class Limiter {
-  func: Function = () => {}
+  func: Function = () => { }
   interval: number
   lastRun: Date = new Date()
   lastCalled: Date = new Date()
@@ -43,4 +43,10 @@ export class Limiter {
     const timeDiff = new Date().getTime() - this.lastRun.getTime()
     return timeDiff < this.interval;
   }
+}
+
+export function getGraphqlConnectionString() {
+  const { protocol, hostname } = window.location
+  const port = hostname.indexOf('localhost') > -1 ? 3001 : window.location.port
+  return `${protocol}//${hostname}:${port}/graphql`
 }
