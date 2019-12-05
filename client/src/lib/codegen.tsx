@@ -300,7 +300,7 @@ export type QueryServiceArgs = {
 
 
 export type QueryOrganizationArgs = {
-  id: Scalars['String']
+  data: QueryOrganizationInput
 };
 
 export type QueryEmployeeSchedulesInput = {
@@ -312,6 +312,11 @@ export type QueryEmployeeSchedulesInput = {
 export type QueryEventsInput = {
   offset?: Maybe<Scalars['Float']>,
   limit?: Maybe<Scalars['Float']>,
+};
+
+export type QueryOrganizationInput = {
+  id?: Maybe<Scalars['String']>,
+  urlName?: Maybe<Scalars['String']>,
 };
 
 export type QueryServicesInput = {
@@ -488,7 +493,7 @@ export type OrganizationFragment = (
 );
 
 export type OrganizationQueryVariables = {
-  id: Scalars['String']
+  data: QueryOrganizationInput
 };
 
 
@@ -1093,8 +1098,8 @@ export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
 export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
 export type EventQueryResult = ApolloReactCommon.QueryResult<EventQuery, EventQueryVariables>;
 export const OrganizationDocument = gql`
-    query Organization($id: String!) {
-  organization(id: $id) {
+    query Organization($data: QueryOrganizationInput!) {
+  organization(data: $data) {
     ...Organization
   }
 }
@@ -1129,7 +1134,7 @@ export function withOrganization<TProps, TChildProps = {}>(operationOptions?: Ap
  * @example
  * const { data, loading, error } = useOrganizationQuery({
  *   variables: {
- *      id: // value for 'id'
+ *      data: // value for 'data'
  *   },
  * });
  */

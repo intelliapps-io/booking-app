@@ -38,8 +38,8 @@ fragment Organization on Organization {
   }
 }
 
-query Organization($id: String!) {
-  organization(id: $id) {
+query Organization($data: QueryOrganizationInput!) {
+  organization(data: $data) {
     ...Organization
   }
 }

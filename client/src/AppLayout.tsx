@@ -8,17 +8,22 @@ import Signup from "./components/account/Signup";
 import ConfirmAccount from "./components/account/ConfirmAccount";
 import { Home } from "./pages/home/Home";
 import { Account } from "./pages/account/Account";
-import { useMeQuery } from "./lib/codegen";
+import { useMeQuery, useOrganizationQuery } from "./lib/codegen";
 import { AppContext } from "./lib/helpers/AppContext";
 import { Events } from "./pages/events/Events";
 
 export const AppLayout: React.FC = props => {
   const meQuery = useMeQuery()
+  const organizationQuery = useOrganizationQuery({
+    variables: { data: { urlName: window.location.hostname.split('.')[0] }}
+  })
 
   return (
     <AppContext.Provider value={{
       user: meQuery.data && meQuery.data.me ? meQuery.data.me : null,
-      meQuery
+      meQuery,
+      organization: organizationQuery.data && organizationQuery.data.organization ? organizationQuery.data.organization : null,
+      organizationQuery
     }}>
       <Layout className="app-layout">
         <Navbar />

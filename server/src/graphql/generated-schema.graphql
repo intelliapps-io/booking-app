@@ -187,7 +187,7 @@ type Query {
   queryEvent(id: String!): Event!
   services(data: QueryServicesInput!): PaginatedServiesResponse!
   service(id: String!): Service!
-  organization(id: String!): Organization!
+  organization(data: QueryOrganizationInput!): Organization!
 }
 
 input QueryEmployeeSchedulesInput {
@@ -199,6 +199,11 @@ input QueryEmployeeSchedulesInput {
 input QueryEventsInput {
   offset: Float
   limit: Float
+}
+
+input QueryOrganizationInput {
+  id: String
+  urlName: String
 }
 
 input QueryServicesInput {

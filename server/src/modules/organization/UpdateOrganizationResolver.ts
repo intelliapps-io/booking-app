@@ -32,8 +32,19 @@ export class UpdateOrganizationResolver {
       if (!validateHoursOfOperation(data.hoursOfOperation))
         return reject(new Error('hours of operation is invalid'))
       
+      // validate unique orangizaton urlName
+      if (organization.urlName !== data.urlName) {
+        const existingOrganization = await Organization.findOne({ where: { urlName: data.urlName.trim().toLowerCase() } })
+        if (existingOrganization)
+          return reject(new Error(`${data.urlName} is already in use by another organization`))
+      }
+      
+      // validate urlName length
+      if (data.urlName.trim().toLowerCase().length < 4)
+        return reject(new Error(`organization url name must be at leat 4 characters`))
+      
       // update organization record
-      organization.urlName = data.urlName
+      organization.urlName = data.urlName.trim().toLowerCase()
       organization.name = data.name
       organization.phone = data.phone
       organization.address = data.address
