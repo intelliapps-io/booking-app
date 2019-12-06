@@ -20,7 +20,6 @@ const Parent = () => {
       style={{
         width: '50%',
         margin: '20px'
-        
       }}
     />
   )

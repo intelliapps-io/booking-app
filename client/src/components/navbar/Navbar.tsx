@@ -36,7 +36,7 @@ const _Navbar: React.FC<NavbarProps> = props => {
   return (
     <div>
       <Layout.Header className="navbar">
-        <Link to="/"><div className="logo"><span>My App</span></div></Link>
+        <Link to="/"><div className="logo"></div></Link>
         <Menu className="menu" theme="dark" mode="horizontal" selectedKeys={[props.location.pathname]}>
           {user && user.id ? UserMenu() : PublicMenu()}
         </Menu>
