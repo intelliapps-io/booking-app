@@ -17,7 +17,7 @@ const _Navbar: React.FC<NavbarProps> = props => {
   const handleLogout = () => logout().then(() => meQuery.refetch())
 
   function PublicMenu() {
-    return [
+    return [   
       <Menu.Item key="/login"><Link to="/login">Login</Link></Menu.Item>,
       <Menu.Item key="/signup"><Link to="/signup">Signup</Link></Menu.Item>,
     ]
@@ -25,22 +25,22 @@ const _Navbar: React.FC<NavbarProps> = props => {
 
   function UserMenu() {
     return [
-      <Menu.Item key="/events"><Link to="/events"><Icon type="calendar"/> Events</Link></Menu.Item>,
-      <Menu.Item key="/account"><Link to="/account"><Icon type="user"/> Account</Link></Menu.Item>,
-      <Menu.Item key="4" className="account" onClick={() => handleLogout()}>
+      <div>
+        <Menu.Item key="/events"><Link to="/events"><Icon type="calendar"/> Events</Link></Menu.Item>,
+        <Menu.Item key="/account"><Link to="/account"><Icon type="user"/> Account</Link></Menu.Item>,
+        <Menu.Item key="4" className="account" onClick={() => handleLogout()}>
         <Icon type="logout" /> Logout
-      </Menu.Item>
+        </Menu.Item>
+      </div>
     ]
   }
 
   return (
-    <div>
-      <Layout.Header className="navbar">
-        <Link to="/"><div className="logo"></div></Link>
-        <Menu className="menu" theme="dark" mode="horizontal" selectedKeys={[props.location.pathname]}>
-          {user && user.id ? UserMenu() : PublicMenu()}
-        </Menu>
-      </Layout.Header>
+    <div className="navbar">
+      <Link id="logolink" to="/"><div className="logo"></div></Link>
+      <Menu className="menu" mode="horizontal" selectedKeys={[props.location.pathname]}>
+        {user && user.id ? UserMenu() : PublicMenu()}
+      </Menu>
     </div>
   );
 }

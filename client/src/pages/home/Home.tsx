@@ -24,12 +24,13 @@ export const Home: React.FC<IProps> = props => {
       <Title className="home-title">{name}</Title>
 
       
-      <h1>HomePage</h1>
 
-      <h3>{phone}</h3>
-      <h3>{address}</h3>
-      <h3>contact us {contactEmail}</h3>
-
+      <div className="footer">
+        <h1>HomePage</h1>
+        <h3>{phone}</h3>
+        <h3>{address}</h3>
+        <h3>contact us {contactEmail}</h3>
+      </div>
       {/** Custom Organizaton HTML */}
       <div dangerouslySetInnerHTML={{ __html: landingHtml }}/>
     </div>

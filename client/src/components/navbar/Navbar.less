@@ -1,20 +1,22 @@
+
 .navbar {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+
+  .menu {
+    float: left;
+  }
   .logo {
-    width: 13%;
-    padding: 5%;
+    padding: 30px;
+    background: url("/images/test-logo2.png");
     background-size: cover;
-    background: url("/images/logo.png") no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    span {
-      font-size: 18px;
-      margin-top: -2px;
-      color: #fff;
-    }
   }
   .menu {
-    line-height: 64px;
+    background: transparent;
+    border: none;
   }
   .account {
     float: right;
