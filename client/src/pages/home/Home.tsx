@@ -16,14 +16,11 @@ export const Home: React.FC<IProps> = props => {
     return <div />
   
   // destructure display variables
-  const { name, landingHtml, phone, address, contactEmail, hoursOfOperation } = organization
+  const {landingHtml, phone, address, contactEmail, hoursOfOperation } = organization
 
 
   return (
     <div className="home-root">
-      <Title className="home-title">{name}</Title>
-
-      
 
       <div className="footer">
         <h1>HomePage</h1>
