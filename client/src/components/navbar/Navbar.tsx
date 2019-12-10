@@ -7,13 +7,13 @@ import { useLogoutMutation } from "../../lib/codegen";
 import { AppContext } from "../../lib/helpers/AppContext";
 import Title from "antd/lib/skeleton/Title";
 
-interface NavbarProps extends RouteComponentProps {
+interface NavbarProps {
 
 }
 
-const _Navbar: React.FC<NavbarProps> = props => {
+export const Navbar: React.FC<NavbarProps> = props => {
 
-  const { user, meQuery, organization } = useContext(AppContext)
+  const { user, meQuery, organization, router } = useContext(AppContext)
   const [logout] = useLogoutMutation()//gql hook
 
   if (!organization) {
@@ -33,13 +33,11 @@ const _Navbar: React.FC<NavbarProps> = props => {
 
   function UserMenu() {
     return [
-      <div>
         <Menu.Item key="/events"><Link to="/events"><Icon type="calendar"/> Events</Link></Menu.Item>,
         <Menu.Item key="/account"><Link to="/account"><Icon type="user"/> Account</Link></Menu.Item>,
         <Menu.Item key="4" className="account" onClick={() => handleLogout()}>
-        <Icon type="logout" /> Logout
+          <Icon type="logout" /> Logout
         </Menu.Item>
-      </div>
     ]
   }
 
@@ -49,11 +47,9 @@ const _Navbar: React.FC<NavbarProps> = props => {
         <Link id="logolink" to="/"><div className="logo"></div></Link>
         <span style={{marginLeft: '10px', fontWeight: "bold"}}>{name}</span>
       </div>
-      <Menu className="menu" mode="horizontal" selectedKeys={[props.location.pathname]}>
+      <Menu className="menu" mode="horizontal" selectedKeys={[router.location ? router.location.pathname : '']}>
         {user && user.id ? UserMenu() : PublicMenu()}
       </Menu>
     </div>
   );
 }
-
-export const Navbar = withRouter(_Navbar)
