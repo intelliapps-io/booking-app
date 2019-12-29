@@ -35,7 +35,7 @@ export const AppLayout: React.FC = props => {
     }}>
       <Layout className="app-layout">
         {/** shows for organization url */}
-        {organizationUrlName && <>
+        {(organizationUrlName || organizationQuery.loading) && <>
           {router.location.pathname.substr(0, 6) !== '/error' && <Navbar />}
           <Layout.Content className="content app-layout-content">
             <Switch>
