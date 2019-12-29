@@ -1,10 +1,12 @@
 import "./NewEventForm.less"
-import React from "react"
+import React, { useContext } from "react"
 import { Form, DatePicker, TimePicker, InputNumber, Button } from "antd"
 import { FormComponentProps } from "antd/lib/form"
 import { UserSelect } from "../../../../components/userSelect/UserSelect"
 import { UserRole, useCreateEventMutation } from "../../../../lib/codegen"
 import moment, { Moment } from "moment"
+import { AppContext } from "../../../../lib/helpers/AppContext"
+import { Redirect } from "react-router-dom"
 
 interface NewEventFormProps {
   style?: React.CSSProperties
@@ -20,6 +22,9 @@ interface FormData {
 const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props => {
   const { getFieldDecorator, getFieldsValue } = props.form
   const [createEvent] = useCreateEventMutation()
+  const { user, meQuery } = useContext(AppContext)
+  const isLoggedIn = user || meQuery.loading         
+
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -50,6 +55,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
 
   return (
     <Form style={props.style} onSubmit={event => onSubmit(event)}>
+      {!isLoggedIn && <Redirect to="/login"/>}
       <Form.Item>
         {getFieldDecorator('date', {})(
           <DatePicker placeholder="Select Date" />

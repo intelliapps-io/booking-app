@@ -5,7 +5,6 @@ import { Menu, Icon, Layout } from "antd";
 import { Link } from "react-router-dom";
 import { useLogoutMutation } from "../../lib/codegen";
 import { AppContext } from "../../lib/helpers/AppContext";
-import Title from "antd/lib/skeleton/Title";
 
 interface NavbarProps extends RouteComponentProps {
 
