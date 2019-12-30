@@ -1,5 +1,5 @@
 import { InputType, Field, Int, ID } from "type-graphql";
-import { RecurrencePeriod, RecursOn } from "../../entity/EmployeeSchedule";
+import { RecursOn } from "../../entity/EmployeeSchedule";
 import moment = require("moment");
 
 @InputType()
@@ -14,9 +14,6 @@ export class EmployeeScheduleInput {
   // Schedule recurrence
   @Field(type => Boolean)
   isRecurring: boolean
-
-  @Field(type => RecurrencePeriod, { nullable: true })
-  recurrencePeriod?: RecurrencePeriod
 
   @Field(type => Int, { nullable: true })
   recurrenceInterval?: number
@@ -40,10 +37,6 @@ export function validateEmployeeSchedule(data: EmployeeScheduleInput) {
       return reject(new Error('Schedule cannot begin after it ends'))
     
     if (data.isRecurring) {
-      // check recurrence period
-      if (!data.recurrencePeriod)
-        return reject(new Error('Recurrence period is required'))
-
       // check recurrence interval
       if (data.recurrenceInterval && data.recurrenceInterval <= 0) 
         return reject(new Error('Recurrence interval must be greater than 0'))

@@ -2,19 +2,10 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, ManyToOne } from "t
 import { ObjectType, Field, ID, Int, registerEnumType } from "type-graphql"
 import { User } from "./User"
 
-export enum RecurrencePeriod {
-  DAY = "DAY",
-  WEEK = "WEEK",
-  MONTH = "MONTH",
-  YEAR = "YEAR"
-}
-
 /**
  * @type boolean corresponds to day of the week [mon, tue, wed, thr, fri, sat, sun]
  */
 export type RecursOn = [boolean, boolean, boolean, boolean, boolean, boolean, boolean]
-
-registerEnumType(RecurrencePeriod, { name: "RecurrencePeriod", description: "Interval for repeating schedule" });
  
 @Entity() @ObjectType()
 export class EmployeeSchedule extends BaseEntity {
@@ -35,10 +26,6 @@ export class EmployeeSchedule extends BaseEntity {
   @Field(type => Boolean)
   @Column('boolean', { default: false })
   isRecurring: boolean
-  
-  @Field(type => RecurrencePeriod, { nullable: true })
-  @Column('enum', { enum: RecurrencePeriod, nullable: true })
-  recurrencePeriod?: RecurrencePeriod
 
   @Field(type => Int, { nullable: true })
   @Column('int', { nullable: true })

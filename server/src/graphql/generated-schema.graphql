@@ -32,7 +32,6 @@ type EmployeeSchedule {
   begins: DateTime!
   ends: DateTime!
   isRecurring: Boolean!
-  recurrencePeriod: RecurrencePeriod
   recurrenceInterval: Int
   recursOn: [Boolean!]
   recurrenceEndsOn: DateTime
@@ -43,7 +42,6 @@ input EmployeeScheduleInput {
   begins: DateTime!
   ends: DateTime!
   isRecurring: Boolean!
-  recurrencePeriod: RecurrencePeriod
   recurrenceInterval: Int
   recursOn: [Boolean!]
   recurrenceEndsOn: DateTime
@@ -219,14 +217,6 @@ input QueryUsersInput {
   offset: Float
   limit: Float
   role: String
-}
-
-"""Interval for repeating schedule"""
-enum RecurrencePeriod {
-  DAY
-  WEEK
-  MONTH
-  YEAR
 }
 
 input RegisterInput {
