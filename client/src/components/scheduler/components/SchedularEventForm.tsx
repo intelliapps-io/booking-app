@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Modal, Form, DatePicker, TimePicker, Switch, Select, InputNumber, Checkbox } from 'antd';
 import { SchedularEvent } from '../SchedulerTypes';
 import { FormComponentProps } from 'antd/lib/form';
@@ -102,7 +102,7 @@ const _SchedularEventForm: React.FC<SchedularEventFormProps & FormComponentProps
         </Form.Item>
         <Form.Item label='Recurring'>
           {getFieldDecorator('isRecurring')(
-            <Switch />
+            <Switch defaultChecked={props.editEventData && props.editEventData.isRecurring} />
           )}
         </Form.Item>
         {isRecurring && <>

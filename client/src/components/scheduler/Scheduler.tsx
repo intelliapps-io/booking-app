@@ -3,8 +3,9 @@ import "./Scheduler.less"
 import moment from "moment";
 import { DayTitle, TimeTitle } from "./components/DateTitles";
 import { TimeBlock } from "./components/TimeBlock";
+import { Button, Icon } from "antd";
 
-interface SchedulerProps {
+export interface SchedulerProps {
   view: {
     week: {
       weekNumber: number
@@ -64,7 +65,10 @@ export const Scheduler: React.FC<SchedulerProps> = props => {
         {/* Calendar Date Header */}
         <thead>
           <tr>
-            <th />
+            <th style={{ background: '#ffffffad', zIndex: 550}}>
+              <Button ><Icon type="caret-left"/></Button>
+              <Button ><Icon type="caret-right"/></Button>
+            </th>
             {DayHeaders()}
           </tr>
         </thead>

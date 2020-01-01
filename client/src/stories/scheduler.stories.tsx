@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import 'antd/dist/antd.css';
-import { Scheduler } from '../components/scheduler/Scheduler';
+import { Scheduler, SchedulerProps } from '../components/scheduler/Scheduler';
 import { SchedularEventForm } from '../components/scheduler/components/SchedularEventForm';
 
 
 storiesOf('Scheduler', module)
-  .add('Scheduler Component', () =>
-    <Scheduler
-      view={{
-        week: {
-          weekNumber: 47,
-          year: 2019
-        },
-        time: {
-          startMinutes: 540,
-          endMinutes: 1200
-        }
-      }}
-      style={{ margin: 20 }}
-    />
-  )
+  .add('Scheduler Component', () => {
+    const [view, setView] = useState<SchedulerProps['view']>({
+      week: {
+        weekNumber: 47,
+        year: 2019
+      },
+      time: {
+        startMinutes: 540,
+        endMinutes: 1200
+      }
+    })
+    return (
+      <Scheduler
+        view={view}
+        style={{ margin: 20 }}
+      />
+    )
+  })
   .add('Create Event Form', () => {
     const visibleState = useState(true)
-
     return (
       <SchedularEventForm
         title="Create Timeslot"
@@ -36,7 +38,6 @@ storiesOf('Scheduler', module)
   })
   .add('Edit Event Form', () => {
     const visibleState = useState(true)
-
     return (
       <SchedularEventForm
         title="Create Timeslot"
