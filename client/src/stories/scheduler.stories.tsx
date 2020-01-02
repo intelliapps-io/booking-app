@@ -1,25 +1,48 @@
 import React, { useState } from 'react';
 import { storiesOf } from '@storybook/react';
 import 'antd/dist/antd.css';
-import { Scheduler, SchedulerProps } from '../components/scheduler/Scheduler';
+import { Scheduler, SchedulerView } from '../components/scheduler/Scheduler';
 import { SchedularEventForm } from '../components/scheduler/components/SchedularEventForm';
 
 
 storiesOf('Scheduler', module)
   .add('Scheduler Component', () => {
-    const [view, setView] = useState<SchedulerProps['view']>({
+    const [view, setView] = useState<SchedulerView>({
       week: {
-        weekNumber: 47,
-        year: 2019
-      },
-      time: {
-        startMinutes: 540,
-        endMinutes: 1200
+        weekNumber: 1,
+        year: 2020
       }
     })
     return (
       <Scheduler
-        view={view}
+        viewState={[view, setView]}
+        events={[
+          {
+            id: '2ee3di3j3',
+            begins: new Date('Fri Dec 27 2019 2:33:00 GMT-0500'), 
+            ends: new Date('Fri Dec 27 2019 9:33:00 GMT-0500'),
+            isRecurring: false
+          },
+          {
+            id: '2ee3di373',
+            begins: new Date('Wed Jan 01 2020 2:00:00 GMT-0500'), 
+            ends: new Date('Wed Jan 01 2020 10:00:00 GMT-0500'),
+            isRecurring: false
+          },
+          {
+            id: '2ee3diwdwdwd3j3',
+            begins: new Date('Fri Dec 20 2019 9:00:00 GMT-0500'),
+            ends: new Date('Fri Dec 20 2019 16:30:00 GMT-0500'),
+            isRecurring: true,
+            recurrenceInterval: 1,
+            recursOn: [true, true, false, true, true, false, false],
+            excludedDates: [
+              new Date('Fri Jan 03 2020 22:13:00 GMT-0500')
+            ]
+          }
+        ]}
+        onCreateEvent={data => console.log(data)}
+        onEditEvent={data => console.log(data)}
         style={{ margin: 20 }}
       />
     )

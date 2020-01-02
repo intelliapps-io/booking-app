@@ -6,14 +6,14 @@ import moment, { Moment } from "moment"
  */
 
 interface DayTitleProps {
-  date: Date | Moment
+  date: Moment
 }
 
 export const DayTitle: React.FC<DayTitleProps> = ({ date }) => {
   return(
     <div className="day-title" style={{ textAlign: 'center' }}>
-      <h4>{moment(date).format('ddd')}</h4>
-      <h2>{moment(date).format('D')}</h2>
+      <h4>{date.format('ddd - MMM')}</h4>
+      <h2>{date.format('D')}</h2>
     </div>
   );
 }

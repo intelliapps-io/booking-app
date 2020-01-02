@@ -9,4 +9,5 @@ export interface SchedularEvent {
   recurrenceInterval?: number
   recursOn?: RecursOn
   recurrenceEndsOn?: Date
+  excludedDates?: Date[]
 }

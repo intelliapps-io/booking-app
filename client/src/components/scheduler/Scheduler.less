@@ -3,20 +3,42 @@
     position: absolute;
     border-radius: 5px;
     background: #0078D4;
+    z-index: 1;
+
+    .header {
+      background: #00000038;
+      padding: 5px;
+      h5 {
+        color: #fff;
+        font-size: 12px;
+        font-weight: 300;
+      }
+    }
   }
 
   table {
     table-layout: fixed;
     width: 100%;
 
-    thead th { position: sticky; top: 0; }
+    thead th { position: sticky; top: 0; z-index: 1;}
 
     .time-cell {
       border-right: 1px solid #d6d6d6;
       border-left: 1px solid #d6d6d6;
       border-top: 1px solid #eeeeee;
       border-bottom: 1px solid #eeeeee;
+      div {
+        display: flex;
+        justify-content: center;
+        opacity: 0;
+      }
+      &:hover {
+        div {
+          opacity: 1;
+        }
+      }
     }
+
     .day-header {
       background-image: linear-gradient(to bottom, white, #06060608);
     }

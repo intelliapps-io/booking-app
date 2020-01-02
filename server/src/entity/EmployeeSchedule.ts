@@ -39,6 +39,10 @@ export class EmployeeSchedule extends BaseEntity {
   @Column('timestamp with time zone', { nullable: true })
   recurrenceEndsOn?: Date
 
+  @Field(type => [Date])
+  @Column('timestamp with time zone', { array: true })
+  excludedDates: Date[]
+
   // Employee Relation
   @Field(type => User)
   @ManyToOne(type => User, { eager: true })

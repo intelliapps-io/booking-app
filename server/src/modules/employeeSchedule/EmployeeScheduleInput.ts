@@ -24,6 +24,9 @@ export class EmployeeScheduleInput {
   @Field(type => Date, { nullable: true })
   recurrenceEndsOn?: Date
 
+  @Field(type => Date, { nullable: true })
+  excludedDates: Date[]
+
   // Admin Set Employee
   @Field(type => ID, { nullable: true })
   employeeId?: string

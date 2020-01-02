@@ -9,7 +9,7 @@ interface SchedularEventFormProps {
   visibleState: [boolean, (state: boolean) => void]
   title: React.ReactNode
   submitText: React.ReactNode
-  createEventDate?: Date
+  createEventDate?: Date | Moment
   editEventData?: SchedularEvent
   onSubmit: (data: SchedularEvent) => void
 }
@@ -81,7 +81,6 @@ const _SchedularEventForm: React.FC<SchedularEventFormProps & FormComponentProps
       onCancel={() => setIsVisible(false)}
       okText={props.submitText}
       onOk={() => props.onSubmit(getEventFromFields())}
-      maskClosable={false}
     >
       <Form {...formItemLayout}>
         <Form.Item label='Begins'>
@@ -162,17 +161,17 @@ function recurrsArrayToNumArray(recursOn: SchedularEvent['recursOn']): Array<num
 
 export const SchedularEventForm = Form.create<FormComponentProps & SchedularEventFormProps>({
   mapPropsToFields: props => {
-    const { editEventData } = props
-    if (!editEventData) return undefined
-    let fieldMap = {} as any
-    
-    return {
+    const { editEventData, createEventDate } = props
+    if (editEventData) return {
       begins: Form.createFormField({ value: moment(editEventData.begins) }),
       ends: Form.createFormField({ value: moment(editEventData.ends) }),
       isRecurring: Form.createFormField({ value: editEventData.isRecurring }),
       recurrenceInterval: editEventData.recurrenceInterval ? Form.createFormField({ value: editEventData.recurrenceInterval }) : undefined,
       recursOn: editEventData.recursOn ? Form.createFormField({ value: recurrsArrayToNumArray(editEventData.recursOn) }) : undefined,
       recurrenceEndsOn: editEventData.recurrenceEndsOn && editEventData.recurrenceEndsOn ? Form.createFormField({ value: moment(editEventData.recurrenceEndsOn) }) : undefined,
+    }
+    if (!editEventData && createEventDate) return {
+      begins: Form.createFormField({ value: moment(createEventDate) }),
     }
   }
 })(_SchedularEventForm)
