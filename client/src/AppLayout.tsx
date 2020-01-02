@@ -14,6 +14,7 @@ import { Events } from "./pages/events/Events";
 import { Landing } from "./pages/landing/Landing";
 import { AppError } from "./pages/appError/AppError";
 import { __RouterContext } from "react-router"
+import { Admin } from "./pages/admin/Admin";
 
 export const AppLayout: React.FC = props => {
   const router = React.useContext(__RouterContext)
@@ -42,6 +43,7 @@ export const AppLayout: React.FC = props => {
               <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
+              <Route exact path="/admin" component={Admin} />
               <Route exact path="/account" component={Account} />
               <Route exact path="/events" component={Events} />
               <Route exact path="/error/:data" render={({ match }) =>
