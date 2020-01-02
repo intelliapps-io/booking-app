@@ -22,18 +22,23 @@ export const Home: React.FC<IProps> = props => {
 
   return (
     <div className="home-root">
-      <div className='intro-wrap'>
-        hello
+      <div className='herolanding'>
+        <div className='intro-wrap'></div>
+        <div className='intro-wrap'>
+          <div style={{width: '90%', margin: '15% auto' }}>
+            <p style={{fontSize: '3em', fontWeight: 'bold', marginBottom: '20px'}}>Exceptional Services</p>
+            <p style={{ fontSize: '1.5em' }}>Provided to you how and when<br/> you want.</p>
+            <Link
+              to="/events">
+              <Button type="primary" style={{ width: '30%', boxSizing: 'content-box', padding: '6px 0' }}>
+                Book Now
+              </Button>
+            </Link>
+          </div>
+        </div>
       </div>
-      <div className='intro-wrap'>
-        <p>Exceptional Services</p>
-        <h1>Provided to you how and how you want.</h1>
-        <Link
-          to="/events">
-          <Button type="primary">
-            Book Now
-          </Button>
-        </Link>
+      <div>
+        <h1>hello</h1>
       </div>
       {/* <div className="footer">
         <h1>HomePage</h1>
