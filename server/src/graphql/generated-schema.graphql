@@ -35,6 +35,7 @@ type EmployeeSchedule {
   recurrenceInterval: Int
   recursOn: [Boolean!]
   recurrenceEndsOn: DateTime
+  excludedDates: [DateTime!]
   employee: User!
 }
 
@@ -45,6 +46,7 @@ input EmployeeScheduleInput {
   recurrenceInterval: Int
   recursOn: [Boolean!]
   recurrenceEndsOn: DateTime
+  excludedDates: [DateTime!]
   employeeId: ID
 }
 
