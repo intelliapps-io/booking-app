@@ -41,6 +41,7 @@ storiesOf('Scheduler', module)
             ]
           }
         ]}
+        onDeleteEvent={data => console.log(data)}
         onCreateEvent={data => console.log(data)}
         onEditEvent={data => console.log(data)}
         style={{ margin: 20 }}
@@ -66,6 +67,7 @@ storiesOf('Scheduler', module)
         title="Create Timeslot"
         submitText="Submit"
         onSubmit={data => console.log(data)}
+        onDelete={data => console.log(data)}
         editEventData={{
           id: '2ee3di3j3',
           begins: new Date('Fri Dec 20 2019 15:33:00 GMT-0500'),

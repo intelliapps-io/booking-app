@@ -19,6 +19,7 @@ export interface SchedulerProps {
   events: SchedularEvent[]
   onCreateEvent: (data: SchedularEvent) => void
   onEditEvent: (data: SchedularEvent) => void
+  onDeleteEvent: (data: { event: SchedularEvent, excludeRecurringEvent: boolean }) => void
   style?: React.CSSProperties
 }
 
@@ -160,6 +161,7 @@ export const Scheduler: React.FC<SchedulerProps> = props => {
         title="Edit Event"
         visibleState={[editEvent ? true : false, state => setEditEvent(null)]}
         editEventData={editEvent ? editEvent : undefined}
+        onDelete={event => props.onDeleteEvent(event)}
       />}
 
       {renderTimeblocks()}

@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react';
-import { Modal, Form, DatePicker, TimePicker, Switch, Select, InputNumber, Checkbox } from 'antd';
+import { Modal, Form, DatePicker, TimePicker, Switch, Select, InputNumber, Checkbox, Button } from 'antd';
 import { SchedularEvent } from '../SchedulerTypes';
 import { FormComponentProps } from 'antd/lib/form';
 import CheckboxGroup from 'antd/lib/checkbox/Group';
@@ -12,6 +12,7 @@ interface SchedularEventFormProps {
   createEventDate?: Date | Moment
   editEventData?: SchedularEvent
   onSubmit: (data: SchedularEvent) => void
+  onDelete?: (data: { event: SchedularEvent, excludeRecurringEvent: boolean }) => void
 }
 
 const _SchedularEventForm: React.FC<SchedularEventFormProps & FormComponentProps> = props => {
@@ -43,10 +44,10 @@ const _SchedularEventForm: React.FC<SchedularEventFormProps & FormComponentProps
           dateString = moment(props.editEventData[fieldName]).format('YYYY-MM-DD')
         else if (props.createEventDate) // use create event date
           dateString = moment(props.createEventDate).format('YYYY-MM-DD')
-        else 
+        else
           throw new Error('You must supply either createEventDate or editEventData')
         return moment(`${dateString} ${timeString}`, 'YYYY-MM-DD HH:mm').toDate()
-      } else 
+      } else
         throw new Error(`${fieldName} has no value and is undefined`)
     } catch (err) {
       throw err
@@ -107,10 +108,10 @@ const _SchedularEventForm: React.FC<SchedularEventFormProps & FormComponentProps
         {isRecurring && <>
 
           <Form.Item label='Recurs every'>
-              {getFieldDecorator('recurrenceInterval', {
-                initialValue: 1
-              })(
-                <InputNumber style={{ width: 55 }} min={1} max={52}/> 
+            {getFieldDecorator('recurrenceInterval', {
+              initialValue: 1
+            })(
+              <InputNumber style={{ width: 55 }} min={1} max={52} />
             )}
             <span style={{ marginLeft: 10 }}>{recurrenceInterval === 1 ? 'week' : 'weeks'}</span>
           </Form.Item>
@@ -144,6 +145,12 @@ const _SchedularEventForm: React.FC<SchedularEventFormProps & FormComponentProps
           </Form.Item>
         </>}
       </Form>
+      <Button.Group>
+        {props.onDelete && props.editEventData &&
+          <Button icon='delete' type='danger' onClick={() => {props.onDelete!({ event: props.editEventData!, excludeRecurringEvent: false }); setIsVisible(false)}}>{props.editEventData!.isRecurring ? 'Delete All Events' : 'Delete'}</Button>}
+        {props.onDelete && props.editEventData && props.editEventData.isRecurring &&
+          <Button icon='delete' type='default' onClick={() => { props.onDelete!({ event: props.editEventData!, excludeRecurringEvent: true }); setIsVisible(false)}}>Delete Only This Event</Button>}
+      </Button.Group>
     </Modal>
   );
 }
@@ -155,7 +162,7 @@ function recurrsArrayToNumArray(recursOn: SchedularEvent['recursOn']): Array<num
       if (dayState) dayNumbers.push(index)
     })
     return dayNumbers
-  } else 
+  } else
     return []
 }
 
