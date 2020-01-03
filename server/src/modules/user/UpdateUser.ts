@@ -18,9 +18,6 @@ class UpdateUserInput {
   email?: string
 
   @Field({ nullable: true })
-  password?: string
-
-  @Field({ nullable: true })
   role?: UserRole
 }
 
@@ -32,7 +29,6 @@ export class UpdateUserResolver {
     firstName,
     lastName,
     email,
-    password,
     role,
     userId
   }: UpdateUserInput, @Ctx() ctx: MyContext): Promise<User> {
@@ -60,11 +56,11 @@ export class UpdateUserResolver {
         }
 
         // update password
-        if (password) {
-          const hashedPassword = await bcrypt.hash(password, 12);
-          user.password = hashedPassword
-          user.authCount += 1
-        }
+        // if (password) {
+        //   const hashedPassword = await bcrypt.hash(password, 12);
+        //   user.password = hashedPassword
+        //   user.authCount += 1
+        // }
 
         // save user information
         await user.save().catch(err => reject(err))
@@ -91,11 +87,11 @@ export class UpdateUserResolver {
         }
 
         // update password
-        if (password) {
-          const hashedPassword = await bcrypt.hash(password, 12);
-          targetUser.password = hashedPassword
-          targetUser.authCount += 1
-        }
+        // if (password) {
+        //   const hashedPassword = await bcrypt.hash(password, 12);
+        //   targetUser.password = hashedPassword
+        //   targetUser.authCount += 1
+        // }
 
         // update role
         if (role && role === UserRole['CUSTOMER'])
