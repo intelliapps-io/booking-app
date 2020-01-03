@@ -5,6 +5,7 @@ import { UserRole, User } from "../../../lib/codegen";
 
 interface UserFormProps {
   onSubmit: (data: User) => void;
+  onDelete?: (id: string) => void
   userData?: User
 }
 
@@ -16,8 +17,7 @@ const formItemLayout = {
   wrapperCol: {
     xs: { span: 24 },
     sm: { span: 16 },
-  },
-
+  }
 }
 
 const _UserForm: React.FC<UserFormProps & FormComponentProps> = props => {
@@ -93,7 +93,9 @@ const _UserForm: React.FC<UserFormProps & FormComponentProps> = props => {
         <Button onClick={initializeForm}>
           cancel
         </Button> 
-
+        {props.onDelete && props.userData && <Button type="danger" onClick={() => props.onDelete!(props.userData!.id)}>
+          Delete
+        </Button> }
       </Form>
     </div>  
   );
