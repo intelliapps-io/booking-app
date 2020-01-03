@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, Select, PageHeader, Button } from 'antd';
 import { FormComponentProps } from "antd/lib/form";
 import { UserRole, User } from "../../../lib/codegen";
-
+// no api call in forms
 interface UserFormProps {
   onSubmit: (data: User) => void;
   onDelete?: (id: string) => void
@@ -93,6 +93,7 @@ const _UserForm: React.FC<UserFormProps & FormComponentProps> = props => {
         <Button onClick={initializeForm}>
           cancel
         </Button> 
+        
         {props.onDelete && props.userData && <Button type="danger" onClick={() => props.onDelete!(props.userData!.id)}>
           Delete
         </Button> }
