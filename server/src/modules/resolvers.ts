@@ -6,6 +6,7 @@ import { RegisterResolver } from "./user/Register";
 import { QueryUsersResolver } from "./user/QueryUsers";
 import { CreateUserResolver } from "./user/CreateUser";
 import { UpdateUserResolver } from "./user/UpdateUser";
+import { QueryUserResolver } from "./user/UserQuery";
 // Event
 import { CreateEventResolver } from "./event/CreateEvent";
 import { QueryEventsResolver } from "./event/QueryEvents";
@@ -36,6 +37,7 @@ export const resolvers = [
   QueryUsersResolver,
   CreateUserResolver,
   UpdateUserResolver,
+  QueryUserResolver,
 
   // Event
   CreateEventResolver,

@@ -3,7 +3,6 @@ fragment EmployeeSchedule on EmployeeSchedule {
   begins
   ends
   isRecurring
-  recurrencePeriod
   recurrenceInterval
   recursOn
   recurrenceEndsOn

@@ -55,3 +55,9 @@ query Users($data: QueryUsersInput!) {
     total
   }
 }
+
+query User($id: String!) {
+  user(id: $id) {
+    ...User
+  }
+}

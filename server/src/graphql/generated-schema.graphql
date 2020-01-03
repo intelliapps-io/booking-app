@@ -183,6 +183,7 @@ input ProductInput {
 type Query {
   me: User
   users(data: QueryUsersInput!): PaginatedUsersResponse!
+  user(id: String!): User!
   queryEvents(data: QueryEventsInput!): PaginatedEventsResponse!
   queryEvent(id: String!): Event!
   services(data: QueryServicesInput!): PaginatedServiesResponse!

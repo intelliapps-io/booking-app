@@ -40,10 +40,10 @@ export type EmployeeSchedule = {
   begins: Scalars['DateTime'],
   ends: Scalars['DateTime'],
   isRecurring: Scalars['Boolean'],
-  recurrencePeriod?: Maybe<RecurrencePeriod>,
   recurrenceInterval?: Maybe<Scalars['Int']>,
   recursOn?: Maybe<Array<Scalars['Boolean']>>,
   recurrenceEndsOn?: Maybe<Scalars['DateTime']>,
+  excludedDates?: Maybe<Array<Scalars['DateTime']>>,
   employee: User,
 };
 
@@ -51,10 +51,10 @@ export type EmployeeScheduleInput = {
   begins: Scalars['DateTime'],
   ends: Scalars['DateTime'],
   isRecurring: Scalars['Boolean'],
-  recurrencePeriod?: Maybe<RecurrencePeriod>,
   recurrenceInterval?: Maybe<Scalars['Int']>,
   recursOn?: Maybe<Array<Scalars['Boolean']>>,
   recurrenceEndsOn?: Maybe<Scalars['DateTime']>,
+  excludedDates?: Maybe<Array<Scalars['DateTime']>>,
   employeeId?: Maybe<Scalars['ID']>,
 };
 
@@ -267,6 +267,7 @@ export type ProductInput = {
 export type Query = {
   me?: Maybe<User>,
   users: PaginatedUsersResponse,
+  user: User,
   queryEvents: PaginatedEventsResponse,
   queryEvent: Event,
   services: PaginatedServiesResponse,
@@ -277,6 +278,11 @@ export type Query = {
 
 export type QueryUsersArgs = {
   data: QueryUsersInput
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['String']
 };
 
 
@@ -334,14 +340,6 @@ export type QueryUsersInput = {
   limit?: Maybe<Scalars['Float']>,
   role?: Maybe<Scalars['String']>,
 };
-
-/** Interval for repeating schedule */
-export enum RecurrencePeriod {
-  Day = 'DAY',
-  Week = 'WEEK',
-  Month = 'MONTH',
-  Year = 'YEAR'
-}
 
 export type RegisterInput = {
   firstName: Scalars['String'],
@@ -419,7 +417,7 @@ export enum UserRole {
 }
 
 export type EmployeeScheduleFragment = (
-  Pick<EmployeeSchedule, 'id' | 'begins' | 'ends' | 'isRecurring' | 'recurrencePeriod' | 'recurrenceInterval' | 'recursOn' | 'recurrenceEndsOn'>
+  Pick<EmployeeSchedule, 'id' | 'begins' | 'ends' | 'isRecurring' | 'recurrenceInterval' | 'recursOn' | 'recurrenceEndsOn' | 'excludedDates'>
   & { employee: UserFragment }
 );
 
@@ -607,6 +605,13 @@ export type UsersQuery = { users: (
     & { items: Array<UserFragment> }
   ) };
 
+export type UserQueryVariables = {
+  id: Scalars['String']
+};
+
+
+export type UserQuery = { user: UserFragment };
+
 export const UserFragmentDoc = gql`
     fragment User on User {
   id
@@ -628,10 +633,10 @@ export const EmployeeScheduleFragmentDoc = gql`
   begins
   ends
   isRecurring
-  recurrencePeriod
   recurrenceInterval
   recursOn
   recurrenceEndsOn
+  excludedDates
   employee {
     ...User
   }
@@ -1794,3 +1799,53 @@ export function useUsersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
+export const UserDocument = gql`
+    query User($id: String!) {
+  user(id: $id) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+export type UserComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<UserQuery, UserQueryVariables>, 'query'> & ({ variables: UserQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const UserComponent = (props: UserComponentProps) => (
+      <ApolloReactComponents.Query<UserQuery, UserQueryVariables> query={UserDocument} {...props} />
+    );
+    
+export type UserProps<TChildProps = {}> = ApolloReactHoc.DataProps<UserQuery, UserQueryVariables> & TChildProps;
+export function withUser<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  UserQuery,
+  UserQueryVariables,
+  UserProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, UserQuery, UserQueryVariables, UserProps<TChildProps>>(UserDocument, {
+      alias: 'user',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useUserQuery__
+ *
+ * To run a query within a React component, call `useUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        return ApolloReactHooks.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+      }
+export function useUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+        }
+export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
+export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
+export type UserQueryResult = ApolloReactCommon.QueryResult<UserQuery, UserQueryVariables>;
