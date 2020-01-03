@@ -5,6 +5,7 @@ import { Menu, Icon, Layout } from "antd";
 import { Link } from "react-router-dom";
 import { useLogoutMutation, UserRole } from "../../lib/codegen";
 import { AppContext } from "../../lib/helpers/AppContext";
+import SubMenu from "antd/lib/menu/SubMenu";
 
 interface NavbarProps {
 
@@ -35,8 +36,15 @@ export const Navbar: React.FC<NavbarProps> = props => {
       <Menu.Item key="/events"><Link to="/events"><Icon type="calendar" /> Events</Link></Menu.Item>,
       <Menu.Item key="/account"><Link to="/account"><Icon type="user" /> Account</Link></Menu.Item>
     ]
+
     if (user && user.role === UserRole['Admin'])
-      menuItems.push(<Menu.Item key="/admin"><Link to="/admin"><Icon type="star" /> Admin</Link></Menu.Item>)
+      menuItems.push(
+        <SubMenu
+          title={<Link to="/admin/dashboard"><Icon type="star" /> Admin</Link>}
+        >
+          <Menu.Item key="/admin/users"><Link to="/admin/users"><Icon type="team" /> Users</Link></Menu.Item>
+        </SubMenu>
+      )
 
     menuItems.push(
       <Menu.Item key="4" className="account" onClick={() => handleLogout()}>
