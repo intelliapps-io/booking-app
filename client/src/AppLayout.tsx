@@ -43,7 +43,7 @@ export const AppLayout: React.FC = props => {
               <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path="/admin" component={Admin} />
+              <Route exact path="/admin/:subpage" component={Admin} />
               <Route exact path="/account" component={Account} />
               <Route exact path="/events" component={Events} />
               <Route exact path="/error/:data" render={({ match }) =>

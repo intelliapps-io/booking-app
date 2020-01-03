@@ -10,9 +10,13 @@ body {
   height: 100%;
   width: -webkit-fill-available;
   padding: 0 3%;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
+}
+
+.menu-content-wrapper {
+  display: flex;
 }
 
 .app-layout {
@@ -20,4 +24,9 @@ body {
   max-height: 100vh;
   overflow: hidden;
   background: transparent;
+}
+
+// Override Ant D
+.ant-layout.ant-layout-has-sider {
+  flex-direction: column;
 }
