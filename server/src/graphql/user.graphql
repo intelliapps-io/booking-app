@@ -61,3 +61,9 @@ query User($id: String!) {
     ...User
   }
 }
+
+mutation DeleteUser($id: String!) {
+  deleteUser( id: $id) {
+  ...User
+  }
+}

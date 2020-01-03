@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { DataPane } from "../../../components/dataPane/DataPane";
-import { User, useUsersQuery, UserRole, useUserQuery, useUpdateUserMutation } from "../../../lib/codegen";
+import { User, useUsersQuery, UserRole, useUserQuery, useUpdateUserMutation, useDeleteUserMutation } from "../../../lib/codegen";
 import { notification, Dropdown, Select } from "antd";
 import { UserForm } from "./UserForm";
 import { getColumnSearchProps } from "../../../components/dataPane/components/TableFilterDropdown";
@@ -22,6 +22,7 @@ export const UsersList: React.FC<UsersListProps> = props => {
   })
 
   const [updateUser] = useUpdateUserMutation();//hook giving fuction to updata user from user.graphql
+  const [deleteUser] = useDeleteUserMutation(); //
 
   const userQuery = useUserQuery({
     skip: !activeId, 

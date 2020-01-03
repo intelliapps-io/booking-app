@@ -109,6 +109,7 @@ type Mutation {
   employeeSchedule(id: String!): EmployeeSchedule!
   employeeSchedules(data: QueryEmployeeSchedulesInput): [EmployeeSchedule!]!
   updateOrganization(data: OrganizationInput!, id: String!): Organization!
+  deleteUser(id: String!): User!
 }
 
 enum NumberOperator {
@@ -281,7 +282,6 @@ input UpdateUserInput {
   firstName: String
   lastName: String
   email: String
-  password: String
   role: String
 }
 

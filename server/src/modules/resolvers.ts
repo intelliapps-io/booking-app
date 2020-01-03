@@ -27,6 +27,7 @@ import { QueryEmployeeSchedules } from "./employeeSchedule/QueryEmployeeSchedule
 // Organization
 import { UpdateOrganizationResolver } from "./organization/UpdateOrganizationResolver";
 import { QueryOrganizationResolver } from "./organization/QueryOrganizationResolver";
+import { DeleteUserResolver } from "./user/DeleteUserResolver";
 
 export const resolvers = [
   // User
@@ -38,6 +39,7 @@ export const resolvers = [
   CreateUserResolver,
   UpdateUserResolver,
   QueryUserResolver,
+  DeleteUserResolver,
 
   // Event
   CreateEventResolver,
