@@ -39,6 +39,7 @@ export class UpdateUserResolver {
       if (!user.organization)
         return reject(new Error('You must belong to an organization in order to update your account'))
       
+      // handles updating customer user
       if (user.role === UserRole['CUSTOMER'] || (user.role === UserRole['ADMIN'] && !userId)) {
         if (role) 
           return reject(new Error('Permission denied, you cannot change your own role'))
@@ -55,18 +56,12 @@ export class UpdateUserResolver {
           user.email = email
         }
 
-        // update password
-        // if (password) {
-        //   const hashedPassword = await bcrypt.hash(password, 12);
-        //   user.password = hashedPassword
-        //   user.authCount += 1
-        // }
-
         // save user information
         await user.save().catch(err => reject(err))
         return resolve(user)
       } 
       
+      // handles updating admin or employee user
       if (user.role === UserRole['ADMIN'] && userId) {
         const targetUser = await User.findOne({ where: { id: userId, organization: user.organization } }).catch(err => reject(err))
         if (!targetUser)
@@ -86,13 +81,6 @@ export class UpdateUserResolver {
             targetUser.email = email
         }
 
-        // update password
-        // if (password) {
-        //   const hashedPassword = await bcrypt.hash(password, 12);
-        //   targetUser.password = hashedPassword
-        //   targetUser.authCount += 1
-        // }
-
         // update role
         if (role && role === UserRole['CUSTOMER'])
           return reject(new Error(`You cannot update a user's role to customer`))
@@ -100,8 +88,9 @@ export class UpdateUserResolver {
           targetUser.role = role
         
         // save user information
-        await user.save().catch(err => reject(err))
-        return resolve(user)
+        targetUser.save()
+          .then(() => resolve(targetUser))
+          .catch(err => reject(err))
       }
     })
   }

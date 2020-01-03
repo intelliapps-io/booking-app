@@ -394,7 +394,6 @@ export type UpdateUserInput = {
   firstName?: Maybe<Scalars['String']>,
   lastName?: Maybe<Scalars['String']>,
   email?: Maybe<Scalars['String']>,
-  password?: Maybe<Scalars['String']>,
   role?: Maybe<Scalars['String']>,
 };
 
