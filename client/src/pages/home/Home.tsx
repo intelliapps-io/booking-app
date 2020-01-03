@@ -4,6 +4,7 @@ import Title from "antd/lib/typography/Title";
 import { Row, Col, Card, Button } from "antd";
 import { AppContext } from "../../lib/helpers/AppContext";
 import { Link } from "react-router-dom";
+import HomeContent from "./HomeContent";
 
 interface IProps {
 
@@ -37,8 +38,27 @@ export const Home: React.FC<IProps> = props => {
           </div>
         </div>
       </div>
-      <div>
-        <h1>hello</h1>
+
+      <div className='herocontent'>
+        <HomeContent />
+        <div className='contentwrap'>
+          <div className='contentpic'></div>
+          <div className='contenttext'>
+            <p style={{ fontSize: '1.5em', fontWeight: 'bold' }}>Service</p>
+            <p style={{fontSize: '1.3em', width: '80%'}}>
+              RandomText is a tool designers and developers
+              can use to quickly grab dummy 
+              text in either Lorem Ipsum or Gibberish format.
+            </p>
+            <Link
+              to="/events">
+              <Button type="primary" style={{ width: '25%', boxSizing: 'content-box', padding: '5px 0', marginTop: '20px' }}>
+                Book Now
+              </Button>
+            </Link>
+          </div>
+        </div>
+        <HomeContent/>
       </div>
       {/* <div className="footer">
         <h1>HomePage</h1>
