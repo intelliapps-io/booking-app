@@ -3,6 +3,7 @@ import { AppContext } from '../../../lib/helpers/AppContext';
 import { FormComponentProps } from "antd/lib/form";
 import {Form, PageHeader, Spin, Input, Button } from 'antd'
 import { useUpdateOrganizationMutation, Organization } from '../../../lib/codegen';
+import { transformHoursOfOperation } from './organizationFormHelpers';
 
 interface OrganizationFormProps {
 
@@ -28,19 +29,22 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     props.form.validateFields((errors, values: Organization) => {
+      const data = {
+        name: values.name,
+        address: organization.address,
+        phone: organization.phone,
+        contactEmail: organization.contactEmail,
+        hoursOfOperation: transformHoursOfOperation(organization.hoursOfOperation),
+        landingHtml: organization.landingHtml,
+        urlName: organization.urlName,
+      }
+
+      console.log(data)
+
       if (!errors) {
-        console.log(values)
         updateOrganization({
           variables: {
-            data: {
-              name: values.name,
-              address: organization.address,
-              phone: organization.phone,
-              contactEmail: organization.contactEmail,
-              hoursOfOperation: organization.hoursOfOperation,
-              landingHtml: organization.landingHtml,
-              urlName: organization.urlName,
-            },
+            data,
             id: organization.id
           }
         })  
