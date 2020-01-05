@@ -4,9 +4,10 @@ import { FormComponentProps } from "antd/lib/form";
 import { UserRole, User } from "../../../lib/codegen";
 // no api call in forms
 interface UserFormProps {
-  onSubmit: (data: User) => void;
+  onSubmit: (data: User & { password: string } ) => void;//form may not always return password
   onDelete?: (id: string) => void
   userData?: User
+  onNewUser: () => void
 }
 
 const formItemLayout = {
@@ -42,7 +43,7 @@ const _UserForm: React.FC<UserFormProps & FormComponentProps> = props => {
       props.form.setFieldsValue({
         firstName: props.userData.firstName,
         lastName: props.userData.lastName,
-        email: props.userData.email ,
+        email: props.userData.email,
         role: props.userData.role
       })
     }
@@ -68,10 +69,20 @@ const _UserForm: React.FC<UserFormProps & FormComponentProps> = props => {
         </Form.Item>
         <Form.Item label='Email'>
           {getFieldDecorator('email', {
-            rules: [{ type: 'email', message: 'The input is not valid E-mail!'}, {required: true}]
+            rules: [{ type: 'email', message: 'The input is not valid E-mail!' }, { required: true }]
           })(
             <Input placeholder='email' />
           )}
+        </Form.Item>
+        <Form.Item label="Password" hasFeedback>
+          {getFieldDecorator('password', {
+            rules: [{
+                
+                required: true,
+                message: 'Please input ',
+              },
+            ],
+          })(<Input.Password placeholder='password' />)}
         </Form.Item>
         <Form.Item label='Role'>
           {getFieldDecorator('role', {
@@ -96,6 +107,10 @@ const _UserForm: React.FC<UserFormProps & FormComponentProps> = props => {
         
         {props.onDelete && props.userData && <Button type="danger" onClick={() => props.onDelete!(props.userData!.id)}>
           Delete
+        </Button>}
+        
+       {props.userData && <Button onClick={props.onNewUser}> 
+          Create user
         </Button> }
       </Form>
     </div>  

@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import { DataPane } from "../../../components/dataPane/DataPane";
-import { User, useUsersQuery, UserRole, useUserQuery, useUpdateUserMutation, useDeleteUserMutation, useRegisterMutation } from "../../../lib/codegen";
+import { User, useUsersQuery, UserRole, useUserQuery, useUpdateUserMutation, useDeleteUserMutation, useRegisterMutation, useCreateUserMutation } from "../../../lib/codegen";
 import { notification, Dropdown, Select } from "antd";
 import { UserForm } from "./UserForm";
 import { getColumnSearchProps } from "../../../components/dataPane/components/TableFilterDropdown";
 import { ApolloError } from "apollo-boost";
 import { getActionColumn } from "../../../components/dataPane/components/getActionColumn";
 import { AppContext} from "../../../lib/helpers/AppContext"
+import { userInfo } from "os";
 // api call done in here
 interface UsersListProps {
 
@@ -14,7 +15,8 @@ interface UsersListProps {
 
 export const UsersList: React.FC<UsersListProps> = props => {
   const [activeId, setActiveId] = useState<string | null>(null)
-  const {organization} = useContext(AppContext)// global varables
+  const { organization } = useContext(AppContext)// global varables
+  
   // Single user query
   const userQuery = useUserQuery({
     skip: !activeId,
@@ -32,12 +34,12 @@ export const UsersList: React.FC<UsersListProps> = props => {
   })
 
   const [updateUser] = useUpdateUserMutation();//hook giving fuction to updata user from user.graphql
-  const [deleteUser] = useDeleteUserMutation(); //
-  const [createUser] = useRegisterMutation();
+  const [deleteUser] = useDeleteUserMutation(); //hook giving function to delete user from database user.graph ql
+  const [createUser] = useCreateUserMutation();// hook giving function to register user in database user.
   const { loading, error, data } = usersQuery
   if (error)
     notification['error']({ message: error.message })
-  const handleUpdateUser = (formData: User) => {
+  const handleUpdateUser = (formData: User & { password: string } ) => {
       if(activeId) 
     updateUser({
       variables: {
@@ -67,7 +69,24 @@ export const UsersList: React.FC<UsersListProps> = props => {
       })
       .catch((error: ApolloError) => notification['error']({ message: error.message }))
       else {
-        createUser()
+        createUser({
+          variables: {
+            data: {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+              email: formData.email,
+              password: formData.password,
+              role: formData.role,
+              organizationId: organization? organization.id : '' 
+            
+            }
+          }
+        })
+        .then(() => {
+          notification['success']({ message: `${formData.firstName} ${formData.lastName} has been Created` })
+          usersQuery.refetch();
+        })
+        .catch((error: ApolloError) => notification['error']({ message: error.message }))
     }
   }
 
@@ -89,6 +108,8 @@ export const UsersList: React.FC<UsersListProps> = props => {
         }
         onSubmit={formData => handleUpdateUser(formData)}
         userData={userQuery.data && userQuery.data.user ? userQuery.data.user : undefined}
+        
+        onNewUser={() => setActiveId(null)}
       />}
       tableProps={{
         columns: [

@@ -43,6 +43,7 @@ export const Navbar: React.FC<NavbarProps> = props => {
           title={<Link to="/admin/dashboard"><Icon type="star" /> Admin</Link>}
         >
           <Menu.Item key="/admin/users"><Link to="/admin/users"><Icon type="team" /> Users</Link></Menu.Item>
+          <Menu.Item key="/admin/org"><Link to="/admin/org"><Icon type="shop" /> Organization</Link></Menu.Item>
         </SubMenu>
       )
 
