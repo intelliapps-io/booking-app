@@ -4,7 +4,9 @@ import { FormComponentProps } from "antd/lib/form";
 import {Form, PageHeader, Spin, Input, Button, TimePicker } from 'antd'
 import { useUpdateOrganizationMutation, Organization } from '../../../lib/codegen';
 import { transformHoursOfOperation } from './organizationFormHelpers';
-
+import moment from 'moment';
+import './Organization.less'
+ 
 interface OrganizationFormProps {
 
 }
@@ -34,7 +36,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
         address: values.address,
         phone: values.phone,
         contactEmail: values.contactEmail,
-        hoursOfOperation: transformHoursOfOperation(values.hoursOfOperation),
+        hoursOfOperation: transformHoursOfOperation(values),
         landingHtml: organization.landingHtml,
         urlName: organization.urlName,
       }
@@ -54,9 +56,9 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
 
   }
   return(
-    <div style={{ width: '90%', padding: '20px 8%', margin: 'auto'}}>
-      <PageHeader title={organization.name}></PageHeader>
-      <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{width: '80%'}}>
+    <div className='formwrap'>
+      <div className='companytitle'>{organization.name}</div>
+      <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{width: '80%', margin: '0 auto'}}>
 
         <Form.Item label='Name'>
           {getFieldDecorator('name', {
@@ -91,19 +93,20 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           )}
         </Form.Item>
         {/* monday */}
-        <div style={{ display: 'flex', justifyContent: 'flex-end'  }}>
+        <p style={{padding: '2px 0', fontSize: '1.5em', textAlign: 'center'}}>Hours of Opperation</p>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Form.Item label="Mon Start" style={{ margin: '0 2%'}}>
             {getFieldDecorator('monday_start', {
               rules: [{ required: true }],
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.monday.start, "minutes")//moment takes number object and converts to time by using start of day 00 to value entered 0900
               
-            
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}}  />)
             } 
           </Form.Item >
           <Form.Item label="Mon End" style={{}}>
             {getFieldDecorator('monday_end', {
               rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.monday.end, "minutes")
             
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}} />)
             } 
@@ -114,7 +117,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Tue Start" style={{ margin: '0 2%'}}>
             {getFieldDecorator('tuesday_start', {
               rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.tuesday.start, "minutes")
             
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}}  />)
             } 
@@ -122,7 +125,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Tue End" style={{}}>
             {getFieldDecorator('tuesday_end', {
               rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.tuesday.end, "minutes")
             
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}} />)
             } 
@@ -133,6 +136,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Wed Start" style={{ margin: '0 2%'}}>
             {getFieldDecorator('wednesday_start', {
               rules: [{ required: true }],
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.wednesday.start, "minutes")
               
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}}  />)
             } 
@@ -140,7 +144,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Wed End" style={{}}>
             {getFieldDecorator('wednesday_end', {
               rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.wednesday.end, "minutes")
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}} />)
             } 
           </Form.Item>
@@ -150,14 +154,14 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Thu Start" style={{ margin: '0 2%'}}>
             {getFieldDecorator('thursday_start', {
               rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.thursday.start, "minutes")
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}}  />)
             } 
             </Form.Item >
             <Form.Item label="Thu End" style={{}}>
               {getFieldDecorator('thursday_end', {
                 rules: [{ required: true }],
-              
+                initialValue: moment().startOf('day').add(organization.hoursOfOperation.thursday.end, "minutes")
               })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}} />)
               } 
             </Form.Item>
@@ -167,14 +171,14 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Fri Start" style={{ margin: '0 2%'}}>
             {getFieldDecorator('firday_start', {
               rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.friday.start, "minutes")
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}}  />)
             } 
             </Form.Item >
             <Form.Item label="Fri End" style={{}}>
               {getFieldDecorator('friday_end', {
                 rules: [{ required: true }],
-              
+                initialValue: moment().startOf('day').add(organization.hoursOfOperation.friday.end, "minutes")
               })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}} />)
               } 
             </Form.Item>
@@ -184,14 +188,14 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Sat Start" style={{ margin: '0 2%'}}>
             {getFieldDecorator('saturday_start', {
               rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.saturday.start, "minutes")
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}}  />)
             } 
             </Form.Item >
             <Form.Item label="Sat End" style={{}}>
               {getFieldDecorator('saturday_end', {
                 rules: [{ required: true }],
-              
+                initialValue: moment().startOf('day').add(organization.hoursOfOperation.saturday.end, "minutes")
               })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}} />)
               } 
             </Form.Item>
@@ -201,6 +205,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           <Form.Item label="Sun Start" style={{ margin: '0 2%'}}>
             {getFieldDecorator('sunday_start', {
               rules: [{ required: true }],
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.sunday.start, "minutes")
               
             })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}}  />)
             } 
@@ -208,7 +213,8 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             <Form.Item label="Sun End" style={{}}>
               {getFieldDecorator('sunday_end', {
                 rules: [{ required: true }],
-              
+              initialValue: moment().startOf('day').add(organization.hoursOfOperation.sunday.end, "minutes")
+                
               })(<TimePicker format=" HH:mm" style={{marginLeft: '2%', width: '90%'}} />)
               } 
             </Form.Item>
