@@ -67,7 +67,7 @@ export const Home: React.FC<IProps> = props => {
         <h3>contact us {contactEmail}</h3>
       </div> */}
       {/** Custom Organizaton HTML */}
-      {/* <div dangerouslySetInnerHTML={{ __html: landingHtml }}/> */}
+      <div dangerouslySetInnerHTML={{ __html: landingHtml }}/>
     </div>
   );
 }
