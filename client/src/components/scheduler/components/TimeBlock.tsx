@@ -13,8 +13,8 @@ interface TimeBlockProps {
 
 const getDuration = (minDuration: number) => {
   let hours = Math.round(minDuration / 60)
-  let min = minDuration % 60
-  return `${hours} hrs ${min} min`
+  let min = Math.round(minDuration % 60)
+  return `${hours > 0 ? `${hours} hr` : ''} ${min > 0 ? `${min} min` : ''}`.trim()
 }
 
 export const TimeBlock: React.FC<TimeBlockProps> = props => {
