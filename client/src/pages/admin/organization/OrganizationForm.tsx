@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../../../lib/helpers/AppContext';
 import { FormComponentProps } from "antd/lib/form";
-import { Form, PageHeader, Spin, Input, Button, TimePicker, notification, Icon, Alert } from 'antd'
+import { Form, PageHeader, Spin, Input, Button, TimePicker, notification, Icon, Alert, Divider } from 'antd'
 import { useUpdateOrganizationMutation, Organization } from '../../../lib/codegen';
 import { transformHoursOfOperation } from './organizationFormHelpers';
 import { validateUrlName } from '../../../lib/helpers/helpers'
 import moment from 'moment';
 import './Organization.less'
 import { ApolloError } from 'apollo-boost';
+import { RichTextEditor } from '../../../components/richTextEditor/RichTextEditor';
 
 interface OrganizationFormProps {
 
@@ -40,7 +41,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
         phone: values.phone,
         contactEmail: values.contactEmail,
         hoursOfOperation: transformHoursOfOperation(values),
-        landingHtml: organization.landingHtml,
+        landingHtml: values.landingHtml,
         urlName: values.urlName,
       }
 
@@ -55,7 +56,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             notification['success']({ message: 'Organization has been saved' })
             meQuery.refetch()
             if (value) {
-              
+
             }
           })
           .catch((error: ApolloError) => notification['error']({ message: error.message }))
@@ -90,9 +91,9 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             ],
             initialValue: organization.urlName
           })(
-            <Input disabled={urlLocked} placeholder='subdomain of your organization' addonBefore={<Icon onClick={() => setUrlLocked(!urlLocked)} type={urlLocked ? 'lock' : 'unlock'}/>}/>
+            <Input disabled={urlLocked} placeholder='subdomain of your organization' addonBefore={<Icon onClick={() => setUrlLocked(!urlLocked)} type={urlLocked ? 'lock' : 'unlock'} />} />
           )}
-          {!urlLocked && <Alert type='error' message={<span>Changing url name will change the entire domain of your organization and website. <br /> <b>PROCEED WITH EXTREME CAUTION!</b></span>}/>}
+          {!urlLocked && <Alert type='error' message={<span>Changing url name will change the entire domain of your organization and website. <br /> <b>PROCEED WITH EXTREME CAUTION!</b></span>} />}
         </Form.Item>
         <Form.Item label='Address'>
           {getFieldDecorator('address', {
@@ -245,6 +246,21 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             }
           </Form.Item>
         </div>
+
+        <Button type="primary" htmlType="submit" >
+          Submit
+        </Button>
+
+        <Divider />
+
+        <Form.Item>
+          {getFieldDecorator('landingHtml', {
+            valuePropName: 'value',
+            getValueFromEvent: (event) => event,
+            trigger: 'onEdit',
+            initialValue: organization.landingHtml
+          })(<RichTextEditor />)}
+        </Form.Item>
 
         <Button type="primary" htmlType="submit" >
           Submit
