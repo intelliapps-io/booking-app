@@ -50,3 +50,14 @@ export function getGraphqlConnectionString() {//handle dif port for dev and prod
   const port = hostname.indexOf('localhost') > -1 ? 3001 : window.location.port
   return `${protocol}//${hostname}:${port}/graphql`
 }
+
+export function validateUrlName(text: string): boolean {
+  const regex = /\w+[a-z_0-9]/gm;
+  const match = text.match(regex);
+  if (!match) return false;
+  if (text === match[0]) {
+    return true;
+  } else {
+    return false;
+  }
+};
