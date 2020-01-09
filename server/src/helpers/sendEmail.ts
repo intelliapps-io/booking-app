@@ -18,7 +18,7 @@ export const sendEmail = async ({ to, subject, html }: SendMailOptions) => {
       pass: 'sfCXs0dTv2wEO1tQi30Y' // generated ethereal password
     }
   })
-  return transporter.sendMail({ from: accountAddress, to, subject, html })
+  return transporter.sendMail({ from: accountAddress, to, subject, html,  })
 }
 
 export const sendConfirmationEmail = async (user: User) => {

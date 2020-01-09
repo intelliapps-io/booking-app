@@ -11,6 +11,7 @@ import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
 import { runCodegen, nodeLogger } from "./helpers/helpers";
 import { join } from "path";
+import { sendEmail } from "./helpers/sendEmail";
 
 const main = async () => {
   const httpPort = process.env.NODE_ENV === 'development' ? 3001 : 80;
@@ -47,6 +48,12 @@ const main = async () => {
     schema,
     context: ({ req, res }) => ({ req, res })
   });
+
+  // sendEmail({
+  //   html: '<div>test</div>',
+  //   subject: 'TEST',
+  //   to: 'moorejared97@gmail.com'
+  // })
 
   // Create Express Web Server
   const app = Express();
