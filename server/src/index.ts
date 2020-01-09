@@ -33,11 +33,12 @@ const main = async () => {
   await connect().catch(err => { throw err });
 
   // Generate TypeGraphQL Schema 
+
   const schema = await buildSchema({
     resolvers,
     authChecker,
     emitSchemaFile: {
-      path: "./src/graphql/generated-schema.graphql"
+      path: `./${process.env.NODE_ENV === 'production' ? 'dist' : 'src'}/graphql/generated-schema.graphql`
     }
   });
 
