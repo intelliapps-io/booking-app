@@ -13,7 +13,7 @@ import { runCodegen, nodeLogger } from "./helpers/helpers";
 import { join } from "path";
 
 const main = async () => {
-  const httpPort = process.env.NODE_ENV === 'production' ? 80 : 3001;
+  const httpPort = process.env.NODE_ENV === 'development' ? 3001 : 80;
 
   // Connect to Postgres DB
   const connect = () => new Promise(async (resolve, reject) => {
@@ -38,7 +38,7 @@ const main = async () => {
     resolvers,
     authChecker,
     emitSchemaFile: {
-      path: `./${process.env.NODE_ENV === 'production' ? 'dist' : 'src'}/graphql/generated-schema.graphql`
+      path: `./${process.env.NODE_ENV === 'development' ? 'src' : 'dist'}/graphql/generated-schema.graphql`
     }
   });
 
