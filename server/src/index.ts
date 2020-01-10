@@ -11,6 +11,7 @@ import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
 import { runCodegen, nodeLogger } from "./helpers/helpers";
 import { join } from "path";
+import { confirmEmailRoute } from "./helpers/routeHandlers/confirmEmailRoute";
 
 const main = async () => {
   const httpPort = process.env.NODE_ENV === 'development' ? 3001 : 80;
@@ -77,17 +78,20 @@ const main = async () => {
     })
   }
 
-  app.listen(httpPort, () => console.log(`
-  > GraphQL: http://localhost:${httpPort}/graphql
-  
-  > pgAdmin: http://localhost:5050
-       - email: admin@local.host
-       - password: postgres
+  ////////////////////////
+  //   EXPRESS ROUTES   //
+  ////////////////////////
 
-  > postgres: 
-       - username: postgres
-       - password: postgres
-  `));
+  // Email Confirm
+  app.get('/account/confirm/:userId', (req, res) => {
+    console.log(res)
+    res.send('hello this works')
+  })
+
+  ////////////////////
+  //   Start App    //
+  ////////////////////
+  app.listen(httpPort, () => console.log(`> GraphQL: http://localhost:${httpPort}/graphql `));
 
   // Generate Client Code
   await runCodegen().catch(err => { });

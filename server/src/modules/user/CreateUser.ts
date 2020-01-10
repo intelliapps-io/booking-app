@@ -43,6 +43,7 @@ export class CreateUserResolver {
         email,
         password: hashedPassword,
         role,
+        emailConfirmed: true,
         organization: user.organization
       }).save();
   
