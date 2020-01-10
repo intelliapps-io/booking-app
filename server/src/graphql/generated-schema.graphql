@@ -95,7 +95,7 @@ input HoursOfOperationInput {
 type Mutation {
   login(organizationUrlName: String!, password: String!, email: String!): User
   logout: String
-  register(data: RegisterInput!): User!
+  register(data: RegisterInput!): String!
   createUser(data: RegisterInput!): User!
   updateUser(data: UpdateUserInput!): User!
   createEvent(data: EventInput!): Event!
@@ -293,6 +293,7 @@ type User {
   email: String!
   role: UserRole!
   authCount: Float
+  emailConfirmed: Boolean
   organization: Organization
 }
 

@@ -14,9 +14,7 @@ fragment User on User {
 
 
 mutation Register($data: RegisterInput!) {
-	register(data: $data) {
-    ...User
-  }
+	register(data: $data)
 }
 
 mutation CreateUser($data: RegisterInput!) {
