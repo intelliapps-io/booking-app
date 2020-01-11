@@ -41,7 +41,7 @@ export const AppLayout: React.FC = props => {
           <Layout.Content className="content app-layout-content">
             <Switch>
               <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
-              <Route exact path="/login" component={Login} />
+              <Route exact path="/login/:messageName?" component={Login} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/admin/:subpage" component={Admin} />
               <Route exact path="/account" component={Account} />

@@ -89,10 +89,7 @@ const main = async () => {
   ////////////////////////
 
   // Email Confirm
-  app.get('/account/confirm/:userId', (req, res) => {
-    console.log(res)
-    res.send('hello this works')
-  })
+  app.get('/account/confirm/:userId', confirmEmailRoute)
 
   ////////////////////
   //   Start App    //

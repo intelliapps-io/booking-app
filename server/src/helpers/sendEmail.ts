@@ -30,7 +30,7 @@ export const sendConfirmationEmail = async (user: User) => {
   const html = `
   <h2><span style="font-family: 'arial black', sans-serif;">Thank you for joining WorkSoft Systems!</span></h2>
   <p><span style="font-family: verdana, geneva, sans-serif;">In order to secure your account, we must confirm your email. Please click the link below to verify your account.&nbsp;</span></p>
-  <a href="${user.organization.urlName}${domain}/account/confirm/${user.id}">
+  <a href="http://${user.organization.urlName}worksoft.systems/account/confirm/${user.id}">
     <h3><span style="font-family: helvetica, arial, sans-serif;">Click here confirm you account</span></h3>
   </a>
   `;
