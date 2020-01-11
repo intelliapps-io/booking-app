@@ -8,7 +8,7 @@ import { Organization } from "../../entity/Organization";
 
 @Resolver()
 export class RegisterResolver {
-  @Mutation(() => User)
+  @Mutation(() => String)
   async register(@Arg('data') {
     firstName,
     lastName,
@@ -48,7 +48,7 @@ export class RegisterResolver {
   
       sendConfirmationEmail(user);
   
-      resolve(user)
+      resolve(user.email)
     })
   }
 }

@@ -11,6 +11,7 @@ import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
 import { runCodegen, nodeLogger } from "./helpers/helpers";
 import { join } from "path";
+import { confirmEmailRoute } from "./helpers/routeHandlers/confirmEmailRoute";
 
 const main = async () => {
   const httpPort = process.env.NODE_ENV === 'development' ? 3001 : 80;
@@ -20,7 +21,7 @@ const main = async () => {
     let attempts = 0, maxAttempts = 10
     const connectionOptions = await getConnectionOptions()
 
-    if (process.env.NODE_ENV === 'development')
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
       Object.assign(connectionOptions, { entities: ["src/entity/*.*"] })
     
     const interval = setInterval(
@@ -38,7 +39,7 @@ const main = async () => {
     resolvers,
     authChecker,
     emitSchemaFile: {
-      path: `./${process.env.NODE_ENV === 'development' ? 'src' : 'dist'}/graphql/generated-schema.graphql`
+      path: `./${process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev' ? 'src' : 'dist'}/graphql/generated-schema.graphql`
     }
   });
 
@@ -47,6 +48,12 @@ const main = async () => {
     schema,
     context: ({ req, res }) => ({ req, res })
   });
+
+  // sendEmail({
+  //   html: '<div>test</div>',
+  //   subject: 'TEST',
+  //   to: 'moorejared97@gmail.com'
+  // })
 
   // Create Express Web Server
   const app = Express();
@@ -77,17 +84,17 @@ const main = async () => {
     })
   }
 
-  app.listen(httpPort, () => console.log(`
-  > GraphQL: http://localhost:${httpPort}/graphql
-  
-  > pgAdmin: http://localhost:5050
-       - email: admin@local.host
-       - password: postgres
+  ////////////////////////
+  //   EXPRESS ROUTES   //
+  ////////////////////////
 
-  > postgres: 
-       - username: postgres
-       - password: postgres
-  `));
+  // Email Confirm
+  app.get('/account/confirm/:userId', confirmEmailRoute)
+
+  ////////////////////
+  //   Start App    //
+  ////////////////////
+  app.listen(httpPort, () => console.log(`> GraphQL: http://localhost:${httpPort}/graphql `));
 
   // Generate Client Code
   await runCodegen().catch(err => { });

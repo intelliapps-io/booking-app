@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link, withRouter, RouteComponentProps } from "react-router-dom";
 
 import "./account.less";
-import { Button, Input, Form, Icon, Card } from "antd";
+import { Button, Input, Form, Icon, Card, Alert } from "antd";
 import { FormComponentProps } from "antd/lib/form";
 import { withLogin, LoginProps, MeDocument } from "../../lib/codegen";
 import { allowFormSubmit } from "../../lib/helpers/helpers";
@@ -12,7 +12,11 @@ interface IState {
   error: string | null
 }
 
-type IProps = FormComponentProps & LoginProps & RouteComponentProps;
+enum MessageName {
+  EMAIL_CONFIRMED = 'EMAIL_CONFIRMED'
+}
+
+type IProps = FormComponentProps & LoginProps & RouteComponentProps<{ message?: MessageName }>;
 
 class Login extends React.Component<IProps, IState> {
   fieldNames = ["email", "password"]
@@ -34,11 +38,19 @@ class Login extends React.Component<IProps, IState> {
     }).then(() => { this.props.history.push("/account") }).catch(() => this.setState({ error: "Email or password is incorrect" }));
   }
 
+  renderMessage(): React.ReactNode {
+    if (this.props.match.params.message === MessageName['EMAIL_CONFIRMED']) {
+      return <Alert type='success' message="Your email was confirmed successfully."/> 
+    }
+    return <div />
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <Card className="login">
         <h2>Login</h2>
+        {this.renderMessage()}
         <Form onSubmit={(event) => this.onSubmit(event)}>
           <Form.Item>
             {getFieldDecorator('email', { rules: [{ required: true, message: 'Email is required!' }] })(

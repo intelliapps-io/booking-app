@@ -101,7 +101,7 @@ export type HoursOfOperationInput = {
 export type Mutation = {
   login?: Maybe<User>,
   logout?: Maybe<Scalars['String']>,
-  register: User,
+  register: Scalars['String'],
   createUser: User,
   updateUser: User,
   createEvent: Event,
@@ -411,6 +411,7 @@ export type User = {
   email: Scalars['String'],
   role: UserRole,
   authCount?: Maybe<Scalars['Float']>,
+  emailConfirmed?: Maybe<Scalars['Boolean']>,
   organization?: Maybe<Organization>,
 };
 
@@ -565,7 +566,7 @@ export type RegisterMutationVariables = {
 };
 
 
-export type RegisterMutation = { register: UserFragment };
+export type RegisterMutation = Pick<Mutation, 'register'>;
 
 export type CreateUserMutationVariables = {
   data: RegisterInput
@@ -1467,11 +1468,9 @@ export type ServiceLazyQueryHookResult = ReturnType<typeof useServiceLazyQuery>;
 export type ServiceQueryResult = ApolloReactCommon.QueryResult<ServiceQuery, ServiceQueryVariables>;
 export const RegisterDocument = gql`
     mutation Register($data: RegisterInput!) {
-  register(data: $data) {
-    ...User
-  }
+  register(data: $data)
 }
-    ${UserFragmentDoc}`;
+    `;
 export type RegisterMutationFn = ApolloReactCommon.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 export type RegisterComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<RegisterMutation, RegisterMutationVariables>, 'mutation'>;
 

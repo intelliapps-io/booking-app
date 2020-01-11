@@ -40,7 +40,11 @@ export class User extends BaseEntity {
   @Field({ nullable: true })
   @Column({ default: 0 })
   authCount: number
-  
+
+  @Field({ nullable: true, defaultValue: false })
+  @Column({ default: false })
+  emailConfirmed: boolean
+    
   @Column()
   password: string
   
