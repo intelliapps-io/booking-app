@@ -21,7 +21,7 @@ const main = async () => {
     let attempts = 0, maxAttempts = 10
     const connectionOptions = await getConnectionOptions()
 
-    if (process.env.NODE_ENV === 'development')
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
       Object.assign(connectionOptions, { entities: ["src/entity/*.*"] })
     
     const interval = setInterval(
@@ -39,7 +39,7 @@ const main = async () => {
     resolvers,
     authChecker,
     emitSchemaFile: {
-      path: `./${process.env.NODE_ENV === 'development' ? 'src' : 'dist'}/graphql/generated-schema.graphql`
+      path: `./${process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev' ? 'src' : 'dist'}/graphql/generated-schema.graphql`
     }
   });
 

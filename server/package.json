@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production DEBUG=logger node dist/index.js",
     "build": "tsc",
     "dev": "NODE_ENV=development Synchronize_DB=false DEBUG=logger ts-node-dev src/index.ts",
-    "dev-prod": "NODE_ENV=production Synchronize_DB=false DEBUG=logger ts-node-dev src/index.ts",
+    "dev-prod": "NODE_ENV=production_dev Synchronize_DB=false DEBUG=logger ts-node-dev src/index.ts",
     "pg": "docker-compose up",
     "test": "NODE_ENV=production Synchronize_DB=false DEBUG=logger ts-node src/tests.ts",
     "gen": "npx graphql-codegen"
