@@ -56,7 +56,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             notification['success']({ message: 'Organization has been saved' })
             meQuery.refetch()
             if (value) {
-
+              
             }
           })
           .catch((error: ApolloError) => notification['error']({ message: error.message }))

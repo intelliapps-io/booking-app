@@ -47,7 +47,7 @@ export const Account: React.FC<IProps> = props => {
             <h3>Appointments</h3>
           </div>
           <div style={{width: '80%', margin: 'auto'}}>
-            <h3>User information</h3>
+            <h3 style={{}}>Your information</h3>
             <div>
               <UserAccountForm />
             </div>
