@@ -67,10 +67,9 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
   }
   return (
     <div className='formwrap'>
-        <Tabs defaultActiveKey="1" tabPosition='left' >
-        <TabPane tab="Tab 1" key="1">
-        <div className='companytitle'>{organization.name} information form</div>
-            <Form {...formItemLayout} onSubmit={handleFormSubmit}>
+        <Tabs defaultActiveKey="1" tabPosition='left'  className='tableft'>
+        <TabPane tab="Organization Form" key="1" className='eachtab'>
+            <Form {...formItemLayout} onSubmit={handleFormSubmit} className='form'>
               <Form.Item label='Name'>
                 {getFieldDecorator('name', {
                   rules: [{ min: 2, message: 'name lenght must be 3 or more' }, { required: true }],
@@ -121,23 +120,25 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
               })(
                 <Input placeholder='organization phone contact email' />
               )}
-              </Form.Item>
-              <Button type="primary" htmlType="submit" >
+            </Form.Item>
+            <div className='btn'>
+              <Button type="primary" htmlType="submit" style={{padding: '6px 20px'}}  >
                 Submit
               </Button>
+            </div>
+
             </Form>
           </TabPane>
           {/* tabpae #2 */}
-          <TabPane tab="Tab 2" key="2">
-            <div className='companytitle'>{organization.name} Hours of Opperation form</div>
-          <Form {...formItemLayout} onSubmit={handleFormSubmit}>
+          <TabPane tab="Hours of Opperation" key="2">
+          <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{width: '95%', border: '1.5px solid rgb(172, 170, 170', padding: '10px 5px', margin: 'auto'}}>
             {/* monday */}
-              <div style={{ display: 'flex',  }}>
-                <Form.Item label="Mon Start" style={{ margin: '0 2%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <Form.Item label="Mon Start">
                   {getFieldDecorator('monday_start', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.monday.start, "minutes")//moment takes number object and converts to time by using start of day 00 to value entered 0900
-                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%' }} />)
+                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%',width:'90%' }} />)
                   }
                 </Form.Item >
                 <Form.Item label="Mon End" style={{}}>
@@ -149,12 +150,12 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
                 </Form.Item>
               </div>
             {/* tuesday */}    
-              <div style={{ display: 'flex'}}>
-                <Form.Item label="Tue Start" style={{ margin: '0 2%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around'}}>
+                <Form.Item label="Tue Start">
                   {getFieldDecorator('tuesday_start', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.tuesday.start, "minutes")
-                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%' }} />)
+                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%'}} />)
                   }
                 </Form.Item >
                 <Form.Item label="Tue End" style={{}}>
@@ -166,42 +167,42 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
                 </Form.Item>
               </div>
             {/* wednesday */}
-              <div style={{ display: 'flex',  }}>
-                <Form.Item label="Wed Start" style={{ margin: '0 2%' }}>
+              <div style={{ display: 'flex',justifyContent: 'space-around' }}>
+                <Form.Item label="Wed Start" style={{ }}>
                   {getFieldDecorator('wednesday_start', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.wednesday.start, "minutes")
-                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%' }} />)
+                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width:'90%'}} />)
                   }
                 </Form.Item >
                 <Form.Item label="Wed End" style={{}}>
                   {getFieldDecorator('wednesday_end', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.wednesday.end, "minutes")
-                    })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%' }} />)
+                    })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width:'90%'}} />)
                   }
                 </Form.Item>
               </div>
             {/* thursday */}
-              <div style={{ display: 'flex', }}>
-                <Form.Item label="Thu Start" style={{ margin: '0 2%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <Form.Item label="Thu Start" style={{ }}>
                   {getFieldDecorator('thursday_start', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.thursday.start, "minutes")
-                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%' }} />)
+                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width:'90%'}} />)
                   }
                 </Form.Item >
                 <Form.Item label="Thu End" style={{}}>
                   {getFieldDecorator('thursday_end', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.thursday.end, "minutes")
-                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%' }} />)
+                  })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width:'90%'}} />)
                   }
                 </Form.Item>
               </div>
             {/* Friday */}
-              <div style={{ display: 'flex', }}>
-                <Form.Item label="Fri Start" style={{ margin: '0 2%' }}>
+              <div style={{ display: 'flex',justifyContent: 'space-around' }}>
+                <Form.Item label="Fri Start" style={{  }}>
                   {getFieldDecorator('firday_start', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.friday.start, "minutes")
@@ -217,8 +218,8 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
                 </Form.Item>
               </div>
               {/* saturday */}
-              <div style={{ display: 'flex',  }}>
-                <Form.Item label="Sat Start" style={{ margin: '0 2%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <Form.Item label="Sat Start" style={{ }}>
                   {getFieldDecorator('saturday_start', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.saturday.start, "minutes")
@@ -234,8 +235,8 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
                 </Form.Item>
               </div>
               {/* sunday */}
-              <div style={{ display: 'flex', }}>
-                <Form.Item label="Sun Start" style={{ margin: '0 2%' }}>
+              <div style={{ display: 'flex',justifyContent: 'space-around' }}>
+                <Form.Item label="Sun Start" style={{}}>
                 {getFieldDecorator('sunday_start', {
                   rules: [{ required: true }],
                   initialValue: moment().startOf('day').add(organization.hoursOfOperation.sunday.start, "minutes")
@@ -250,26 +251,29 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
                 }
               </Form.Item> 
               </div>
-              <Button type="primary" htmlType="submit" >
-                Submit
-              </Button>
+              <div style={{ display: 'flex', justifyContent:'space-around', alignItems: 'center'}}>
+                <Button type="primary" htmlType="submit" style={{padding: '6px 20px'}} >
+                  Submit
+                </Button>
+              </div>
             </Form>
           </TabPane>
         
-          <TabPane tab="Tab 3" key="3">
-            <div className='companytitle'>{organization.name} Posting form</div>
-            <Form {...formItemLayout} onSubmit={handleFormSubmit}>
-              <Form.Item >
+          <TabPane tab="HTML Editor" key="3">
+            <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{paddingLeft: '5%'}}>
+              <Form.Item>
                 {getFieldDecorator('landingHtml', {
                   valuePropName: 'value',
                   getValueFromEvent: (event) => event,
                   trigger: 'onEdit',
                   initialValue: organization.landingHtml
-                })(<RichTextEditor />)}
-              </Form.Item>
-              <Button type="primary" htmlType="submit" >
-                Submit
-              </Button>   
+                })(<RichTextEditor/>)}
+              </Form.Item>  
+              <div>
+                <Button type="primary" htmlType="submit" style={{padding: '6px 20px'}} >
+                  Submit
+                </Button>
+              </div>
             </Form>
           </TabPane>
       </Tabs>
