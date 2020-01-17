@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { FormComponentProps } from 'antd/lib/form';
-import { Spin,Form, Input, Icon, Button, message } from 'antd';
+import { Spin,Form, Input, Icon, Button, message, notification } from 'antd';
 import { AppContext } from '../../../lib/helpers/AppContext';
-import { UserRole, User } from '../../../lib/codegen';
+import { UserRole, User, useUpdateUserMutation } from '../../../lib/codegen';
 import { validate } from 'graphql';
 import { callbackify } from 'util';
 
@@ -23,13 +23,29 @@ const formItemLayout = {
 
 const _UserAccountForm: React.FC<UserAccountFormProps & FormComponentProps> = props => {
   const { user } = useContext(AppContext);
+  const [UpdateUser] = useUpdateUserMutation({})
   if (!user) return <Spin />
   const { getFieldDecorator } = props.form
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     props.form.validateFields((error: any, values: User) => {
-    
+      if (!error) {
+        UpdateUser({
+          variables: {
+            data: {
+              userId: user.id,
+              firstName: values.firstName,
+              lastName: values.lastName,
+              email: values.email
+            },
+          }
+        })
+          .then((values) => {
+          notification['success']({ message: 'Account updated'})
+        })
+        
+      }
     })
   }
 

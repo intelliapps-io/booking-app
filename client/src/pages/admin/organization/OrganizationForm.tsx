@@ -54,7 +54,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           }
         })
           .then((value) => {
-            notification['success']({ message: 'Organization has been saved' })
+            notification['success']({ message: 'Organization has been saved'})
             meQuery.refetch()
             if (value) {
               
@@ -68,7 +68,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
   return (
     <div className='formwrap'>
         <Tabs defaultActiveKey="1" tabPosition='left'  className='tableft'>
-        <TabPane tab="Organization Form" key="1" className='eachtab'>
+        <TabPane tab="Business Form" key="1" className='eachtab'>
             <Form {...formItemLayout} onSubmit={handleFormSubmit} className='form'>
               <Form.Item label='Name'>
                 {getFieldDecorator('name', {
@@ -130,7 +130,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             </Form>
           </TabPane>
           {/* tabpae #2 */}
-          <TabPane tab="Hours of Opperation" key="2">
+          <TabPane tab="Opperation Hours" key="2">
           <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{width: '95%', border: '1.5px solid rgb(172, 170, 170', padding: '10px 5px', margin: 'auto'}}>
             {/* monday */}
               <div style={{ display: 'flex', justifyContent: 'space-around' }}>
