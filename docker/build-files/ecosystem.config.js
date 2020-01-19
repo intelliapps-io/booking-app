@@ -17,16 +17,5 @@ module.exports = {
     env_production: {
       NODE_ENV: 'production'
     }
-  }],
-
-  // deploy: {
-  //   production: {
-  //     user: 'ubuntu',
-  //     host: 'worksoftsystems.mynetgear.com',
-  //     ref: 'origin/master',
-  //     repo: 'git@github.com:intelliapps-io/booking-app.git',
-  //     path: '/home/node/booking-app',
-  //     'post-deploy': 'pm2 reload ecosystem.config.js --env production'
-  //   }
-  // }
+  }]
 };
