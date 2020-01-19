@@ -7,6 +7,3 @@ npm run build;
 # install and build client
 cd /var/node-app/client && yarn install;
 yarn build;
-# start server
-cd /var/node-app/server;
-pm2 start /var/node-app/server/dist/index.js --name worksoft-systems;
