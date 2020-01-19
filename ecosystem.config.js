@@ -2,9 +2,6 @@ module.exports = {
   apps: [{
     name: 'Worksoft Systems',
     script: './server/dist/index.js',
-
-    // Options reference: https://pm2.keymetrics.io/docs/usage/application-declaration/
-    // args: 'one two',
     instances: 1,
     autorestart: true,
     watch: false,
@@ -22,14 +19,14 @@ module.exports = {
     }
   }],
 
-  deploy: {
-    production: {
-      user: 'ubuntu',
-      host: 'worksoftsystems.mynetgear.com',
-      ref: 'origin/master',
-      repo: 'git@github.com:intelliapps-io/booking-app.git',
-      path: '/home/node/booking-app',
-      'post-deploy': 'pm2 reload ecosystem.config.js --env production'
-    }
-  }
+  // deploy: {
+  //   production: {
+  //     user: 'ubuntu',
+  //     host: 'worksoftsystems.mynetgear.com',
+  //     ref: 'origin/master',
+  //     repo: 'git@github.com:intelliapps-io/booking-app.git',
+  //     path: '/home/node/booking-app',
+  //     'post-deploy': 'pm2 reload ecosystem.config.js --env production'
+  //   }
+  // }
 };
