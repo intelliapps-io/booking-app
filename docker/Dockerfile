@@ -1,5 +1,8 @@
 FROM node:12.14.1-stretch
 
+## PACKAGES - install needed modules
+RUN npm i -g pm2
+
 ## ROOT - Move Github SSH Key to Image
 RUN mkdir -p /root/.ssh
 ADD ./build-files/git-ssh/id_rsa /root/.ssh/id_rsa

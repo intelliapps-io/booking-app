@@ -1,7 +1,7 @@
 module.exports = {
   apps: [{
     name: 'Worksoft Systems',
-    script: './server/dist/index.js',
+    script: '/var/node-app/server/dist/index.js',
     instances: 1,
     autorestart: true,
     watch: false,
@@ -10,7 +10,7 @@ module.exports = {
       NODE_ENV: 'development',
       PROD_DOMAIN: 'worksoft.systems',
       DEV_DOMAIN: 'localhost',
-      PROD_PORT: 80,
+      PROD_PORT: 8080,
       DEV_SERVER_PORT: 3001,
       DEV_CLIENT_PORT: 3000
     },

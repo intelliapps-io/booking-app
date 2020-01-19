@@ -7,10 +7,13 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - "8080:8080"
+    networks: 
+      - internal
+    command: pm2-runtime start /var/node-app/ecosystem.config.js
 
 networks:
-  postgres:
+  internal:
     driver: bridge
 
 # volumes:
