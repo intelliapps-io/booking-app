@@ -7,11 +7,12 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8080:80"
+      - "5432:5432"
     networks: 
       - internal
-    command: pm2-runtime start /var/node-app/ecosystem.config.js --env production
-    # command: pm2 start /var/node-app/ --env production
+    command: pm2-runtime start /var/node-app/docker/build-files/ecosystem.config.js --env production
+    # command: pm2-runtime start /var/node-app/server/dist/index.js --env production
 
 networks:
   internal:
