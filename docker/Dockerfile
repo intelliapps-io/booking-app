@@ -11,4 +11,4 @@ RUN mkdir /var/node-app && mkdir /var/gitTemp
 RUN cd var/gitTemp && git clone git@github.com:intelliapps-io/booking-app.git 
 RUN cp -a /var/gitTemp/booking-app/. /var/node-app && rm -rf var/gitTemp
 RUN cd /var/node-app && ls -a
-
+RUN bash /var/node-app/deploy.sh
