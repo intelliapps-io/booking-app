@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { UserRole, User } from "../../lib/codegen";
-import { Spin, Alert, List, Typography, Form } from "antd";
+import { Spin, Alert, List, Typography, Form, Tabs,} from "antd";
 import SplitPane from "react-split-pane"
 import { AppContext } from "../../lib/helpers/AppContext";
 import { UserForm } from "../admin/users/UserForm";
@@ -15,7 +15,8 @@ interface IProps {
 
 
 export const Account: React.FC<IProps> = props => {
-  const {user} = useContext(AppContext);
+  const { user } = useContext(AppContext);
+  const {TabPane} = Tabs
   if (!user)
     return <Spin />
   const adminAccount = () => {
@@ -41,20 +42,30 @@ export const Account: React.FC<IProps> = props => {
       </div>
 
       <div>
-        
-        <SplitPane split="vertical" minSize={50} defaultSize={100}>
-          <div>
-            <h3>Appointments</h3>
-          </div>
-          <div style={{width: '80%', margin: 'auto'}}>
-            <h3>User information</h3>
+        <Tabs defaultActiveKey="1" tabPosition='left'>
+          <TabPane tab="Over View" key="1">
+          <SplitPane split="vertical" minSize={50} defaultSize={100}>
             <div>
-              <UserAccountForm />
+              <h3>Appointments</h3>
             </div>
-          </div>
-          {/* {adminAccount()} */}
-        </SplitPane>
+            <div style={{width: '80%', margin: 'auto'}}>
+              <h3 style={{}}>Your information</h3>
+              <div>
+                <UserAccountForm />
+              </div>
+            </div>
+            {/* {adminAccount()} */}
+          </SplitPane>
+          </TabPane>
+          <TabPane tab="My Calender" key="2">
+            <h1> hello</h1>
+          </TabPane>
+          <TabPane tab="User Info" key="3">
+            <h1> bye</h1>
+          </TabPane>
 
+        </Tabs>
+      
       </div>
       
     </div>
