@@ -14,7 +14,7 @@ import { join } from "path";
 import { confirmEmailRoute } from "./helpers/routeHandlers/confirmEmailRoute";
 
 const main = async () => {
-  const httpPort = process.env.NODE_ENV === 'development' ? 3001 : 80;
+  const httpPort = process.env.NODE_ENV === 'development' ? process.env.DEV_SERVER_PORT : process.env.PROD_PORT;
 
   // Connect to Postgres DB
   const connect = () => new Promise(async (resolve, reject) => {
@@ -34,7 +34,6 @@ const main = async () => {
   await connect().catch(err => { throw err });
 
   // Generate TypeGraphQL Schema 
-
   const schema = await buildSchema({
     resolvers,
     authChecker,
@@ -48,12 +47,6 @@ const main = async () => {
     schema,
     context: ({ req, res }) => ({ req, res })
   });
-
-  // sendEmail({
-  //   html: '<div>test</div>',
-  //   subject: 'TEST',
-  //   to: 'moorejared97@gmail.com'
-  // })
 
   // Create Express Web Server
   const app = Express();
