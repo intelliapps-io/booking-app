@@ -120,14 +120,6 @@ export function rebuildApp(): Promise<any> {
         }
       },
       {
-        name: 'Generate Type-GraphQL Schema',
-        options: {
-          command: 'node',
-          commandOptions: ['buildSchemaToDist.js'],
-          options: { cwd: '/var/node-app-temp/server/dist/helpers' }
-        }
-      },
-      {
         name: 'Install Client Packages',
         options: {
           command: 'yarn',

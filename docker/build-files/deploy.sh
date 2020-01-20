@@ -4,7 +4,6 @@ cd /var/node-app/server;
 npm i;
 npm run gen;
 npm run build;
-node /var/node-app-temp/server/dist/helpers/buildSchemaToDist.js;
 
 # install and build client
 cd /var/node-app/client;

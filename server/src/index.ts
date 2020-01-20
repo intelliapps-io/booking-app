@@ -10,7 +10,7 @@ import { createConnection, getConnectionOptions } from "typeorm";
 import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
 import { runCodegen, nodeLogger } from "./helpers/helpers";
-import { join } from "path";
+import path, { join } from "path";
 import { confirmEmailRoute } from "./helpers/routeHandlers/confirmEmailRoute";
 
 const main = async () => {
@@ -20,10 +20,12 @@ const main = async () => {
   const connect = () => new Promise(async (resolve, reject) => {
     let attempts = 0, maxAttempts = 10
     const connectionOptions = await getConnectionOptions()
-
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
-      Object.assign(connectionOptions, { entities: ["src/entity/*.*"] })
     
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
+      Object.assign(connectionOptions, { entities: ['src/entity/*.*'] })
+    else
+      Object.assign(connectionOptions, { entities: [path.resolve(__dirname + '/entity/*.js')] })
+
     const interval = setInterval(
       () => createConnection()
         .then(() => { clearInterval(interval); resolve(); })
