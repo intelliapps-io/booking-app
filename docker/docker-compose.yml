@@ -11,6 +11,8 @@ services:
     networks: 
       - internal
     command: pm2-runtime start /var/node-app/docker/build-files/ecosystem.config.js --env production
+    volumes: 
+      - build-volume:/var/node-app
   
   traefik:
     container_name: traefik
@@ -27,6 +29,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=true"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.address=:4040"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     
@@ -42,4 +45,5 @@ networks:
   internal:
     driver: bridge
 
-# volumes:
+volumes:
+  build-volume:
