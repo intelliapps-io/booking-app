@@ -43,7 +43,7 @@ const main = async () => {
   })
 
   app.listen(port)
-  console.log(`Watcher listening on port ${9001}`)
+  console.log(`Watcher listening on port ${port}`)
 }
 
 main().catch(err => console.error(err))

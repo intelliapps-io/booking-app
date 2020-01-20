@@ -14,9 +14,6 @@ module.exports = {
         DEV_SERVER_PORT: 3001,
         DEV_CLIENT_PORT: 3000,
         DEBUG: 'logger'
-      },
-      env_production: {
-        NODE_ENV: 'production'
       }
     },
     {
@@ -26,11 +23,8 @@ module.exports = {
       watch: false,
       max_memory_restart: '4G',
       env: {
-        NODE_ENV: 'development',
+        NODE_ENV: 'production',
         PORT: 9002
-      },
-      env_production: {
-        NODE_ENV: 'production'
       }
     }
   ]
