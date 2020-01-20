@@ -60,6 +60,7 @@ typings/
 # Ignore Build Output
 client/build
 server/dist
+watcher/dist
 
 # next.js build output
 .next

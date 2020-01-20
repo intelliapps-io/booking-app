@@ -7,3 +7,7 @@ npm run build;
 # install and build client
 cd /var/node-app/client && yarn install;
 yarn build;
+
+# install and build watcher
+cd /var/node-app/watcher && yarn install;
+yarn build;
