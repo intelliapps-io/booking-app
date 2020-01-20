@@ -24,175 +24,176 @@ export function rebuildApp(): Promise<any> {
       {
         name: 'Git Pull',
         options: {
-          command: 'git',
-          commandOptions: ['pull']
-        }
-      },
-      {
-        name: 'Create Temp Server Build Directory',
-        options: {
-          command: 'mkdir',
-          commandOptions: ['/var/node-app-temp']
-        }
-      },
-      {
-        name: 'Create Temp Server Build Directory',
-        options: {
-          command: 'mkdir',
-          commandOptions: ['/var/node-app-temp/server']
-        }
-      },
-      {
-        name: 'Copy Existing Server Files',
-        options: {
-          command: 'rsync',
-          commandOptions: [
-            '-av',
-            '--progress',
-            '/var/node-app/server/.',
-            '/var/node-app-temp/server',
-            '--exclude',
-            'node_modules'
-          ]
-        }
-      },
-      {
-        name: 'Install Server Packages',
-        options: {
-          command: 'npm',
-          commandOptions: ['i'],
-          options: { cwd: '/var/node-app-temp/server' }
-        }
-      },
-      {
-        name: 'GraphQL Generator',
-        options: {
-          command: 'npm',
-          commandOptions: ['run', 'gen'],
-          options: { cwd: '/var/node-app-temp/server' }
-        }
-      },
-      {
-        name: 'Build Server',
-        options: {
-          command: 'tsc',
-          options: { cwd: '/var/node-app-temp/server' }
-        }
-      },
-      {
-        name: 'Create Temp Client Build Directory',
-        options: {
-          command: 'mkdir',
-          commandOptions: ['/var/node-app-temp/client']
-        }
-      },
-      {
-        name: 'Copy Existing Client Files',
-        options: {
-          command: 'rsync',
-          commandOptions: [
-            '-av',
-            '--progress',
-            '/var/node-app/client/.',
-            '/var/node-app-temp/client',
-            '--exclude',
-            'node_modules'
-          ]
-        }
-      },
-      {
-        name: 'Install Client Packages',
-        options: {
-          command: 'yarn',
-          commandOptions: ['install'],
-          options: { cwd: '/var/node-app-temp/client' }
-        }
-      },
-      {
-        name: 'Build Client',
-        options: {
-          command: 'yarn',
-          commandOptions: ['build'],
-          options: { cwd: '/var/node-app-temp/client' }
-        }
-      },
-      // at this point, the build process had no errors
-      // copy server
-      {
-        name: 'Delete Server Directory',
-        options: {
-          command: 'rm',
-          commandOptions: ['-rf', 'server'],
-          options: { cwd: '/var/node-app' }
-        }
-      },
-      {
-        name: 'Create Server Directory',
-        options: {
-          command: 'mkdir',
-          commandOptions: ['/var/node-app/server'],
-        }
-      },
-      {
-        name: 'Copy Temp Server to Server',
-        options: {
-          command: 'rsync',
-          commandOptions: [
-            '-av',
-            '--progress',
-            '/var/node-app-temp/server/.',
-            '/var/node-app/server',
-            '--exclude',
-            'node_modules'
-          ]
-        }
-      },
-      {
-        name: 'Install Server Packages',
-        options: {
-          command: 'npm',
-          commandOptions: ['i'],
+          command: 'sudo',
+          commandOptions: ['git', 'pull', '-key', '/home/ubuntu/.ssh/id_rsa'],
           options: { cwd: '/var/node-app/server' }
         }
       },
-      // copy client
-      {
-        name: 'Delete Client Directory',
-        options: {
-          command: 'rm',
-          commandOptions: ['-rf', 'client'],
-          options: { cwd: '/var/node-app' }
-        }
-      },
-      {
-        name: 'Create Client Directory',
-        options: {
-          command: 'mkdir',
-          commandOptions: ['/var/node-app/client'],
-        }
-      },
-      {
-        name: 'Copy Temp Server to Client',
-        options: {
-          command: 'rsync',
-          commandOptions: [
-            '-av',
-            '--progress',
-            '/var/node-app-temp/client/.',
-            '/var/node-app/client',
-            '--exclude',
-            'node_modules'
-          ]
-        }
-      },
-      {
-        name: 'Install Client Packages',
-        options: {
-          command: 'yarn',
-          commandOptions: ['install'],
-          options: { cwd: '/var/node-app/client' }
-        }
-      },
+      // {
+      //   name: 'Create Temp Server Build Directory',
+      //   options: {
+      //     command: 'mkdir',
+      //     commandOptions: ['/var/node-app-temp']
+      //   }
+      // },
+      // {
+      //   name: 'Create Temp Server Build Directory',
+      //   options: {
+      //     command: 'mkdir',
+      //     commandOptions: ['/var/node-app-temp/server']
+      //   }
+      // },
+      // {
+      //   name: 'Copy Existing Server Files',
+      //   options: {
+      //     command: 'rsync',
+      //     commandOptions: [
+      //       '-av',
+      //       '--progress',
+      //       '/var/node-app/server/.',
+      //       '/var/node-app-temp/server',
+      //       '--exclude',
+      //       'node_modules'
+      //     ]
+      //   }
+      // },
+      // {
+      //   name: 'Install Server Packages',
+      //   options: {
+      //     command: 'npm',
+      //     commandOptions: ['i'],
+      //     options: { cwd: '/var/node-app-temp/server' }
+      //   }
+      // },
+      // {
+      //   name: 'GraphQL Generator',
+      //   options: {
+      //     command: 'npm',
+      //     commandOptions: ['run', 'gen'],
+      //     options: { cwd: '/var/node-app-temp/server' }
+      //   }
+      // },
+      // {
+      //   name: 'Build Server',
+      //   options: {
+      //     command: 'tsc',
+      //     options: { cwd: '/var/node-app-temp/server' }
+      //   }
+      // },
+      // {
+      //   name: 'Create Temp Client Build Directory',
+      //   options: {
+      //     command: 'mkdir',
+      //     commandOptions: ['/var/node-app-temp/client']
+      //   }
+      // },
+      // {
+      //   name: 'Copy Existing Client Files',
+      //   options: {
+      //     command: 'rsync',
+      //     commandOptions: [
+      //       '-av',
+      //       '--progress',
+      //       '/var/node-app/client/.',
+      //       '/var/node-app-temp/client',
+      //       '--exclude',
+      //       'node_modules'
+      //     ]
+      //   }
+      // },
+      // {
+      //   name: 'Install Client Packages',
+      //   options: {
+      //     command: 'yarn',
+      //     commandOptions: ['install'],
+      //     options: { cwd: '/var/node-app-temp/client' }
+      //   }
+      // },
+      // {
+      //   name: 'Build Client',
+      //   options: {
+      //     command: 'yarn',
+      //     commandOptions: ['build'],
+      //     options: { cwd: '/var/node-app-temp/client' }
+      //   }
+      // },
+      // // at this point, the build process had no errors
+      // // copy server
+      // {
+      //   name: 'Delete Server Directory',
+      //   options: {
+      //     command: 'rm',
+      //     commandOptions: ['-rf', 'server'],
+      //     options: { cwd: '/var/node-app' }
+      //   }
+      // },
+      // {
+      //   name: 'Create Server Directory',
+      //   options: {
+      //     command: 'mkdir',
+      //     commandOptions: ['/var/node-app/server'],
+      //   }
+      // },
+      // {
+      //   name: 'Copy Temp Server to Server',
+      //   options: {
+      //     command: 'rsync',
+      //     commandOptions: [
+      //       '-av',
+      //       '--progress',
+      //       '/var/node-app-temp/server/.',
+      //       '/var/node-app/server',
+      //       '--exclude',
+      //       'node_modules'
+      //     ]
+      //   }
+      // },
+      // {
+      //   name: 'Install Server Packages',
+      //   options: {
+      //     command: 'npm',
+      //     commandOptions: ['i'],
+      //     options: { cwd: '/var/node-app/server' }
+      //   }
+      // },
+      // // copy client
+      // {
+      //   name: 'Delete Client Directory',
+      //   options: {
+      //     command: 'rm',
+      //     commandOptions: ['-rf', 'client'],
+      //     options: { cwd: '/var/node-app' }
+      //   }
+      // },
+      // {
+      //   name: 'Create Client Directory',
+      //   options: {
+      //     command: 'mkdir',
+      //     commandOptions: ['/var/node-app/client'],
+      //   }
+      // },
+      // {
+      //   name: 'Copy Temp Server to Client',
+      //   options: {
+      //     command: 'rsync',
+      //     commandOptions: [
+      //       '-av',
+      //       '--progress',
+      //       '/var/node-app-temp/client/.',
+      //       '/var/node-app/client',
+      //       '--exclude',
+      //       'node_modules'
+      //     ]
+      //   }
+      // },
+      // {
+      //   name: 'Install Client Packages',
+      //   options: {
+      //     command: 'yarn',
+      //     commandOptions: ['install'],
+      //     options: { cwd: '/var/node-app/client' }
+      //   }
+      // },
     ]
 
     for (let i = 0; i < steps.length; i++) {
