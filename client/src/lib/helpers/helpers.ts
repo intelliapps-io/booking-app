@@ -45,9 +45,10 @@ export class Limiter {
   }
 }
 
-export function getGraphqlConnectionString() {//handle dif port for dev and production
+export function getGraphqlConnectionString() {
+  //handle dif port for dev and production
   const { protocol, hostname } = window.location
-  const port = hostname.indexOf('localhost') > -1 ? 3001 : window.location.port
+  const port = hostname.indexOf('localhost') > -1 && process.env.NODE_ENV === 'development' ? 3001 : window.location.port
   return `${protocol}//${hostname}:${port}/graphql`
 }
 
