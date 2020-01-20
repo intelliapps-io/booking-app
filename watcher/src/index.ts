@@ -29,7 +29,6 @@ const main = async () => {
         const pm2Process = await getPm2Process('Worksoft Systems').catch(err => console.log(err))
         if (!pm2Process)
           return console.log('Error, no pm2Process found to restart')
-        // console.log(pm2Process)
         pm2.restart(pm2Process.pm_id!, (err, proc) => {
           if (err)
             return console.log(err)
