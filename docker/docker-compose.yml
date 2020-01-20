@@ -7,13 +7,28 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:80"
       - "5432:5432"
     networks: 
       - internal
-    command: pm2-runtime start /var/node-app/ecosystem.config.js --env production
-    # command: pm2-runtime start /var/node-app/docker/build-files/ecosystem.config.js --env production
-    # command: pm2-runtime start /var/node-app/server/dist/index.js --env production
+    command: pm2-runtime start /var/node-app/docker/build-files/ecosystem.config.js --env production
+  
+  traefik:
+    container_name: traefik
+    build:
+      context: .
+      dockerfile: Traefik.Dockerfile
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks: 
+      - internal
+    command: 
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
 networks:
   internal:
