@@ -7,12 +7,21 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "5432:5432"
+      - 4040
     networks: 
-      - internal
-    command: pm2-runtime start /var/node-app/docker/build-files/ecosystem.config.js --env production
+      # - internal
+      - web
+    # command: pm2-runtime start /var/node-app/docker/build-files/ecosystem.config.js --env production
+    command: node /var/node-app/server/dist/index.js NODE_ENV=production PORT=4040
     volumes: 
       - build-volume:/var/node-app
+    labels:
+      - traefik.enable=true
+      - traefik.frontend=node
+      - traefik.http.routers.node.rule=Host(`localhost`)
+      - traefik.port=4040
+      - traefik.docker.network=web
+      - traefik.http.routers.node.entrypoints=web
   
   traefik:
     container_name: traefik
@@ -21,17 +30,19 @@ services:
       dockerfile: Traefik.Dockerfile
     ports:
       - "80:80"
+      - "443:433"
       - "8080:8080"
     networks: 
-      - internal
+      # - internal
+      - web
     command: 
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=true"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.address=:4040"
     volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./build-files/traefik.toml:/traefik.toml
     
   whoami:
     image: containous/whoami
@@ -42,8 +53,10 @@ services:
       - "traefik.http.routers.whoami.entrypoints=web"
 
 networks:
+  web:
+    external: true
   internal:
-    driver: bridge
+    external: false
 
 volumes:
   build-volume:
