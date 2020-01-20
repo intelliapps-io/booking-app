@@ -8,19 +8,31 @@ services:
       dockerfile: Dockerfile
     ports:
       - 4040
+      - 9001
     networks: 
       - web
     command: pm2-runtime start /var/node-app/docker/build-files/ecosystem.config.js --env production
     volumes: 
       - build-volume:/var/node-app
     labels:
-      - traefik.enable=true
-      - traefik.frontend=node
-      - traefik.http.routers.node.rule=HostRegexp(`${HOST_DOMAIN}`, `{subdomain:[a-z]+}.${HOST_DOMAIN}`)
-      - traefik.port=4040
+      # - traefik.enable=true
+      # - traefik.frontend=node
+      # - traefik.http.routers.node.rule=HostRegexp(`${HOST_DOMAIN}`, `{subdomain:[a-z]+}.${HOST_DOMAIN}`)
+      # - traefik.port=4040
+      # - traefik.docker.network=web
+      # - traefik.http.routers.node.entrypoints=web
       - traefik.docker.network=web
+      - traefik.enable=true
+      - traefik.node.frontend=node
+      - traefik.http.routers.node.rule=HostRegexp(`${HOST_DOMAIN}`, `{subdomain:[a-z]+}.${HOST_DOMAIN}`)
+      - traefik.node.port=4040
       - traefik.http.routers.node.entrypoints=web
-  
+      # watcher
+      - traefik.watcher.frontend=watcher
+      - traefik.http.routers.watcher.rule=Host(`watcher9001.${HOST_DOMAIN}`)
+      - traefik.watcher.port=9001
+      - traefik.http.routers.watcher.entrypoints=web
+
   traefik:
     container_name: traefik
     build:
