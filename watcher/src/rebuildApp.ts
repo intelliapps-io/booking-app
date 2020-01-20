@@ -21,40 +21,79 @@ export function rebuildApp(): Promise<any> {
     console.log('Rebuilding App')
 
     const steps: Step[] = [
-      {
-        name: 'Git Pull',
-        options: {
-          command: 'sudo',
-          commandOptions: ['git', 'pull', '-key', '/home/ubuntu/.ssh/id_rsa'],
-          options: { cwd: '/var/node-app/server' }
-        }
-      },
+      // // Create Temp Directories
       // {
-      //   name: 'Create Temp Server Build Directory',
+      //   name: 'Create Temp Build Directory',
       //   options: {
       //     command: 'mkdir',
       //     commandOptions: ['/var/node-app-temp']
       //   }
       // },
       // {
-      //   name: 'Create Temp Server Build Directory',
+      //   name: 'Create Temp Clone Directory',
       //   options: {
       //     command: 'mkdir',
-      //     commandOptions: ['/var/node-app-temp/server']
+      //     commandOptions: ['/var/gitTemp']
       //   }
       // },
       // {
-      //   name: 'Copy Existing Server Files',
+      //   name: 'Modify Temp Clone Directory Permissons',
       //   options: {
-      //     command: 'rsync',
-      //     commandOptions: [
-      //       '-av',
-      //       '--progress',
-      //       '/var/node-app/server/.',
-      //       '/var/node-app-temp/server',
-      //       '--exclude',
-      //       'node_modules'
-      //     ]
+      //     command: 'chmod',
+      //     commandOptions: ['777', '/var/gitTemp']
+      //   }
+      // },
+      // // CREATE ROOT .ssh
+      // {
+      //   name: 'Make Root .ssh Folder',
+      //   options: {
+      //     command: 'mkdir',
+      //     commandOptions: [ '-p', '/root/.ssh'],
+      //     options: { cwd: '/var/gitTemp/' }
+      //   }
+      // },
+      // {
+      //   name: 'Add Git SSH Key To Root',
+      //   options: {
+      //     command: 'cp',
+      //     commandOptions: [ '/var/node-app/docker/build-files/git-ssh/id_rsa', '/root/.ssh' ]
+      //   }
+      // },
+      // {
+      //   name: 'Modify Git SSH Permissions',
+      //   options: {
+      //     command: 'chmod',
+      //     commandOptions: ['700', '/root/.ssh/id_rsa']
+      //   }
+      // },
+      // {
+      //   name: 'Trust New Git SSH',
+      //   options: {
+      //     command: 'ssh-keyscan',
+      //     commandOptions: ['-t', 'rsa', 'github.com', '>>', '/root/.ssh/known_hosts']
+      //   }
+      // },
+      // {
+      //   name: 'Clone Git Into Temp',
+      //   options: {
+      //     command: 'git',
+      //     commandOptions: ['clone', 'git@github.com:intelliapps-io/booking-app.git'],
+      //     options: { cwd: '/var/gitTemp' }
+      //   }
+      // },
+      // // Move Git Temp into Node App Temp
+      // {
+      //   name: 'Clone Git Into Temp',
+      //   options: {
+      //     command: 'cp',
+      //     commandOptions: ['-a', '/var/gitTemp/booking-app/.', '/var/node-app-temp/'],
+      //   }
+      // },
+      // {
+      //   name: 'Delete Git Temp Directory',
+      //   options: {
+      //     command: 'rm',
+      //     commandOptions: ['-rf', '/var/gitTemp'],
       //   }
       // },
       // {
@@ -81,27 +120,6 @@ export function rebuildApp(): Promise<any> {
       //   }
       // },
       // {
-      //   name: 'Create Temp Client Build Directory',
-      //   options: {
-      //     command: 'mkdir',
-      //     commandOptions: ['/var/node-app-temp/client']
-      //   }
-      // },
-      // {
-      //   name: 'Copy Existing Client Files',
-      //   options: {
-      //     command: 'rsync',
-      //     commandOptions: [
-      //       '-av',
-      //       '--progress',
-      //       '/var/node-app/client/.',
-      //       '/var/node-app-temp/client',
-      //       '--exclude',
-      //       'node_modules'
-      //     ]
-      //   }
-      // },
-      // {
       //   name: 'Install Client Packages',
       //   options: {
       //     command: 'yarn',
@@ -118,7 +136,7 @@ export function rebuildApp(): Promise<any> {
       //   }
       // },
       // // at this point, the build process had no errors
-      // // copy server
+      // // clean up rebuild process
       // {
       //   name: 'Delete Server Directory',
       //   options: {
@@ -194,6 +212,13 @@ export function rebuildApp(): Promise<any> {
       //     options: { cwd: '/var/node-app/client' }
       //   }
       // },
+      // {
+      //   name: 'Delete Temp Node App Directory',
+      //   options: {
+      //     command: 'rm',
+      //     commandOptions: ['-rf', '/var/node-app-temp']
+      //   }
+      // }
     ]
 
     for (let i = 0; i < steps.length; i++) {
@@ -203,6 +228,8 @@ export function rebuildApp(): Promise<any> {
         .then(res => console.log(`DONE[${stepNumber}/${steps.length}]: ${step.name}`))
         .catch(err => reject(err))
     }
-
+    
+    console.log('done building app')
+    resolve()
   })
 }
