@@ -1,4 +1,4 @@
-FROM node:12.14.1-stretch
+FROM node:12.14-stretch
 
 ## PACKAGES - install needed modules
 RUN npm i -g pm2
