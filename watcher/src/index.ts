@@ -2,6 +2,7 @@ const bodyParser = require('body-parser');
 import express from 'express'
 import crypto from 'crypto'
 import pm2 from 'pm2'
+import { rebuildApp } from './rebuildApp';
 
 const main = async () => {
   if (!process.env.PORT)
@@ -13,7 +14,16 @@ const main = async () => {
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }));
 
-  pm2.connect((err) => { console.error(err) })
+  // pm2.connect((err) => { if (err) console.error(err) })
+  // pm2.list((err, data) => {
+  //   if (err)
+  //     return console.error(err)
+  //   console.log(data)
+  // })
+
+  rebuildApp()
+    .then(() => 'done building app')
+    .catch(err => console.log('ERROR BUILDING APP'))
 
   app.post('/github', (req, res) => {
     if (req.body.ref !== 'refs/heads/master')

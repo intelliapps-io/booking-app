@@ -23,10 +23,10 @@ module.exports = {
       script: '/var/node-app/watcher/dist/index.js',
       autorestart: true,
       watch: false,
-      max_memory_restart: '500mb',
+      max_memory_restart: '4G',
       env: {
         NODE_ENV: 'development',
-        PORT: 9001
+        PORT: 9002
       },
       env_production: {
         NODE_ENV: 'production'

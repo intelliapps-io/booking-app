@@ -1,0 +1,1 @@
+cd /var/node-app/server && npm i;
