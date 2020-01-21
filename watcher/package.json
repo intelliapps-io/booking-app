@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/express": "^4.17.2",
     "body-parser": "^1.19.0",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "pm2": "^4.2.1",
     "ts-node": "^8.6.2",
@@ -13,8 +14,8 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "dev": "PORT=9001 ts-node-dev src/index.ts",
-    "start": "node dist/index.js",
+    "dev": "DEBUG=logger PORT=9001 ts-node-dev src/index.ts",
+    "start": "DEBUG=logger PORT=9001 node dist/index.js",
     "build": "tsc"
   }
 }

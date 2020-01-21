@@ -1,4 +1,5 @@
 import cp, { spawn, SpawnOptionsWithoutStdio } from 'child_process'
+import { nodeLogger } from './helpers'
 
 type RunOptions = { command: string, commandOptions?: string[], options?: SpawnOptionsWithoutStdio | undefined }
 
@@ -18,7 +19,7 @@ interface Step {
 
 export function rebuildApp(): Promise<any> {
   return new Promise(async (resolve: (data?: any) => void, reject: (err: Error) => void) => {
-    console.log('Rebuilding App')
+    nodeLogger('Rebuilding App')
 
     const steps: Step[] = [
       // Create Temp Directories
@@ -223,13 +224,13 @@ export function rebuildApp(): Promise<any> {
 
     for (let i = 0; i < steps.length; i++) {
       const stepNumber = i + 1, step = steps[i], { command, commandOptions, options } = step.options
-      console.log(`[${stepNumber}/${steps.length}] ${step.name}`)
+      nodeLogger(`[${stepNumber}/${steps.length}] ${step.name}`)
       await run({ command, commandOptions, options })
-        .then(res => console.log(`DONE[${stepNumber}/${steps.length}]: ${step.name}`))
+        .then(res => nodeLogger(`DONE[${stepNumber}/${steps.length}]: ${step.name}`))
         .catch(err => reject(err))
     }
     
-    console.log('done building app')
+    nodeLogger('done building app')
     resolve()
   })
 }

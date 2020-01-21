@@ -13,3 +13,5 @@ export function getPm2Process(name: string): Promise<pm2.ProcessDescription> {
     })
   })
 }
+
+export const nodeLogger = require('debug')('logger');
