@@ -1,7 +1,14 @@
 import cp, { spawn, SpawnOptionsWithoutStdio } from 'child_process'
 import { nodeLogger } from './helpers'
+import { Server } from 'socket.io'
+import fs from 'fs'
 
 type RunOptions = { command: string, commandOptions?: string[], options?: SpawnOptionsWithoutStdio | undefined }
+
+interface Step {
+  name: string,
+  options: RunOptions
+}
 
 const run = ({ command, commandOptions, options }: RunOptions): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -12,13 +19,32 @@ const run = ({ command, commandOptions, options }: RunOptions): Promise<string> 
     cmd.on("close", code => { if (code !== 0) reject(new Error(`child process exited with code ${code}`)); else resolve(`child process exited with code ${code}`) });
   })
 
-interface Step {
-  name: string,
-  options: RunOptions
+const addLog = (line: string, callback?: (err: NodeJS.ErrnoException | null, text: string) => void) => {
+  fs.readFile(__dirname + '/buildlogs.txt', (err, data) => {
+    if (err) return
+    const concatLines = data.toString('utf8') + '\n' + line
+    fs.writeFile(
+      __dirname + '/buildlogs.txt',
+      data.toString('utf8') + '\n' + line,
+      { encoding: 'utf8' },
+      (err) => { if (callback) callback(err, concatLines) }
+    )
+  })
 }
 
-export function rebuildApp(): Promise<any> {
+const onStep = (line: string, io: Server) => {
+  nodeLogger(line)
+  addLog(line, (err, text) => {
+    io.emit('buildlog', {
+      log: text
+    })
+  })
+}
+
+export function rebuildApp(io: Server): Promise<any> {
   return new Promise(async (resolve: (data?: any) => void, reject: (err: Error) => void) => {
+    fs.writeFile(__dirname + '/buildlogs.txt', '', { encoding: 'utf8' }, () => {})
+    
     nodeLogger('Rebuilding App')
 
     const steps: Step[] = [
@@ -224,13 +250,13 @@ export function rebuildApp(): Promise<any> {
 
     for (let i = 0; i < steps.length; i++) {
       const stepNumber = i + 1, step = steps[i], { command, commandOptions, options } = step.options
-      nodeLogger(`[${stepNumber}/${steps.length}] ${step.name}`)
+      onStep(`[${stepNumber}/${steps.length}] ${step.name}`, io)
       await run({ command, commandOptions, options })
-        .then(res => nodeLogger(`DONE[${stepNumber}/${steps.length}]: ${step.name}`))
+        .then(res => onStep(`DONE[${stepNumber}/${steps.length}]: ${step.name}`, io))
         .catch(err => reject(err))
     }
     
-    nodeLogger('done building app')
+    onStep('done building app', io)
     resolve()
   })
 }
