@@ -9,7 +9,7 @@ export const Landing: React.FC<LandingProps> = props => {
   return(
     <div>
       <h1>Booking App Landing</h1>
-      <h4>Vist subdomain to view organization</h4>
+      <h4>Vist subdomain to view organization!</h4>
     </div>
   )
 }

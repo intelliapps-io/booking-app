@@ -18,15 +18,19 @@ services:
       # common
       - traefik.docker.network=web
       # watcher
+      - traefik.watcher.frontend=node
       - traefik.watcher.port=9002
-      - traefik.watcher.frontend.rule=Host:watcher9002.${HOST_DOMAIN}
+      - traefik.http.routers.watcher.rule=Host(`watcher9002.${HOST_DOMAIN}`)
       # node
       - traefik.node.port=4040
-      - traefik.node.frontend.rule=HostRegexp:${HOST_DOMAIN}`, `{subdomain:[a-z]+}.${HOST_DOMAIN}
+      - traefik.node.frontend=node
+      - traefik.http.routers.node.rule=HostRegexp(`${HOST_DOMAIN}`, `{subdomain:[a-z]+}.${HOST_DOMAIN}`)
 
   traefik:
     container_name: traefik
-    image: traefik:v1.7
+    build:
+      context: .
+      dockerfile: Traefik.Dockerfile
     ports:
       - "80:80"
       - "443:433"
@@ -41,6 +45,14 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - ./build-files/traefik.toml:/etc/traefik/traefik.toml:ro
+    
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOST_DOMAIN}`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
 
 networks:
   web:
