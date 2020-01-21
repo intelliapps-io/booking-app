@@ -1,0 +1,20 @@
+
+[7/24] Trust New Git SSHSH Permissions
+[8/24] Clone Git Into TempSSH
+[9/24] Clone Git Into Temp Temp
+[10/24] Delete Git Temp Directory
+[11/24] Install Server Packagesrectory
+[12/24] GraphQL Generatorer Packages
+[13/24] Build Server Generator
+[14/24] Install Client Packages
+[15/24] Build Client
+[16/24] Delete Server Directory
+[17/24] Create Server Directoryctory
+[18/24] Copy Temp Server to Serverry
+[19/24] Install Server Packageso Server
+[20/24] Delete Client Directorykages
+[21/24] Create Client Directoryctory
+[22/24] Copy Temp Server to Clientry
+[23/24] Install Client Packageso Client
+[24/24] Delete Temp Node App Directory
+done building appte Temp Node App Directory

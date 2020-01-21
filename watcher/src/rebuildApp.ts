@@ -20,23 +20,26 @@ const run = ({ command, commandOptions, options }: RunOptions): Promise<string> 
   })
 
 const addLog = (line: string, callback?: (err: NodeJS.ErrnoException | null, text: string) => void) => {
-  fs.readFile(__dirname + '/buildlogs.txt', (err, data) => {
+  fs.readFile(__dirname + '/buildlogs.txt', { encoding: 'utf8' }, (err, data) => {
     if (err) return
-    const concatLines = data.toString('utf8') + '\n' + line
+    const concatLines = data + '\n' + line
     fs.writeFile(
       __dirname + '/buildlogs.txt',
-      data.toString('utf8') + '\n' + line,
+      concatLines,
       { encoding: 'utf8' },
       (err) => { if (callback) callback(err, concatLines) }
     )
   })
 }
 
-const onStep = (line: string, io: Server) => {
-  nodeLogger(line)
-  addLog(line, (err, text) => {
-    io.emit('buildlog', {
-      log: text
+const onStep = (line: string, io: Server): Promise<string> => {
+  return new Promise((resolve: (result: string) => void, reject: (err: Error) => void) => {
+    nodeLogger(line)
+    addLog(line, (err, text) => {
+      io.emit('buildlog', {
+        log: text
+      })
+      resolve(text)
     })
   })
 }
@@ -45,7 +48,7 @@ export function rebuildApp(io: Server): Promise<any> {
   return new Promise(async (resolve: (data?: any) => void, reject: (err: Error) => void) => {
     fs.writeFile(__dirname + '/buildlogs.txt', '', { encoding: 'utf8' }, () => {})
     
-    nodeLogger('Rebuilding App')
+    await onStep('Rebuilding App', io)
 
     const steps: Step[] = [
       // Create Temp Directories
@@ -250,7 +253,7 @@ export function rebuildApp(io: Server): Promise<any> {
 
     for (let i = 0; i < steps.length; i++) {
       const stepNumber = i + 1, step = steps[i], { command, commandOptions, options } = step.options
-      onStep(`[${stepNumber}/${steps.length}] ${step.name}`, io)
+      await onStep(`[${stepNumber}/${steps.length}] ${step.name}`, io)
       await run({ command, commandOptions, options })
         .then(res => onStep(`DONE[${stepNumber}/${steps.length}]: ${step.name}`, io))
         .catch(err => reject(err))
