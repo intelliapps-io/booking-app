@@ -27,11 +27,11 @@ const run = ({ command, commandOptions, options }: RunOptions): Promise<{ result
   })
 
 const addLog = (line: string, callback?: (err: NodeJS.ErrnoException | null, text: string) => void) => {
-  fs.readFile(__dirname + '/buildlogs.txt', { encoding: 'utf8' }, (err, data) => {
+  fs.readFile(__dirname + '/../common/buildlogs.txt', { encoding: 'utf8' }, (err, data) => {
     if (err) return
     const concatLines = data + '\n' + line
     fs.writeFile(
-      __dirname + '/buildlogs.txt',
+      __dirname + '/../common/buildlogs.txt',
       concatLines,
       { encoding: 'utf8' },
       (err) => { if (callback) callback(err, concatLines) }
@@ -53,7 +53,7 @@ const onStep = (line: string, io: Server): Promise<string> => {
 
 export function rebuildApp(io: Server): Promise<any> {
   return new Promise(async (resolve: (data?: any) => void, reject: (err: Error) => void) => {
-    fs.writeFile(__dirname + '/buildlogs.txt', '', { encoding: 'utf8' }, () => {})
+    fs.writeFile(__dirname + '/../common/buildlogs.txt', '', { encoding: 'utf8' }, () => {})
     
     await onStep('Rebuilding App', io)
 

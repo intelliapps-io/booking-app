@@ -5,6 +5,7 @@ import pm2 from 'pm2'
 import { rebuildApp } from './rebuildApp';
 import { getPm2Process, nodeLogger } from './helpers';
 import CreateSocketIO from 'socket.io'
+import path from 'path'
 
 const main = async () => {
   const app = express(), port = process.env.PORT, guid = '2g948693-12dc-406a-8927-r753z56jd489'
@@ -44,13 +45,8 @@ const main = async () => {
 
   // Index Route
   app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(path.resolve(__dirname + '/../common/index.html'));
   });
-
-  // Socket IO
-  // setInterval(() => {
-  //   io.emit('data', { hello: 'world' })
-  // }, 1000)
 
   server.listen(port)
   console.log(`Watcher listening on port http://localhost:${port}`)
