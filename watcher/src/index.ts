@@ -1,59 +1,98 @@
-const bodyParser = require('body-parser');
-import express from 'express'
-import crypto from 'crypto'
-import pm2 from 'pm2'
-import { rebuildApp } from './rebuildApp';
-import { getPm2Process, nodeLogger } from './helpers';
-import CreateSocketIO from 'socket.io'
+require('dotenv').config();
+import "reflect-metadata";
+import Express from "express";
+import cookieParser from "cookie-parser";
+import cors, { CorsOptions } from "cors";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import { createConnection, getConnectionOptions } from "typeorm";
+
+import { resolvers } from "./modules/resolvers";
+import { authMiddleware, authChecker } from "./helpers/auth";
+import { runCodegen, nodeLogger } from "./helpers/helpers";
+import path, { join } from "path";
+import { confirmEmailRoute } from "./helpers/routeHandlers/confirmEmailRoute";
 
 const main = async () => {
-  const app = express(), port = process.env.PORT, guid = '2g948693-12dc-406a-8927-r753z56jd489'
-  if (!process.env.PORT)
-    return nodeLogger('NO PORT PROVIDED AS ENV VAR')
+  const httpPort = process.env.NODE_ENV === 'development' ? process.env.DEV_SERVER_PORT : process.env.PROD_PORT;
 
-  const server = require('http').Server(app)
-  const io = CreateSocketIO(server)  
+  // Connect to Postgres DB
+  const connect = () => new Promise(async (resolve, reject) => {
+    let attempts = 0, maxAttempts = 10
+    const connectionOptions = await getConnectionOptions()
+    
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
+      Object.assign(connectionOptions, { entities: ['src/entity/*.ts'] })
+    else
+      Object.assign(connectionOptions, { entities: [path.resolve(__dirname + '/entity/*.js')] })
 
-  app.use(bodyParser.json())
-  app.use(bodyParser.urlencoded({ extended: false }));
-
-  // GitHub WebHook
-  app.post('/github', (req, res) => {
-    if (req.body.ref !== 'refs/heads/master')
-      return
-    const signature = req.headers['x-hub-signature'];
-    const hash = `sha1=${crypto.createHmac('sha1', guid).update(JSON.stringify(req.body)).digest('hex')}`
-    if (hash !== signature)
-      return nodeLogger('hash !== signature')
-    nodeLogger('Git Push Made and Accepts')
-    // hanlde pm2 update
-    rebuildApp(io)
-      .catch(err => nodeLogger('ERROR BUILDING APP'))
-      .then(async () => {
-        const pm2Process = await getPm2Process('Worksoft Systems').catch(err => nodeLogger(err))
-        if (!pm2Process)
-          return nodeLogger('Error, no pm2Process found to restart')
-        pm2.restart(pm2Process.pm_id!, (err, proc) => {
-          if (err)
-            return nodeLogger(err)
-          else
-          nodeLogger('Process Restarted!')
-        })
-      })
+    const interval = setInterval(
+      () => createConnection()
+        .then(() => { clearInterval(interval); resolve(); })
+        .catch(error => attempts > maxAttempts ? reject(error) : attempts++),
+      500
+    )
   })
+  await connect().catch(err => { throw err });
 
-  // Index Route
-  app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+  // Generate TypeGraphQL Schema 
+  const schema = await buildSchema({
+    resolvers,
+    authChecker,
+    emitSchemaFile: {
+      path: `./${process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev' ? 'src' : 'dist'}/graphql/generated-schema.graphql`
+    }
   });
 
-  // Socket IO
-  // setInterval(() => {
-  //   io.emit('data', { hello: 'world' })
-  // }, 1000)
+  // Create GraphQL Server
+  const apolloServer = new ApolloServer({
+    schema,
+    context: ({ req, res }) => ({ req, res })
+  });
 
-  server.listen(port)
-  console.log(`Watcher listening on port http://localhost:${port}`)
+  // Create Express Web Server
+  const app = Express();
+
+  // Read authentication cookies from requests
+  app.use(cookieParser())
+
+  // CORS
+  var corsOptions: CorsOptions = {
+    credentials: true,
+    origin: true
+  }
+  app.use(cors(corsOptions));
+
+  // Configure JWT-Authentication
+  app.use(authMiddleware);
+
+  // Integrate GraphQL Server with Express
+  apolloServer.applyMiddleware({ app, cors: corsOptions });
+
+  // Foward React Doc For Production
+  if (process.env.NODE_ENV !== "development") {
+    const buildFolder = join(__dirname, "../", "../", "client", "build");
+    const indexHtml = join(buildFolder, "index.html");
+    app.use("/", Express.static(buildFolder))
+    app.get('/', (req, res, next) => {
+      res.sendFile(indexHtml);
+    })
+  }
+
+  ////////////////////////
+  //   EXPRESS ROUTES   //
+  ////////////////////////
+
+  // Email Confirm
+  app.get('/account/confirm/:userId', confirmEmailRoute)
+
+  ////////////////////
+  //   Start App    //
+  ////////////////////
+  app.listen(httpPort, () => console.log(`> GraphQL: http://localhost:${httpPort}/graphql `));
+
+  // Generate Client Code
+  await runCodegen().catch(err => { });
 }
 
-main().catch(err => console.error(err))
+main(); 
