@@ -4,7 +4,8 @@ module.exports = {
       name: 'Worksoft Systems',
       script: '/var/node-app/server/dist/index.js',
       autorestart: true,
-      watch: false,
+      watch: ['/var/node-app/server/dist'],
+      watch_delay: 1000,
       max_memory_restart: '3G',
       env: {
         NODE_ENV: 'production',
