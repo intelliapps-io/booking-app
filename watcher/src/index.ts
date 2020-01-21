@@ -31,15 +31,19 @@ const main = async () => {
     rebuildApp(io)
       .catch(err => nodeLogger('ERROR BUILDING APP'))
       .then(async () => {
-        const pm2Process = await getPm2Process('Worksoft Systems').catch(err => nodeLogger(err))
-        if (!pm2Process)
-          return nodeLogger('Error, no pm2Process found to restart')
-        pm2.restart(pm2Process.pm_id!, (err, proc) => {
-          if (err)
-            return nodeLogger(err)
-          else
-          nodeLogger('Process Restarted!')
-        })
+        /**
+         * pm2 now auto watches for server & client updates
+         */
+
+        // const pm2Process = await getPm2Process('Worksoft Systems').catch(err => nodeLogger(err))
+        // if (!pm2Process)
+        //   return nodeLogger('Error, no pm2Process found to restart')
+        // pm2.restart(pm2Process.pm_id!, (err, proc) => {
+        //   if (err)
+        //     return nodeLogger(err)
+        //   else
+        //   nodeLogger('Process Restarted!')
+        // })
       })
   })
 
