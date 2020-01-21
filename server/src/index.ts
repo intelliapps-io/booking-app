@@ -22,7 +22,7 @@ const main = async () => {
     const connectionOptions = await getConnectionOptions()
     
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
-      Object.assign(connectionOptions, { entities: ['src/entity/*.*'] })
+      Object.assign(connectionOptions, { entities: ['src/entity/*.ts'] })
     else
       Object.assign(connectionOptions, { entities: [path.resolve(__dirname + '/entity/*.js')] })
 
