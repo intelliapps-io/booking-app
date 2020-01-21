@@ -10,13 +10,20 @@ interface Step {
   options: RunOptions
 }
 
-const run = ({ command, commandOptions, options }: RunOptions): Promise<string> =>
+const run = ({ command, commandOptions, options }: RunOptions): Promise<{ result: string, streamlogs: string }> =>
   new Promise((resolve, reject) => {
+    let streamlogs = ''
     const cmd = spawn(command, commandOptions, options)
     cmd.stderr.on("data", data => process.stderr.write(data))
-    cmd.stdout.on("data", data => process.stdout.write(data))
+    cmd.stdout.on("data", data => {
+      process.stdout.write(data)
+      streamlogs += streamlogs + '\n' + data
+    })
     cmd.on('error', (error) => reject(error))
-    cmd.on("close", code => { if (code !== 0) reject(new Error(`child process exited with code ${code}`)); else resolve(`child process exited with code ${code}`) });
+    cmd.on("close", code => {
+      if (code !== 0) reject(new Error(`child process exited with code ${code}`))
+      else resolve({ result: `child process exited with code ${code}`, streamlogs })
+    });
   })
 
 const addLog = (line: string, callback?: (err: NodeJS.ErrnoException | null, text: string) => void) => {
@@ -241,7 +248,7 @@ export function rebuildApp(io: Server): Promise<any> {
           commandOptions: ['install'],
           options: { cwd: '/var/node-app/client' }
         }
-      },
+      }, 
       {
         name: 'Delete Temp Node App Directory',
         options: {
@@ -255,7 +262,7 @@ export function rebuildApp(io: Server): Promise<any> {
       const stepNumber = i + 1, step = steps[i], { command, commandOptions, options } = step.options
       await onStep(`[${stepNumber}/${steps.length}] ${step.name}`, io)
       await run({ command, commandOptions, options })
-        .then(res => onStep(`DONE[${stepNumber}/${steps.length}]: ${step.name}`, io))
+        .then(({ streamlogs }) => onStep(streamlogs, io).then(() => onStep(`DONE[${stepNumber}/${steps.length}]: ${step.name}`, io)))
         .catch(err => reject(err))
     }
     
