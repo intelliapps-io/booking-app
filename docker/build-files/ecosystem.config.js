@@ -10,7 +10,7 @@ module.exports = {
         NODE_ENV: 'production',
         PROD_DOMAIN: 'worksoft.systems',
         DEV_DOMAIN: 'localhost',
-        PROD_PORT: 4040,
+        PROD_PORT: 80,
         DEV_SERVER_PORT: 3001,
         DEV_CLIENT_PORT: 3000,
         DEBUG: 'logger'
