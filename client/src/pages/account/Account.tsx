@@ -6,6 +6,7 @@ import { AppContext } from "../../lib/helpers/AppContext";
 import { UserForm } from "../admin/users/UserForm";
 import {UserAccountForm } from './useraccountform/UserAccountForm'
 import '../account/Account.less'
+import { QueryUserEvent } from "./usereventquery/QueryUserEvents";
 
 
 
@@ -44,24 +45,22 @@ export const Account: React.FC<IProps> = props => {
       <div>
         <Tabs defaultActiveKey="1" tabPosition='left'>
           <TabPane tab="Over View" key="1">
-          <SplitPane split="vertical" minSize={50} defaultSize={100}>
             <div>
               <h3>Appointments</h3>
-            </div>
-            <div style={{width: '80%', margin: 'auto'}}>
-              <h3 style={{}}>Your information</h3>
-              <div>
-                <UserAccountForm />
-              </div>
+              <QueryUserEvent/>
+                
             </div>
             {/* {adminAccount()} */}
-          </SplitPane>
           </TabPane>
           <TabPane tab="My Calender" key="2">
             <h1> hello</h1>
           </TabPane>
-          <TabPane tab="User Info" key="3">
+          <TabPane tab="Trade Board" key="3">
             <h1> bye</h1>
+          </TabPane>
+          <TabPane tab="User Data" key="4">
+          <h3 style={{}}>Your information</h3>
+            <UserAccountForm />
           </TabPane>
 
         </Tabs>
