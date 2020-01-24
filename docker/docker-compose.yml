@@ -1,0 +1,85 @@
+version: '3.5'
+
+services:
+  node:
+    container_name: node
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 4040
+    networks: 
+      web:
+      internal:
+        ipv4_address: "10.0.0.6"
+    command: pm2-runtime start /var/node-app/docker/build-files/appserver.config.js && pm2 logs
+    volumes: 
+      - build-volume:/var/node-app
+    labels:
+      - traefik.docker.network=web
+      - traefik.node.port=4040
+      - traefik.node.frontend=node
+      - traefik.http.routers.node.rule=HostRegexp(`${HOST_DOMAIN}`, `{subdomain:[a-z]+}.${HOST_DOMAIN}`)
+      - traefik.http.routers.node.entrypoints=web
+
+  watcher:
+    container_name: watcher
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9001
+    networks: 
+      web:
+      internal:
+        ipv4_address: "10.0.0.5"
+    command: pm2-runtime start /var/node-app/docker/build-files/watcher.config.js && pm2 logs
+    volumes: 
+      - build-volume:/var/node-app
+    labels:
+      - traefik.docker.network=web
+      - traefik.watcher.port=9001
+      - traefik.watcher.frontend=watcher
+      - traefik.http.routers.watcher.rule=Host(`watcher9001.${HOST_DOMAIN}`)
+      - traefik.http.routers.watcher.entrypoints=web
+
+  traefik:
+    container_name: traefik
+    build:
+      context: .
+      dockerfile: Traefik.Dockerfile
+    ports:
+      - "80:80"
+      - "443:433"
+      - "8080:8080"
+    networks: 
+      - web
+      - internal
+
+    command: 
+      - --api.insecure=true
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=true
+      - --entrypoints.web.address=:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.${HOST_DOMAIN}`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+
+networks:
+  web:
+    external: true
+  internal:
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.0.0/24"
+
+volumes:
+  build-volume:

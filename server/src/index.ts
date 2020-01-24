@@ -10,20 +10,22 @@ import { createConnection, getConnectionOptions } from "typeorm";
 import { resolvers } from "./modules/resolvers";
 import { authMiddleware, authChecker } from "./helpers/auth";
 import { runCodegen, nodeLogger } from "./helpers/helpers";
-import { join } from "path";
+import path, { join } from "path";
 import { confirmEmailRoute } from "./helpers/routeHandlers/confirmEmailRoute";
 
 const main = async () => {
-  const httpPort = process.env.NODE_ENV === 'development' ? 3001 : 80;
+  const httpPort = process.env.NODE_ENV === 'development' ? process.env.DEV_SERVER_PORT : process.env.PROD_PORT;
 
   // Connect to Postgres DB
   const connect = () => new Promise(async (resolve, reject) => {
     let attempts = 0, maxAttempts = 10
     const connectionOptions = await getConnectionOptions()
-
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
-      Object.assign(connectionOptions, { entities: ["src/entity/*.*"] })
     
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production_dev')
+      Object.assign(connectionOptions, { entities: ['src/entity/*.ts'] })
+    else
+      Object.assign(connectionOptions, { entities: [path.resolve(__dirname + '/entity/*.js')] })
+
     const interval = setInterval(
       () => createConnection()
         .then(() => { clearInterval(interval); resolve(); })
@@ -34,7 +36,6 @@ const main = async () => {
   await connect().catch(err => { throw err });
 
   // Generate TypeGraphQL Schema 
-
   const schema = await buildSchema({
     resolvers,
     authChecker,
@@ -48,12 +49,6 @@ const main = async () => {
     schema,
     context: ({ req, res }) => ({ req, res })
   });
-
-  // sendEmail({
-  //   html: '<div>test</div>',
-  //   subject: 'TEST',
-  //   to: 'moorejared97@gmail.com'
-  // })
 
   // Create Express Web Server
   const app = Express();

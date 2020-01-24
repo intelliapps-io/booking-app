@@ -1,0 +1,23 @@
+
+Rebuilding App
+[1/24] Create Temp Build Directory
+DONE[1/24]: Create Temp Build Directory
+[2/24] Create Temp Clone Directory
+DONE[2/24]: Create Temp Clone Directory
+[3/24] Modify Temp Clone Directory Permissons
+DONE[3/24]: Modify Temp Clone Directory Permissons
+[4/24] Make Root .ssh Folder
+DONE[4/24]: Make Root .ssh Folder
+[5/24] Add Git SSH Key To Root
+DONE[5/24]: Add Git SSH Key To Root
+[6/24] Modify Git SSH Permissions
+DONE[6/24]: Modify Git SSH Permissions
+[7/24] Trust New Git SSH
+DONE[7/24]: Trust New Git SSH
+[8/24] Clone Git Into Temp
+DONE[8/24]: Clone Git Into Temp
+[9/24] Clone Git Into Temp
+DONE[9/24]: Clone Git Into Temp
+[10/24] Delete Git Temp Directory
+DONE[10/24]: Delete Git Temp Directory
+[11/24] Install Server Packages

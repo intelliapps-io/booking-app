@@ -1,0 +1,17 @@
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+</head>
+<body>
+  Welcome to Server Stats!
+
+</body>
+
+<script>
+  var socket = io('http://worksoft.systems:9001');
+  socket.on('data', function (data) {
+    console.log(data);
+  });
+  socket.on('buildlog', function (data) {
+    console.log(data);
+  });
+</script>
