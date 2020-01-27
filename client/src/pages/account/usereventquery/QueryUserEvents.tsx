@@ -30,7 +30,7 @@ export const QueryUserEvent: React.FC<QueryUserEventProps> = props => {
 
     if(items) {
       return (
-        <div style={{width: '40%'}}>
+        <div style={{}}>
           {items.map((item) =>
             <EventDescriptionWrap key={item.id} event={item as any} />
           )}
