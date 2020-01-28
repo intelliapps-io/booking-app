@@ -201,6 +201,14 @@ input QueryEmployeeSchedulesInput {
 input QueryEventsInput {
   offset: Float
   limit: Float
+
+  """YYYY-MM-DD format"""
+  dateBefore: String
+
+  """YYYY-MM-DD format"""
+  dateAfter: String
+  customerId: String
+  employeeId: String
 }
 
 input QueryOrganizationInput {
