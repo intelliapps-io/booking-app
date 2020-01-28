@@ -78,7 +78,7 @@ export class QueryEventsResolver {
       
       if (data.dateAfter)
         query.andWhere(`Event.datetime >= '${data.dateAfter}'`)
-      
+       
       // get data
       queryPaginatedResponse(query)
         .then(result => resolve(result))
