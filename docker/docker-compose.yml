@@ -45,9 +45,7 @@ services:
 
   traefik:
     container_name: traefik
-    build:
-      context: .
-      dockerfile: Traefik.Dockerfile
+    image: traefik:v2.1
     ports:
       - "80:80"
       - "443:433"
@@ -55,10 +53,9 @@ services:
     networks: 
       - web
       - internal
-
     command: 
-      - --api.insecure=true
-      - --providers.docker=true
+      - --api.insecure=false
+      - --providers.docker
       - --providers.docker.exposedbydefault=true
       - --entrypoints.web.address=:80
     volumes:

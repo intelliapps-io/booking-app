@@ -1,11 +1,9 @@
 {
   "name": "main",
   "scripts": {
-    "start": "bash ./dev.sh",
+    "start": "cd ./docker && HOST_DOMAIN=worksoft.systems /bin/docker-compose up -d",
     "gen": "cd server && npm run gen",
     "attach": "tmux attach -t dev",
-    "stop": "npm run stop:dev && npm run stop:pg",
-    "stop:pg": "cd server && npm stop",
-    "stop:dev": "tmux kill-session -t dev"
+    "stop": "cd ./docker && /bin/docker-compose down"
   }
 }
