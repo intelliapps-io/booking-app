@@ -130,7 +130,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             </Form>
           </TabPane>
           {/* tabpae #2 */}
-          <TabPane tab="Opperation Hours" key="2">
+          <TabPane tab="Business Hours" key="2">
           <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{width: '95%', border: '1.5px solid rgb(172, 170, 170', padding: '10px 5px', margin: 'auto'}}>
             {/* monday */}
               <div style={{ display: 'flex', justifyContent: 'space-around' }}>
