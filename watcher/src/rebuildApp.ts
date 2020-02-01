@@ -173,7 +173,7 @@ export function rebuildApp(io: Server): Promise<any> {
         }
       },
       // at this point, the build process had no errors
-      // clean up rebuild process
+      // clean up rebuild process 
       {
         name: 'Delete Server Directory',
         options: {
