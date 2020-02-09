@@ -120,19 +120,19 @@ export function rebuildApp(io: Server): Promise<any> {
       },
       // Move Git Temp into Node App Temp
       {
-        name: 'Clone Git Into Temp',
+        name: 'Move Git Temp into Node App Temp',
         options: {
           command: 'cp',
           commandOptions: ['-a', '/var/gitTemp/booking-app/.', '/var/node-app-temp/'],
         }
       },
-      {
-        name: 'Delete Git Temp Directory',
-        options: {
-          command: 'rm',
-          commandOptions: ['-rf', '/var/gitTemp'],
-        }
-      },
+      // {
+      //   name: 'Delete Git Temp Directory',
+      //   options: {
+      //     command: 'rm',
+      //     commandOptions: ['-rf', '/var/gitTemp'],
+      //   }
+      // },
       {
         name: 'Install Server Packages',
         options: {
@@ -173,7 +173,7 @@ export function rebuildApp(io: Server): Promise<any> {
         }
       },
       // at this point, the build process had no errors
-      // clean up rebuild process
+      // clean up rebuild process 
       {
         name: 'Delete Server Directory',
         options: {
@@ -249,13 +249,13 @@ export function rebuildApp(io: Server): Promise<any> {
           options: { cwd: '/var/node-app/client' }
         }
       }, 
-      {
-        name: 'Delete Temp Node App Directory',
-        options: {
-          command: 'rm',
-          commandOptions: ['-rf', '/var/node-app-temp']
-        }
-      }
+      // {
+      //   name: 'Delete Temp Node App Directory',
+      //   options: {
+      //     command: 'rm',
+      //     commandOptions: ['-rf', '/var/node-app-temp']
+      //   }
+      // }
     ]
 
     for (let i = 0; i < steps.length; i++) {

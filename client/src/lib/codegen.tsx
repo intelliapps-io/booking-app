@@ -325,6 +325,12 @@ export type QueryEmployeeSchedulesInput = {
 export type QueryEventsInput = {
   offset?: Maybe<Scalars['Float']>,
   limit?: Maybe<Scalars['Float']>,
+  /** YYYY-MM-DD format */
+  dateBefore?: Maybe<Scalars['String']>,
+  /** YYYY-MM-DD format */
+  dateAfter?: Maybe<Scalars['String']>,
+  customerId?: Maybe<Scalars['String']>,
+  employeeId?: Maybe<Scalars['String']>,
 };
 
 export type QueryOrganizationInput = {

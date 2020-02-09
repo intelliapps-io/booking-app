@@ -1,9 +1,9 @@
 {
   "name": "main",
   "scripts": {
-    "start": "sudo pm2 start ./docker/build-files/ecosystem.config.js",
-    "restart": "sudo pm2 restart ./docker/build-files/ecosystem.config.js",
-    "stop": "sudo pm2 stop ./docker/build-files/ecosystem.config.js"
-
+    "start": "cd ./docker && HOST_DOMAIN=worksoft.systems /bin/docker-compose up -d",
+    "gen": "cd server && npm run gen",
+    "attach": "tmux attach -t dev",
+    "stop": "cd ./docker && /bin/docker-compose down"
   }
 }
