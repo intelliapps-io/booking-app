@@ -46,7 +46,7 @@ export const Account: React.FC<IProps> = props => {
         <Tabs defaultActiveKey="1" tabPosition='left'>
           <TabPane tab="Over View" key="1">
             <div>
-              <h3>Appointments</h3>
+              <h3>Event List</h3>
               <QueryUserEvent/>
                 
             </div>
