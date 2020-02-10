@@ -23,27 +23,31 @@ export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props =
   }
   if (user!.id === props.event.customer.id || user!.id === props.event.employee.id) {
     return (
-      <Descriptions title="Appointment Info" style={descriptionStyle }>
-      <Descriptions.Item label="Date Time">
-        {Moment(datetime).format('YYYY/MM/DD')}
-      </Descriptions.Item>
-      <Descriptions.Item label="Customer">{customer.name}</Descriptions.Item>
-      <Descriptions.Item label="Employee">{employee.name}</Descriptions.Item>
-      <Descriptions.Item label="Start">{begins}</Descriptions.Item>
-      <Descriptions.Item label="Location">{organization!.address}</Descriptions.Item>
-    </Descriptions>
+      <div style={descriptionStyle } onClick={handleClick}>
+        <Descriptions title="Appointment Info">
+          <Descriptions.Item label="Date Time">
+            {Moment(datetime).format('YYYY/MM/DD')}
+          </Descriptions.Item>
+          <Descriptions.Item label="Customer">{customer.name}</Descriptions.Item>
+          <Descriptions.Item label="Employee">{employee.name}</Descriptions.Item>
+          <Descriptions.Item label="Start">{begins}</Descriptions.Item>
+          <Descriptions.Item label="Location">{organization!.address}</Descriptions.Item>
+        </Descriptions>
+      </div>
     )
   } else if (user!.role === UserRole.Admin) {
     return (
-      <Descriptions title="Appointment Info" style={descriptionStyle }>
-      <Descriptions.Item label="Date Time">
-        {Moment(datetime).format('YYYY/MM/DD')}
-      </Descriptions.Item>
-      <Descriptions.Item label="Customer">{customer.name}</Descriptions.Item>
-      <Descriptions.Item label="Employee">{employee.name}</Descriptions.Item>
-      <Descriptions.Item label="Start">{begins}</Descriptions.Item>
-      <Descriptions.Item label="Location">{organization!.address}</Descriptions.Item>
-    </Descriptions>
+      <div onClick={handleClick}>
+        <Descriptions title="Appointment Info" style={descriptionStyle }>
+          <Descriptions.Item label="Date Time">
+            {Moment(datetime).format('YYYY/MM/DD')}
+          </Descriptions.Item>
+          <Descriptions.Item label="Customer">{customer.name}</Descriptions.Item>
+          <Descriptions.Item label="Employee">{employee.name}</Descriptions.Item>
+          <Descriptions.Item label="Start">{begins}</Descriptions.Item>
+          <Descriptions.Item label="Location">{organization!.address}</Descriptions.Item>
+        </Descriptions>
+      </div>
     )
   }
   return(
