@@ -1,15 +1,13 @@
-import React, { useContext, ReactEventHandler } from 'react';
+import React, { useContext, ReactEventHandler, useState } from 'react';
 import Moment from 'moment';
 import { Event, UserRole } from '../../../lib/codegen';
-import { Descriptions } from 'antd';
+import { Descriptions, Drawer } from 'antd';
 import { AppContext } from '../../../lib/helpers/AppContext';
-
 
 interface EventDescriptionWrapProps {
   event: Event
 
 }
-
 
 export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props => {
   const { begins, customer, employee, datetime } = props.event
@@ -18,8 +16,12 @@ export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props =
     padding: '2px 5px',
   }
 
+
+  const [notVisible, visible] = useState(true)
+
   const handleClick: ReactEventHandler = () => {
     console.log(props.event)
+    visible
   }
   if (user!.id === props.event.customer.id || user!.id === props.event.employee.id) {
     return (
@@ -51,6 +53,18 @@ export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props =
     )
   }
   return(
-    <div></div>
+    <div>
+      <Drawer
+          title="Basic Drawer"
+          placement="right"
+          closable={false}
+          onClose={handleClick}
+          visible={handleClick}
+        >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+        </Drawer>
+    </div>
   );
 }

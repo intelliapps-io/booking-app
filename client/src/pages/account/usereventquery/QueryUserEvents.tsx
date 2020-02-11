@@ -23,6 +23,7 @@ export const QueryUserEvent: React.FC<QueryUserEventProps> = props => {
     }
     
   }) 
+  
 
   if (!eventsQuery.data || !eventsQuery.data.queryEvents) {
     return <div>no content</div>
@@ -31,10 +32,10 @@ export const QueryUserEvent: React.FC<QueryUserEventProps> = props => {
   console.log(items);
     
   return (
-  <div className='list'>
-        {items.map((item) =>
-          <li key={item.id}><EventDescriptionWrap key={item.id} event={item as any} /></li>
-        )}
+    <div className='list'>
+      {items.map((item) =>
+        <li key={item.id}><EventDescriptionWrap key={item.id} event={item as any} /></li>
+      )}
     </div>
   );
 
