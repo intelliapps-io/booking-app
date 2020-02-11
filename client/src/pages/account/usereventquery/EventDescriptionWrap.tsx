@@ -17,11 +17,10 @@ export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props =
   }
 
 
-  const [notVisible, visible] = useState(true)
+  const [notVisible, visible] = useState(false)
 
   const handleClick: ReactEventHandler = () => {
     console.log(props.event)
-    visible
   }
   if (user!.id === props.event.customer.id || user!.id === props.event.employee.id) {
     return (
@@ -59,7 +58,7 @@ export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props =
           placement="right"
           closable={false}
           onClose={handleClick}
-          visible={handleClick}
+          
         >
           <p>Some contents...</p>
           <p>Some contents...</p>
