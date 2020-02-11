@@ -1,4 +1,4 @@
-import { Resolver, Authorized, Mutation, Arg, Ctx } from "type-graphql"
+import { Resolver, Authorized, Mutation, Arg, Ctx, Query } from "type-graphql"
 import { EmployeeSchedule } from "../../entity/EmployeeSchedule"
 import { UserRole, User } from "../../entity/User"
 import { EmployeeScheduleInput, validateEmployeeSchedule } from "./EmployeeScheduleInput"
@@ -6,7 +6,7 @@ import { MyContext } from "../../ts/context"
 
 @Resolver()
 export class QueryEmployeeSchedule {
-  @Mutation(type => EmployeeSchedule)
+  @Query(type => EmployeeSchedule)
   @Authorized([UserRole['EMPLOYEE']])
   employeeSchedule(@Arg('id') id: string, @Ctx() ctx: MyContext) {
     return new Promise(async (resolve, reject) => {

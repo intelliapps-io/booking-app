@@ -1,4 +1,4 @@
-import { Resolver, Authorized, Mutation, Arg, Ctx, InputType, Field, ID } from "type-graphql"
+import { Resolver, Authorized, Mutation, Arg, Ctx, InputType, Field, ID, Query } from "type-graphql"
 import { EmployeeSchedule } from "../../entity/EmployeeSchedule"
 import { UserRole, User } from "../../entity/User"
 import { EmployeeScheduleInput, validateEmployeeSchedule } from "./EmployeeScheduleInput"
@@ -19,7 +19,7 @@ class QueryEmployeeSchedulesInput {
 
 @Resolver()
 export class QueryEmployeeSchedules {
-  @Mutation(type => [EmployeeSchedule])
+  @Query(type => [EmployeeSchedule])
   @Authorized([UserRole['EMPLOYEE']])
   employeeSchedules(@Arg('data', { nullable: true}) data: QueryEmployeeSchedulesInput, @Ctx() ctx: MyContext) {
     return new Promise(async (resolve, reject) => {

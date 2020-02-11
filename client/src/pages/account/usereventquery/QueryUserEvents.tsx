@@ -16,7 +16,6 @@ export const QueryUserEvent: React.FC<QueryUserEventProps> = props => {
   const eventsQuery = useEventsQuery({
     variables: {
       data: {
-
         limit: 10,
         offset: 0
       }

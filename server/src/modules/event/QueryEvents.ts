@@ -39,24 +39,24 @@ export class QueryEventsResolver {
       // VALIDATION
       if (data.dateBefore && !isFormatYMD(data.dateBefore))
         return reject(new Error(`${data.dateBefore} is not fomatted as YYYY-MM-DD`))
-      
+
       if (data.dateAfter && !isFormatYMD(data.dateAfter))
         return reject(new Error(`${data.dateAfter} is not fomatted as YYYY-MM-DD`))
-      
+
       // find customer from query filter
       const customer = data.customerId ? await User.findOne({ where: { id: data.customerId } }).catch(err => reject(err)) : undefined
       if (data.customerId && !customer)
         return reject(new Error('no customer was found with that id'))
-      
+
       // find employee from query filter
       const employee = data.employeeId ? await User.findOne({ where: { id: data.employeeId } }).catch(err => reject(err)) : undefined
       if (data.employeeId && !employee)
         return reject(new Error('no employee was found with that id'))
-      
+
       // QUERY 
       const { limit, offset } = data
       const query = Event.createQueryBuilder()
-      
+
       // handle pagination
       query.take(limit ? limit : 20)
       query.skip(offset ? offset : 0)
@@ -66,19 +66,27 @@ export class QueryEventsResolver {
       joinRelation(query, "Event", "employee")
       joinRelation(query, "Event", "organization")
 
+      // Forced role based filters
+      if (user.role === UserRole['CUSTOMER'])
+        query.andWhere(`"Event"."customerId" = '${user.id}'`)
+      else if (user.role === UserRole['EMPLOYEE'])
+        query.andWhere(`"Event"."employeeId" = '${user.id}'`)
+      else if (user.role === UserRole['ADMIN']) {
+        // Admin only filters
+        if (customer)
+          query.andWhere(`"Event"."customerId" = '${customer.id}'`)
+
+        if (employee)
+          query.andWhere(`"Event"."employeeId" = '${employee.id}'`)
+      }
+
       // FILTERS
-      if (customer)
-        query.andWhere(`"Event"."customerId" = '${customer.id}'`)
-      
-      if (employee)
-        query.andWhere(`"Event"."employeeId" = '${employee.id}'`)
-      
       if (data.dateBefore)
         query.andWhere(`Event.datetime <= '${data.dateBefore}'`)
-      
+
       if (data.dateAfter)
         query.andWhere(`Event.datetime >= '${data.dateAfter}'`)
-       
+
       // get data
       queryPaginatedResponse(query)
         .then(result => resolve(result))

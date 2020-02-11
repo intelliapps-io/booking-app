@@ -40,11 +40,11 @@ export const AppLayout: React.FC = props => {
           {router.location.pathname.substr(0, 6) !== '/error' && <Navbar />}
           <Layout.Content className="content app-layout-content">
             <Switch>
-              <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
               <Route exact path="/login/:messageName?" component={Login} />
               <Route exact path="/signup" component={Signup} />
               <Route exact path="/admin/:subpage" component={Admin} />
-              <Route exact path="/account" component={Account} />
+              <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
+              <Route exact path="/account/:tabId?" component={Account} />
               <Route exact path="/events" component={Events} />
               <Route exact path="/error/:data" render={({ match }) =>
                 <AppError title={JSON.parse(decodeURI(match.params.data)).title} message={JSON.parse(decodeURI(match.params.data)).message} />} />

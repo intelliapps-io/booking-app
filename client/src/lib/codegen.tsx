@@ -112,8 +112,6 @@ export type Mutation = {
   createEmployeeSchedule: EmployeeSchedule,
   updateEmployeeSchedule: EmployeeSchedule,
   deleteEmployeeSchedule: Scalars['String'],
-  employeeSchedule: EmployeeSchedule,
-  employeeSchedules: Array<EmployeeSchedule>,
   updateOrganization: Organization,
   deleteUser: User,
 };
@@ -180,16 +178,6 @@ export type MutationUpdateEmployeeScheduleArgs = {
 
 export type MutationDeleteEmployeeScheduleArgs = {
   id: Scalars['String']
-};
-
-
-export type MutationEmployeeScheduleArgs = {
-  id: Scalars['String']
-};
-
-
-export type MutationEmployeeSchedulesArgs = {
-  data?: Maybe<QueryEmployeeSchedulesInput>
 };
 
 
@@ -278,6 +266,8 @@ export type Query = {
   queryEvent: Event,
   services: PaginatedServiesResponse,
   service: Service,
+  employeeSchedule: EmployeeSchedule,
+  employeeSchedules: Array<EmployeeSchedule>,
   organization: Organization,
 };
 
@@ -309,6 +299,16 @@ export type QueryServicesArgs = {
 
 export type QueryServiceArgs = {
   id: Scalars['String']
+};
+
+
+export type QueryEmployeeScheduleArgs = {
+  id: Scalars['String']
+};
+
+
+export type QueryEmployeeSchedulesArgs = {
+  data?: Maybe<QueryEmployeeSchedulesInput>
 };
 
 
@@ -455,12 +455,19 @@ export type DeleteEmployeeScheduleMutationVariables = {
 
 export type DeleteEmployeeScheduleMutation = Pick<Mutation, 'deleteEmployeeSchedule'>;
 
-export type EmployeeScheduleMutationVariables = {
+export type EmployeeScheduleQueryVariables = {
   id: Scalars['String']
 };
 
 
-export type EmployeeScheduleMutation = { employeeSchedule: EmployeeScheduleFragment };
+export type EmployeeScheduleQuery = { employeeSchedule: EmployeeScheduleFragment };
+
+export type EmployeeSchedulesQueryVariables = {
+  data?: Maybe<QueryEmployeeSchedulesInput>
+};
+
+
+export type EmployeeSchedulesQuery = { employeeSchedules: Array<EmployeeScheduleFragment> };
 
 export type CreateEventMutationVariables = {
   data: EventInput
@@ -876,54 +883,105 @@ export type DeleteEmployeeScheduleMutationHookResult = ReturnType<typeof useDele
 export type DeleteEmployeeScheduleMutationResult = ApolloReactCommon.MutationResult<DeleteEmployeeScheduleMutation>;
 export type DeleteEmployeeScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteEmployeeScheduleMutation, DeleteEmployeeScheduleMutationVariables>;
 export const EmployeeScheduleDocument = gql`
-    mutation EmployeeSchedule($id: String!) {
+    query EmployeeSchedule($id: String!) {
   employeeSchedule(id: $id) {
     ...EmployeeSchedule
   }
 }
     ${EmployeeScheduleFragmentDoc}`;
-export type EmployeeScheduleMutationFn = ApolloReactCommon.MutationFunction<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>;
-export type EmployeeScheduleComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>, 'mutation'>;
+export type EmployeeScheduleComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EmployeeScheduleQuery, EmployeeScheduleQueryVariables>, 'query'> & ({ variables: EmployeeScheduleQueryVariables; skip?: boolean; } | { skip: boolean; });
 
     export const EmployeeScheduleComponent = (props: EmployeeScheduleComponentProps) => (
-      <ApolloReactComponents.Mutation<EmployeeScheduleMutation, EmployeeScheduleMutationVariables> mutation={EmployeeScheduleDocument} {...props} />
+      <ApolloReactComponents.Query<EmployeeScheduleQuery, EmployeeScheduleQueryVariables> query={EmployeeScheduleDocument} {...props} />
     );
     
-export type EmployeeScheduleProps<TChildProps = {}> = ApolloReactHoc.MutateProps<EmployeeScheduleMutation, EmployeeScheduleMutationVariables> & TChildProps;
+export type EmployeeScheduleProps<TChildProps = {}> = ApolloReactHoc.DataProps<EmployeeScheduleQuery, EmployeeScheduleQueryVariables> & TChildProps;
 export function withEmployeeSchedule<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
   TProps,
-  EmployeeScheduleMutation,
-  EmployeeScheduleMutationVariables,
+  EmployeeScheduleQuery,
+  EmployeeScheduleQueryVariables,
   EmployeeScheduleProps<TChildProps>>) {
-    return ApolloReactHoc.withMutation<TProps, EmployeeScheduleMutation, EmployeeScheduleMutationVariables, EmployeeScheduleProps<TChildProps>>(EmployeeScheduleDocument, {
+    return ApolloReactHoc.withQuery<TProps, EmployeeScheduleQuery, EmployeeScheduleQueryVariables, EmployeeScheduleProps<TChildProps>>(EmployeeScheduleDocument, {
       alias: 'employeeSchedule',
       ...operationOptions
     });
 };
 
 /**
- * __useEmployeeScheduleMutation__
+ * __useEmployeeScheduleQuery__
  *
- * To run a mutation, you first call `useEmployeeScheduleMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useEmployeeScheduleMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
+ * To run a query within a React component, call `useEmployeeScheduleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEmployeeScheduleQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
  *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const [employeeScheduleMutation, { data, loading, error }] = useEmployeeScheduleMutation({
+ * const { data, loading, error } = useEmployeeScheduleQuery({
  *   variables: {
  *      id: // value for 'id'
  *   },
  * });
  */
-export function useEmployeeScheduleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>) {
-        return ApolloReactHooks.useMutation<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>(EmployeeScheduleDocument, baseOptions);
+export function useEmployeeScheduleQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EmployeeScheduleQuery, EmployeeScheduleQueryVariables>) {
+        return ApolloReactHooks.useQuery<EmployeeScheduleQuery, EmployeeScheduleQueryVariables>(EmployeeScheduleDocument, baseOptions);
       }
-export type EmployeeScheduleMutationHookResult = ReturnType<typeof useEmployeeScheduleMutation>;
-export type EmployeeScheduleMutationResult = ApolloReactCommon.MutationResult<EmployeeScheduleMutation>;
-export type EmployeeScheduleMutationOptions = ApolloReactCommon.BaseMutationOptions<EmployeeScheduleMutation, EmployeeScheduleMutationVariables>;
+export function useEmployeeScheduleLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EmployeeScheduleQuery, EmployeeScheduleQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EmployeeScheduleQuery, EmployeeScheduleQueryVariables>(EmployeeScheduleDocument, baseOptions);
+        }
+export type EmployeeScheduleQueryHookResult = ReturnType<typeof useEmployeeScheduleQuery>;
+export type EmployeeScheduleLazyQueryHookResult = ReturnType<typeof useEmployeeScheduleLazyQuery>;
+export type EmployeeScheduleQueryResult = ApolloReactCommon.QueryResult<EmployeeScheduleQuery, EmployeeScheduleQueryVariables>;
+export const EmployeeSchedulesDocument = gql`
+    query EmployeeSchedules($data: QueryEmployeeSchedulesInput) {
+  employeeSchedules(data: $data) {
+    ...EmployeeSchedule
+  }
+}
+    ${EmployeeScheduleFragmentDoc}`;
+export type EmployeeSchedulesComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables>, 'query'>;
+
+    export const EmployeeSchedulesComponent = (props: EmployeeSchedulesComponentProps) => (
+      <ApolloReactComponents.Query<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables> query={EmployeeSchedulesDocument} {...props} />
+    );
+    
+export type EmployeeSchedulesProps<TChildProps = {}> = ApolloReactHoc.DataProps<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables> & TChildProps;
+export function withEmployeeSchedules<TProps, TChildProps = {}>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  EmployeeSchedulesQuery,
+  EmployeeSchedulesQueryVariables,
+  EmployeeSchedulesProps<TChildProps>>) {
+    return ApolloReactHoc.withQuery<TProps, EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables, EmployeeSchedulesProps<TChildProps>>(EmployeeSchedulesDocument, {
+      alias: 'employeeSchedules',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useEmployeeSchedulesQuery__
+ *
+ * To run a query within a React component, call `useEmployeeSchedulesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEmployeeSchedulesQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEmployeeSchedulesQuery({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useEmployeeSchedulesQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables>) {
+        return ApolloReactHooks.useQuery<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables>(EmployeeSchedulesDocument, baseOptions);
+      }
+export function useEmployeeSchedulesLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables>(EmployeeSchedulesDocument, baseOptions);
+        }
+export type EmployeeSchedulesQueryHookResult = ReturnType<typeof useEmployeeSchedulesQuery>;
+export type EmployeeSchedulesLazyQueryHookResult = ReturnType<typeof useEmployeeSchedulesLazyQuery>;
+export type EmployeeSchedulesQueryResult = ApolloReactCommon.QueryResult<EmployeeSchedulesQuery, EmployeeSchedulesQueryVariables>;
 export const CreateEventDocument = gql`
     mutation CreateEvent($data: EventInput!) {
   createEvent(data: $data) {
