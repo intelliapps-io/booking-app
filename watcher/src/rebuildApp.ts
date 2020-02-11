@@ -126,13 +126,13 @@ export function rebuildApp(io: Server): Promise<any> {
           commandOptions: ['-a', '/var/gitTemp/booking-app/.', '/var/node-app-temp/'],
         }
       },
-      // {
-      //   name: 'Delete Git Temp Directory',
-      //   options: {
-      //     command: 'rm',
-      //     commandOptions: ['-rf', '/var/gitTemp'],
-      //   }
-      // },
+      {
+        name: 'Delete Git Temp Directory',
+        options: {
+          command: 'rm',
+          commandOptions: ['-rf', '/var/gitTemp'],
+        }
+      },
       {
         name: 'Install Server Packages',
         options: {
@@ -189,6 +189,7 @@ export function rebuildApp(io: Server): Promise<any> {
           commandOptions: ['/var/node-app/server'],
         }
       },
+      // LOOK AT THIS
       {
         name: 'Copy Temp Server to Server',
         options: {

@@ -28,8 +28,14 @@ mutation DeleteEmployeeSchedule($id: String!) {
   deleteEmployeeSchedule(id: $id)
 }
 
-mutation EmployeeSchedule($id: String!) {
+query EmployeeSchedule($id: String!) {
   employeeSchedule(id: $id) {
+    ...EmployeeSchedule
+  }
+}
+
+query EmployeeSchedules($data: QueryEmployeeSchedulesInput) {
+  employeeSchedules(data: $data) {
     ...EmployeeSchedule
   }
 }

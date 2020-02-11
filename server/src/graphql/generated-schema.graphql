@@ -106,8 +106,6 @@ type Mutation {
   createEmployeeSchedule(data: EmployeeScheduleInput!): EmployeeSchedule!
   updateEmployeeSchedule(data: EmployeeScheduleInput!, id: String!): EmployeeSchedule!
   deleteEmployeeSchedule(id: String!): String!
-  employeeSchedule(id: String!): EmployeeSchedule!
-  employeeSchedules(data: QueryEmployeeSchedulesInput): [EmployeeSchedule!]!
   updateOrganization(data: OrganizationInput!, id: String!): Organization!
   deleteUser(id: String!): User!
 }
@@ -189,6 +187,8 @@ type Query {
   queryEvent(id: String!): Event!
   services(data: QueryServicesInput!): PaginatedServiesResponse!
   service(id: String!): Service!
+  employeeSchedule(id: String!): EmployeeSchedule!
+  employeeSchedules(data: QueryEmployeeSchedulesInput): [EmployeeSchedule!]!
   organization(data: QueryOrganizationInput!): Organization!
 }
 
