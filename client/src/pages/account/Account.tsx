@@ -34,14 +34,6 @@ export const Account: React.FC<IProps & RouteComponentProps<{ tabId?: TabID }>> 
   if (!user)
     return <Spin />
 
-  const adminAccount = () => {
-    if (user.role === UserRole.Admin) return (
-      <div className='admin'>
-        you are admin
-      </div>
-    )
-  };
-
   return (
     <div>
       <div style={{
