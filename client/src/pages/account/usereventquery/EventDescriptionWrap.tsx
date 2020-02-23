@@ -1,15 +1,15 @@
 import React, { useContext, ReactEventHandler, useState } from 'react';
 import Moment from 'moment';
-import { Event, EventsQueryVariables, EventsQuery } from '../../../lib/codegen';
+import { Event, EventsQueryVariables, EventsQuery, Organization, } from '../../../lib/codegen';
 import {EventDrawerDescription} from './EventDrawerDescription';
 import { Descriptions, Drawer } from 'antd';
 import { AppContext } from '../../../lib/helpers/AppContext';
 import { QueryResult } from 'react-apollo';
 
 interface EventDescriptionWrapProps {
-  event: Event
+  event: Event 
   eventsQuery: QueryResult<EventsQuery, EventsQueryVariables>
-
+ 
 }
 
 export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props => {
@@ -41,7 +41,7 @@ export const EventDescriptionWrap: React.FC<EventDescriptionWrapProps> = props =
           <Descriptions.Item label="Location">{organization!.address}</Descriptions.Item>
         </Descriptions>
       </div>
-      <EventDrawerDescription VisibelState={[isVisible, setIsVisible]} descrptionProps={props.event} eventsQuery={props.eventsQuery}/> 
+      <EventDrawerDescription VisibelState={[isVisible, setIsVisible]} descrptionProps={props.event} eventsQuery={props.eventsQuery} /> 
     </div>
   )
 } 

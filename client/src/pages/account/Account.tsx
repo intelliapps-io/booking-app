@@ -60,7 +60,6 @@ export const Account: React.FC<IProps & RouteComponentProps<{ tabId?: TabID }>> 
               <QueryUserEvent />
 
             </div>
-            {/* {adminAccount()} */}
           </TabPane>
 
           <TabPane tab="My Calender" key={TabID['calender']}>
