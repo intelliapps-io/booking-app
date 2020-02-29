@@ -9,6 +9,7 @@ function loadStories() {
   require('../src/stories/productCard.stories')
   require('../src/stories/scheduler.stories')
   require('../src/stories/Footer.stories')
+  require('../src/stories/dayPicker.stories')
   // req.keys().forEach(req);
 }
 
