@@ -1,4 +1,3 @@
-import "./NewEventForm.less"
 import React, { useContext } from "react"
 import { Form, DatePicker, TimePicker, InputNumber, Button } from "antd"
 import { FormComponentProps } from "antd/lib/form"
@@ -7,6 +6,8 @@ import { UserRole, useCreateEventMutation } from "../../../../lib/codegen"
 import moment, { Moment } from "moment"
 import { AppContext } from "../../../../lib/helpers/AppContext"
 import { Redirect } from "react-router-dom"
+
+import "./NewEventForm.less"
 
 interface NewEventFormProps {
   style?: React.CSSProperties
@@ -56,28 +57,32 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
   return (
     <Form style={props.style} onSubmit={event => onSubmit(event)}>
       {!isLoggedIn && <Redirect to="/login"/>}
-      <Form.Item>
-        {getFieldDecorator('date', {})(
-          <DatePicker placeholder="Select Date" />
-        )}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('time', {})(
-          <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
-        )}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('duration', {
-          initialValue: 30
-        })(
-          <InputNumber min={30} max={60} step={15} />
-        )}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('employeeId', {})(
-          <UserSelect role={UserRole['Employee']} style={{ maxWidth: 300 }} />
-        )}
-      </Form.Item>
+      <div className='item-selector-wrap' >
+        <Form.Item style={{width: '23%'}}>
+          {getFieldDecorator('date', {})(
+            <DatePicker  style={{width: '100%'}} placeholder="Select Date"/>
+          )}
+        </Form.Item>
+        <Form.Item style={{width: '23%'}}>
+          {getFieldDecorator('time', {})(
+            <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
+          )}
+        </Form.Item>
+        <Form.Item label={'duration'} style={{ }}>
+          {getFieldDecorator('duration', {
+            initialValue: 30
+          })(
+            <InputNumber min={30} max={60} step={15} />
+          )}
+        </Form.Item>
+        <Form.Item style={{width: '23%'}}>
+          {getFieldDecorator('employeeId', {})(
+            <UserSelect role={UserRole['Employee']} style={{ maxWidth: 300 }} />
+         )}
+        </Form.Item>
+      </div>
+
+
       <Form.Item>
         <Button type="primary" htmlType="submit">
           Create Event

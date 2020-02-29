@@ -1,12 +1,13 @@
 import React from 'react';
+import './Footer.less'
 export interface FooterProps {
+
   
 }
  
-const Footer: React.FC<FooterProps> = () => {
+export const Footer: React.FC<FooterProps> = () => {
   return (  
-    <div>hello</div>
+    <div className='div'>hello</div>
   );
 }
  
-export default Footer;

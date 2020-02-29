@@ -8,6 +8,7 @@ import { configure } from '@storybook/react';
 function loadStories() {
   require('../src/stories/productCard.stories')
   require('../src/stories/scheduler.stories')
+  require('../src/stories/Footer.stories')
   // req.keys().forEach(req);
 }
 
