@@ -22,9 +22,10 @@ export class CreateEmployeeSchedule {
       if (user.role === UserRole['ADMIN']) {
         // find employee by employeeId
         if (!data.employeeId)
-          return reject(new Error('Please provide the id of the employee'))
-        employee = await User.findOne({ where: { id: data.employeeId, role: UserRole['EMPLOYEE'] } })
-          .catch(err => reject(err))
+          employee = user
+        else
+          employee = await User.findOne({ where: { id: data.employeeId } })
+            .catch(err => reject(err))
       } else if (user.role === UserRole['EMPLOYEE']) {
         // find employee by user context
         employee = user
@@ -33,8 +34,6 @@ export class CreateEmployeeSchedule {
       // validate employee record
       if (!employee)
         return reject(new Error('Employee record not found'))
-      if (employee.role !== UserRole["EMPLOYEE"])
-        return reject(new Error('Employee found does not have employee role'))
 
       // validate employee schedule data & save record
       validateEmployeeSchedule(data)

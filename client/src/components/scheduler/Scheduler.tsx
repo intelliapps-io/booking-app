@@ -42,16 +42,16 @@ export const Scheduler: React.FC<SchedulerProps> = props => {
   }
 
   // it works but is it worth it?
-  // useLayoutEffect(() => {
-  //   const forceUpdate = () => {
-  //     handleWeekChange('inc')
-  //     setTimeout(() => handleWeekChange('dec'), 1)
-  //   };
-  //   window.addEventListener('resize', forceUpdate);
-  //   return () => {
-  //     window.removeEventListener('resize', forceUpdate);
-  //   };
-  // }, [])
+  useLayoutEffect(() => {
+    const forceUpdate = () => {
+      handleWeekChange('inc')
+      setTimeout(() => handleWeekChange('dec'), 1)
+    };
+    window.addEventListener('resize', forceUpdate);
+    return () => {
+      window.removeEventListener('resize', forceUpdate);
+    };
+  }, [])
 
   const DayHeaders = () => {
     let dayHeaders: React.ReactElement[] = []

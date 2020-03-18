@@ -15,6 +15,7 @@ import { Landing } from "./pages/landing/Landing";
 import { AppError } from "./pages/appError/AppError";
 import { __RouterContext } from "react-router"
 import { Admin } from "./pages/admin/Admin";
+import { SchedulerPage } from "./components/scheduler/schedulerPage/SchedulerPage";
 
 export const AppLayout: React.FC = props => {
   const router = React.useContext(__RouterContext)
@@ -37,11 +38,12 @@ export const AppLayout: React.FC = props => {
       <Layout className="app-layout">
         {/** shows for organization url */}
         {(organizationUrlName || organizationQuery.loading) && <>
-          {router.location.pathname.substr(0, 6) !== '/error' && <Navbar />}
+          {(router.location.pathname.substr(0, 6) !== '/error' && router.location.pathname.substr(0, 10) !== '/schedular') && <Navbar />}
           <Layout.Content className="content app-layout-content">
             <Switch>
               <Route exact path="/login/:messageName?" component={Login} />
               <Route exact path="/signup" component={Signup} />
+              <Route exact path="/schedular/:userId" component={SchedulerPage} />
               <Route exact path="/admin/:subpage" component={Admin} />
               <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
               <Route exact path="/account/:tabId?" component={Account} />
