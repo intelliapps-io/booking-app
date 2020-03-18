@@ -8,6 +8,7 @@ import { AppContext } from "../../../../lib/helpers/AppContext"
 import { Redirect } from "react-router-dom"
 
 import "./NewEventForm.less"
+import { DayPicker } from "../../../../components/dayPicker/DayPicker"
 
 interface NewEventFormProps {
   style?: React.CSSProperties
@@ -60,7 +61,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
       <div className='item-selector-wrap' >
         <Form.Item style={{width: '23%'}}>
           {getFieldDecorator('date', {})(
-            <DatePicker  style={{width: '100%'}} placeholder="Select Date"/>
+            <DayPicker/>
           )}
         </Form.Item>
         <Form.Item style={{width: '23%'}}>
