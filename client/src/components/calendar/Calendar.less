@@ -1,0 +1,26 @@
+.calendar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  height: 1250px;
+
+  .time-bar {
+    min-height: 100vh;
+  }
+
+  .day-timeline {
+    min-height: 100vh;
+    width: -webkit-fill-available;
+    background-color: #f5f5f5;
+  }
+
+  .day-timeline:nth-child(odd) {
+    background: #eeeeee;
+  }
+
+  .timeblock {
+    width: 90%;
+    background: skyblue;
+    position: relative;
+  }
+}
+

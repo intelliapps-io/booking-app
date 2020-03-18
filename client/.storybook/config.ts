@@ -10,6 +10,7 @@ function loadStories() {
   require('../src/stories/scheduler.stories')
   require('../src/stories/Footer.stories')
   require('../src/stories/dayPicker.stories')
+  require('../src/stories/calendar.stories')
   // req.keys().forEach(req);
 }
 
