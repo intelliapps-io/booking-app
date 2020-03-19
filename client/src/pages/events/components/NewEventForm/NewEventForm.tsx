@@ -8,6 +8,7 @@ import { AppContext } from "../../../../lib/helpers/AppContext"
 import { Redirect } from "react-router-dom"
 
 import "./NewEventForm.less"
+import { DayPicker } from "../../../../components/dayPicker/DayPicker"
 
 interface NewEventFormProps {
   style?: React.CSSProperties
@@ -60,22 +61,22 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
       <div className='item-selector-wrap' >
         <Form.Item style={{width: '23%'}}>
           {getFieldDecorator('date', {})(
-            <DatePicker  style={{width: '100%'}} placeholder="Select Date"/>
+            <DayPicker style={{}}/>
           )}
         </Form.Item>
-        <Form.Item style={{width: '23%'}}>
+        <Form.Item style={{width: '23%', height: 0}}>
           {getFieldDecorator('time', {})(
             <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
           )}
         </Form.Item>
-        <Form.Item label={'duration'} style={{ }}>
-          {getFieldDecorator('duration', {
+        <Form.Item style={{height: 0,}}>
+          Duration: {getFieldDecorator('duration', {
             initialValue: 30
           })(
             <InputNumber min={30} max={60} step={15} />
           )}
         </Form.Item>
-        <Form.Item style={{width: '23%'}}>
+        <Form.Item style={{width: '23%', height: 0,}}>
           {getFieldDecorator('employeeId', {})(
             <UserSelect role={UserRole['Employee']} style={{ maxWidth: 300 }} />
          )}
