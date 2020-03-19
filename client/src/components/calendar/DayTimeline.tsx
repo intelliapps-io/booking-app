@@ -1,11 +1,13 @@
 import React from "react";
 import moment, { Moment } from "moment";
 import { CalendarEvent } from "./CalendarTypes";
+import { TimeBlock } from "./TimeBlock";
 
 interface DayTimelineProps {
   date: Moment
   hourHeight: number
-  events: Array<CalendarEvent> 
+  events: Array<CalendarEvent>
+  controlBarOffset: number
 }
 
 export const DayTimeline: React.FC<DayTimelineProps> = props => {
@@ -14,42 +16,36 @@ export const DayTimeline: React.FC<DayTimelineProps> = props => {
   // time cells
   let timeCells: React.ReactNode[] = []
   for (let i = 0; i < 24; i++)
-    timeCells.push(<div style={{ height: props.hourHeight, borderBottom: '#000 1px solid' }}></div>)
+    timeCells.push(<div className='time-cell' style={{ height: props.hourHeight }}></div>)
 
   // time blocks
   const minuteToHeight = props.hourHeight / 60
   let additionalOffset = 0
-  let timeblock: React.ReactNode[] = []
+  let timeblocks: React.ReactNode[] = []
   props.events.forEach(event => {
     if (moment(event.begins).startOf('day').isSame(date.clone().startOf('day'))) {
       const startTop = (moment(event.begins).endOf('day').diff(moment(event.begins), 'minutes') + 60) * minuteToHeight
       const height = (moment(event.ends).diff(moment(event.begins), 'minutes')) * minuteToHeight
 
-      timeblock.push(<div
-        key={moment(event.begins).toString()}
-        className='timeblock'
-        style={{
-          top: -1 * (startTop + additionalOffset),
-          height
-        }}
-      >
-        {moment(event.begins).format('hh:mm')}
-        </div>
-      )
+      timeblocks.push(<TimeBlock event={event} style={{
+        top: -1 * (startTop + additionalOffset),
+        height
+      }}/>)
 
       additionalOffset += height
     }
   })
+
   
-  return(
+
+  return (
     <div className='day-timeline'>
-      <h4>{date.format('MM/DD')}</h4>
-      <hr style={{ margin: 0 }}/>
+      <div className='day-header' style={{ top: props.controlBarOffset }}>
+        <h4>{date.format('MM/DD')}</h4>
+      </div>
       {timeCells}
 
-      {timeblock}
-      
-      <div className='timeblock' style={{ background: 'red' }}></div>
+      {timeblocks}
     </div>
   );
 }
