@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Form, DatePicker, TimePicker, InputNumber, Button } from "antd"
+import { Form, DatePicker, TimePicker, InputNumber, Button, Descriptions } from "antd"
 import { FormComponentProps } from "antd/lib/form"
 import { UserSelect } from "../../../../components/userSelect/UserSelect"
 import { UserRole, useCreateEventMutation } from "../../../../lib/codegen"
@@ -12,6 +12,7 @@ import { DayPicker } from "../../../../components/dayPicker/DayPicker"
 
 interface NewEventFormProps {
   style?: React.CSSProperties
+
 }
 
 interface FormData {
@@ -59,36 +60,63 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
     <Form style={props.style} onSubmit={event => onSubmit(event)}>
       {!isLoggedIn && <Redirect to="/login"/>}
       <div className='item-selector-wrap' >
-        <Form.Item style={{width: '23%'}}>
-          {getFieldDecorator('date', {})(
-            <DayPicker style={{}}/>
-          )}
-        </Form.Item>
-        <Form.Item style={{width: '23%', height: 0}}>
-          {getFieldDecorator('time', {})(
-            <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
-          )}
-        </Form.Item>
-        <Form.Item style={{height: 0,}}>
-          Duration: {getFieldDecorator('duration', {
-            initialValue: 30
-          })(
-            <InputNumber min={30} max={60} step={15} />
-          )}
-        </Form.Item>
-        <Form.Item style={{width: '23%', height: 0,}}>
-          {getFieldDecorator('employeeId', {})(
-            <UserSelect role={UserRole['Employee']} style={{ maxWidth: 300 }} />
-         )}
-        </Form.Item>
+
+        <Form.Item style={{ margin: 0, display: 'inline-block', float: 'left'}}>
+            {getFieldDecorator('date', {})(
+              <DayPicker style={{width: 'fit-content'}}/>
+            )}
+          </Form.Item>
+  
+        <div className='innerwrap'>
+          <div className='innerformwrap' style={{}}>
+            <Form.Item style={{ float: 'left', padding: '0 10px'}}>
+              {getFieldDecorator('time', {})(
+              <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
+            )}
+            </Form.Item>
+            <Form.Item style={{ float: 'left', padding: '0 10px'}}>
+              <span>Duration: </span>{getFieldDecorator('duration', {
+              initialValue: 30
+            })(
+              <InputNumber min={30} max={60} step={15} />
+            )}
+            </Form.Item>
+            <Form.Item style={{float: 'left', padding: '0 10px'}}>
+            {getFieldDecorator('employeeId', {})(
+              <UserSelect role={UserRole['Employee']} style={{width: 180}} />
+            )}
+            </Form.Item>
+          </div>
+          <div className='innerformwrap' style={{}}>
+            <div className='eventoutline' style={{ }} >
+            <Descriptions title="Appointment Status">
+              <Descriptions.Item label="Date Time">
+                {/* {Moment(datetime).format('YYYY/MM/DD')} */}
+              </Descriptions.Item>
+              <Descriptions.Item label="Provider">{}</Descriptions.Item>
+              <Descriptions.Item label="Client">{}</Descriptions.Item>
+              <Descriptions.Item label="Start">{}</Descriptions.Item>
+              <Descriptions.Item label="Location">{}</Descriptions.Item>
+            </Descriptions>
+            </div>
+            <div className='eventoutline' style={{  }} >
+              <div>
+              <Descriptions title="confirm">
+                <Descriptions.Item label="Service">{}</Descriptions.Item>
+                <Descriptions.Item label="Cost">{}</Descriptions.Item>
+                <Descriptions.Item label="Total">{}</Descriptions.Item>
+              </Descriptions>
+              </div>
+              <Form.Item style={{margin: 'auto'}}>
+                <Button type="primary" htmlType="submit">
+                  Create Event
+                </Button>
+              </Form.Item>
+            </div>
+          </div>
+        </div>
+        
       </div>
-
-
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Create Event
-        </Button>
-      </Form.Item>
     </Form>
   )
 }

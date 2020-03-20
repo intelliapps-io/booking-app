@@ -15,6 +15,8 @@ export const DayPicker: React.FC<DayPickerProps> = props => {
         style={{
           border: '1px solid #d9d9d9',
           borderRadius: 4,
+          fontSize: 12,
+  
         }}
         headerRender={({ value, type, onChange, onTypeChange }) => {
           const current = value.clone()
@@ -23,11 +25,11 @@ export const DayPicker: React.FC<DayPickerProps> = props => {
           if (!onChange) onChange = (value: Moment) => { }
           return (
             <div className='picker-header'>
-              <Button onClick={() => handleMonthChange('dec')} icon='double-left' className='icon-btn month-dec'></Button>
-              <Button onClick={() => handleDayChange('dec')} icon='left' className='icon-btn month-dec'></Button>
-              <Typography.Text strong={true} style={{ fontSize: 14 }}>{current.format('MMM, YYYY')}</Typography.Text>
-              <Button onClick={() => handleDayChange('inc')} icon='right' className='icon-btn month-inc'></Button>
-              <Button onClick={() => handleMonthChange('inc')} icon='double-right' className='icon-btn month-inc'></Button>
+              <Button onClick={() => handleMonthChange('dec')} icon='double-left' className='icon-btn month-dec' style={{fontSize: 12}}></Button>
+              <Button onClick={() => handleDayChange('dec')} icon='left' className='icon-btn month-dec' style={{fontSize: 12}}></Button>
+              <Typography.Text strong={true} style={{ fontSize: 11 }}>{current.format('MMM, YYYY')}</Typography.Text>
+              <Button onClick={() => handleDayChange('inc')} icon='right' className='icon-btn month-inc' style={{fontSize: 12}}></Button>
+              <Button onClick={() => handleMonthChange('inc')} icon='double-right' className='icon-btn month-inc' style={{fontSize: 12}}></Button>
             </div>
           )
         }}
