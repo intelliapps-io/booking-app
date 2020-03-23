@@ -61,7 +61,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
       {!isLoggedIn && <Redirect to="/login"/>}
       <div className='item-selector-wrap' >
 
-        <Form.Item style={{ margin: 0, display: 'inline-block', float: 'left'}}>
+        <Form.Item style={{ margin: '0 5px 0 0', display: 'inline-block', float: 'left'}}>
             {getFieldDecorator('date', {})(
               <DayPicker style={{width: 'fit-content'}}/>
             )}
@@ -69,19 +69,19 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
   
         <div className='innerwrap'>
           <div className='innerformwrap' style={{}}>
-            <Form.Item style={{ float: 'left', padding: '0 10px'}}>
+            <Form.Item style={{ float: 'left', marginRight: '8px'}}>
               {getFieldDecorator('time', {})(
               <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
             )}
             </Form.Item>
-            <Form.Item style={{ float: 'left', padding: '0 10px'}}>
+            <Form.Item style={{ float: 'left', marginRight: '8px'}}>
               <span>Duration: </span>{getFieldDecorator('duration', {
               initialValue: 30
             })(
               <InputNumber min={30} max={60} step={15} />
             )}
             </Form.Item>
-            <Form.Item style={{float: 'left', padding: '0 10px'}}>
+            <Form.Item style={{float: 'left',}}>
             {getFieldDecorator('employeeId', {})(
               <UserSelect role={UserRole['Employee']} style={{width: 180}} />
             )}
@@ -90,25 +90,26 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
           <div className='innerformwrap' style={{}}>
             <div className='eventoutline' style={{ }} >
             <Descriptions title="Appointment Status">
-              <Descriptions.Item label="Date Time">
+              <Descriptions.Item label="Date">
                 {/* {Moment(datetime).format('YYYY/MM/DD')} */}
               </Descriptions.Item>
               <Descriptions.Item label="Provider">{}</Descriptions.Item>
               <Descriptions.Item label="Client">{}</Descriptions.Item>
-              <Descriptions.Item label="Start">{}</Descriptions.Item>
+              <Descriptions.Item label="Time">{}</Descriptions.Item>
               <Descriptions.Item label="Location">{}</Descriptions.Item>
             </Descriptions>
             </div>
             <div className='eventoutline' style={{  }} >
               <div>
               <Descriptions title="confirm">
-                <Descriptions.Item label="Service">{}</Descriptions.Item>
+                <Descriptions.Item label="Service(s)">{}</Descriptions.Item>
                 <Descriptions.Item label="Cost">{}</Descriptions.Item>
                 <Descriptions.Item label="Total">{}</Descriptions.Item>
               </Descriptions>
               </div>
-              <Form.Item style={{margin: 'auto'}}>
-                <Button type="primary" htmlType="submit">
+
+              <Form.Item style={{margin: ' 0 auto', display: 'flex', justifyContent: 'space-around', padding: 0}}>
+                <Button type="primary" htmlType="submit" style={{}}>
                   Create Event
                 </Button>
               </Form.Item>
