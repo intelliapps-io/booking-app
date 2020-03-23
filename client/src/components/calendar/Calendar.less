@@ -81,10 +81,24 @@
 .control-calendar-bar {
   background: @bar-background;
   z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   position: sticky;
   padding: 0 13px;
   top: 0px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  
+  .view-controls {
+    width: 120px;
+  }
+
+  .date-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    padding: 0 25px;
+  }
 }

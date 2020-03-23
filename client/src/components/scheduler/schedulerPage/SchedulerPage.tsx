@@ -61,8 +61,6 @@ export const SchedulerPage: React.FC<RouteComponentProps<{ userId: string }>> = 
     })
   }
 
-  console.log(data)
-
   return (
     <div style={{ background: '#fff', overflowY: 'auto', overflowX: 'hidden' }}>
       <Calendar
@@ -87,13 +85,13 @@ export const SchedulerPage: React.FC<RouteComponentProps<{ userId: string }>> = 
           },
           {
             id: '2ee3diwdwdwd3j3',
-            begins: new Date('Fri Mar 20 2020 9:00:00 GMT-0500'),
-            ends: new Date('Fri Mar 20 2020 16:30:00 GMT-0500'),
+            begins: new Date('Tue Mar 17 2020 15:00:00 GMT-0500'),
+            ends: new Date('Tue Mar 17 2020 20:00:00 GMT-0500'),
             isRecurring: true,
-            recurrenceInterval: 1,
-            recursOn: [true, true, false, true, true, false, false],
+            recurrenceInterval: 2,
+            recursOn: [false, true, false, true, false, false, false],
             excludedDates: [
-              new Date('Fri Jan 03 2020 22:13:00 GMT-0500')
+              new Date('Fri Mar 27 2020 22:13:00 GMT-0500')
             ],
           }
         ]}
