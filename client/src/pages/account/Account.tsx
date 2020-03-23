@@ -7,6 +7,7 @@ import { UserForm } from "../admin/users/UserForm";
 import { UserAccountForm } from './useraccountform/UserAccountForm'
 import '../account/Account.less'
 import { QueryUserEvent } from "./usereventquery/QueryUserEvents";
+import {Calendar } from '../../components/calendar/Calendar';
 import { SchedulerPage } from "../../components/scheduler/schedulerPage/SchedulerPage";
 import { RouteComponentProps, Link } from "react-router-dom";
 const { TabPane } = Tabs
@@ -63,7 +64,7 @@ export const Account: React.FC<IProps & RouteComponentProps<{ tabId?: TabID }>> 
           </TabPane>
 
           <TabPane tab="My Calender" key={TabID['calender']}>
-            {/* <SchedulerPage  /> */}
+            {/* <Calendar/> */}
           </TabPane>
 
           <TabPane tab="Trade Board" key={TabID['tradeboard']}>
