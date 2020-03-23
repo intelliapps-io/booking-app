@@ -5,7 +5,7 @@ import { Moment } from "moment";
 
 interface DayPickerProps {
   style?: React.CSSProperties
-  onChange?: (day: Moment) => void
+  onChange?: (day: Moment | undefined) => void
 }
 
 export const DayPicker: React.FC<DayPickerProps> = props => {
@@ -15,9 +15,9 @@ export const DayPicker: React.FC<DayPickerProps> = props => {
         style={{
           border: '1px solid #d9d9d9',
           borderRadius: 4,
-          fontSize: 12,
-  
+          fontSize: 12
         }}
+        onChange={props.onChange}
         headerRender={({ value, type, onChange, onTypeChange }) => {
           const current = value.clone()
           const handleMonthChange = (method: 'inc' | 'dec') => onChange!(current.add(method === 'inc' ? 1 : -1, 'month'))
