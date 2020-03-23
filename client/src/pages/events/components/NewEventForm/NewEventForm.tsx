@@ -9,9 +9,12 @@ import { Redirect } from "react-router-dom"
 
 import "./NewEventForm.less"
 import { DayPicker } from "../../../../components/dayPicker/DayPicker"
+import { format } from "path"
+import FormItem from "antd/lib/form/FormItem"
 
 interface NewEventFormProps {
   style?: React.CSSProperties
+  onChange?: (day: Moment) => void
 
 }
 
@@ -60,13 +63,11 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
     <Form style={props.style} onSubmit={event => onSubmit(event)}>
       {!isLoggedIn && <Redirect to="/login"/>}
       <div className='item-selector-wrap' >
-
         <Form.Item style={{ margin: '0 5px 0 0', display: 'inline-block', float: 'left'}}>
             {getFieldDecorator('date', {})(
               <DayPicker style={{width: 'fit-content'}}/>
             )}
           </Form.Item>
-  
         <div className='innerwrap'>
           <div className='innerformwrap' style={{}}>
             <Form.Item style={{ float: 'left', marginRight: '8px'}}>
@@ -91,7 +92,14 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
             <div className='eventoutline' style={{ }} >
             <Descriptions title="Appointment Status">
               <Descriptions.Item label="Date">
-                {/* {Moment(datetime).format('YYYY/MM/DD')} */}
+                  {(() => {
+                    const date = props.form.getFieldValue('date') as Moment
+                    if (date) {
+                      return date.format('MM/DD/YYYY')
+                    } else {
+                      return 'no date selected'
+                    }
+                  })()}
               </Descriptions.Item>
               <Descriptions.Item label="Provider">{}</Descriptions.Item>
               <Descriptions.Item label="Client">{}</Descriptions.Item>
