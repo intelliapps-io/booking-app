@@ -1,9 +1,27 @@
 import moment, { Moment } from 'moment'
+import { CalendarViewState } from './Calendar'
 
-export const createDateArray = (startFrom: Moment, length: number): Moment[] => {
+export const createDateArray = (centerDate: Moment, viewState: CalendarViewState): Moment[] => {
   let arr: Moment[] = []
-  for (let i = 0; i < length; i++)
-    arr.push(startFrom.clone().add(i, 'days'))
+  
+  switch (viewState) {
+    case CalendarViewState['WEEK']:
+      const startDate = centerDate.clone().startOf('week')
+      for (let i = 0; i < 7; i++) 
+        arr.push(startDate.clone().add(i, 'days'))
+      break
+    case CalendarViewState['THREEDAY']:
+      arr = [
+        centerDate.clone().subtract(1, 'day'),
+        centerDate,
+        centerDate.clone().add(1, 'day')
+      ]
+      break
+    case CalendarViewState['DAY']:
+      arr = [centerDate]
+      break
+  }    
+
   return arr
 }
 

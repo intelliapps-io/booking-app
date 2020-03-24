@@ -6,11 +6,13 @@ import { DayTimeline } from "./DayTimeline"
 import { TimeBar } from "./TimeBar"
 import { CalendarEvent } from "./CalendarTypes"
 import { ControlCalendarBar } from "./ControlCalendarBar"
+import { MonthView } from "./monthView/MonthView"
 
 export enum CalendarViewState {
   DAY = 'DAY',
   THREEDAY = 'THREEDAY',
-  WEEK = 'WEEK'
+  WEEK = 'WEEK',
+  MONTH = 'MONTH'
 }
 
 interface CalendarProps {
@@ -25,12 +27,11 @@ export const Calendar: React.FC<CalendarProps> = props => {
   
   // view state
   const [viewState, setViewState] = useState<CalendarViewState>(CalendarViewState['WEEK'])
+  const [centerDate, setCenterDate] = useState<Moment>(moment())
+  const dateViewArray = createDateArray(centerDate, viewState)
 
+  console.log(dateViewArray)
   
-
-  const dateViewArray = createDateArray(moment().startOf('week'), 7)
-  const [_dateViewArray, setDateViewArray] = useState<Moment[]>(createDateArray(moment().startOf('week'), 7))
-
   // form state
   const [createEventDate, setCreateEventDate] = useState(moment())
   const [createEventFormVisible, setCreateEventFormVisible] = useState(false)
@@ -38,8 +39,8 @@ export const Calendar: React.FC<CalendarProps> = props => {
 
   return (
     <div>
-      <ControlCalendarBar viewState={[viewState, setViewState]} dateViewState={[dateViewArray, setDateViewArray]} height={controlBarHeight}/>
-      <div className='calendar-wrapper' style={{ height: totalHeight }}>
+      <ControlCalendarBar viewState={[viewState, setViewState]} centerDateState={[centerDate, setCenterDate]} height={controlBarHeight}/>
+      <div className='calendar-wrapper' style={{ height: totalHeight, display: viewState === CalendarViewState['MONTH'] ? 'none' : undefined }}>
         <TimeBar hourHeight={hourHeight} controlBarOffset={controlBarHeight} />
         {dateViewArray.map(day =>
           <DayTimeline
@@ -51,6 +52,7 @@ export const Calendar: React.FC<CalendarProps> = props => {
           />
         )}
       </div>
+      {viewState === CalendarViewState['MONTH'] && <MonthView centerDateState={[centerDate, setCenterDate]} events={props.events} />}
     </div>
   );
 }

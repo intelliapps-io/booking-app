@@ -11,6 +11,7 @@ function loadStories() {
   require('../src/stories/Footer.stories')
   require('../src/stories/dayPicker.stories')
   require('../src/stories/calendar.stories')
+  require('../src/stories/monthView.stories')
   // req.keys().forEach(req);
 }
 
