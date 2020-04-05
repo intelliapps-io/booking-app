@@ -1,11 +1,11 @@
 import React from "react";
-import { useUsersQuery, UserRole } from "../../lib/codegen";
+import { useUsersQuery, UserRole, User } from "../../lib/codegen";
 import { Alert, Select } from "antd";
 
 interface UserSelectProps {
   role: UserRole
   style?: React.CSSProperties
-  onChange?: (value: string) => void
+  onChange?: (value: User | string) => void
 }
 
 export const UserSelect: React.FC<UserSelectProps> = props => {

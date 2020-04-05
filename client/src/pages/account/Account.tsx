@@ -64,7 +64,7 @@ export const Account: React.FC<IProps & RouteComponentProps<{ tabId?: TabID }>> 
           </TabPane>
 
           <TabPane tab="My Calender" key={TabID['calender']}>
-            {/* <Calendar/> */}
+            {SchedulerPage}
           </TabPane>
 
           <TabPane tab="Trade Board" key={TabID['tradeboard']}>

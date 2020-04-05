@@ -1,7 +1,7 @@
 import './DayPicker.less'
 import React from "react";
 import { Calendar, Button, Typography } from "antd";
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
 
 interface DayPickerProps {
   style?: React.CSSProperties
@@ -18,6 +18,13 @@ export const DayPicker: React.FC<DayPickerProps> = props => {
           fontSize: 12
         }}
         onChange={props.onChange}
+        disabledDate={(currentDate: moment.Moment) => {
+          const isBlocked = currentDate.isBefore()
+          if (isBlocked) {
+            return true
+          }
+          return false
+        }}
         headerRender={({ value, type, onChange, onTypeChange }) => {
           const current = value.clone()
           const handleMonthChange = (method: 'inc' | 'dec') => onChange!(current.add(method === 'inc' ? 1 : -1, 'month'))
