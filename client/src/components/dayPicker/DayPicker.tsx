@@ -2,6 +2,7 @@ import './DayPicker.less'
 import React from "react";
 import { Calendar, Button, Typography } from "antd";
 import moment, { Moment } from "moment";
+import { METHODS } from 'http';
 
 interface DayPickerProps {
   style?: React.CSSProperties
@@ -19,8 +20,8 @@ export const DayPicker: React.FC<DayPickerProps> = props => {
         }}
         onChange={props.onChange}
         disabledDate={(currentDate: moment.Moment) => {
-          const isBlocked = currentDate.isBefore()
-          if (isBlocked) {
+          const day = currentDate
+          if (day.isBefore(moment(), 'day')) {
             return true
           }
           return false

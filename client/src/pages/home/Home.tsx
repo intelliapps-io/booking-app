@@ -5,6 +5,7 @@ import { Row, Col, Card, Button } from "antd";
 import { AppContext } from "../../lib/helpers/AppContext";
 import { Link } from "react-router-dom";
 import HomeContent from "./HomeContent";
+import { Footer } from "../../components/footer/Footer";
 
 interface IProps {
 
@@ -60,6 +61,8 @@ export const Home: React.FC<IProps> = props => {
         </div>
         <HomeContent/>
       </div>
+      <Footer/>
+
       {/* <div className="footer">
         <h1>HomePage</h1>
         <h3>{phone}</h3>
