@@ -13,6 +13,7 @@ import { format } from "path"
 import FormItem from "antd/lib/form/FormItem"
 import { UserAccountForm } from "../../../account/useraccountform/UserAccountForm"
 import TimelineItem from "antd/lib/timeline/TimelineItem"
+import { create } from "domain"
 
 interface NewEventFormProps {
   style?: React.CSSProperties
@@ -41,56 +42,76 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const formData = getFieldsValue() as FormData
-    
+    const formData = getFieldsValue() as FormData    
     const mergeDateTime = () => {
       const dateString = formData.date.format('YYYY-MM-DD')
       const timeString = formData.time.format('HH:mm:ss')
       return moment(`${dateString} ${timeString}`, 'YYYY-MM-DD HH:mm:ss')
     }
-
-    createEvent({
-      variables: {
-        data: {
-          datetime: mergeDateTime(),
-          duration: formData.duration,
-          employeeId: formData.employeeId
-        }
+    const eventMade = () => {
+      if (!formData.date) {
+        window.alert('please select date')
+      }else if (!formData.time) {
+        window.alert('please select time')
+      }else if (!formData.employeeId) {
+        window.alert('please select provider')
+      } else {
+        if (window.confirm('confim event?')) {
+          createEvent({
+            variables: {
+              data: {
+                datetime: mergeDateTime(),
+                duration: formData.duration,
+                employeeId: formData.employeeId
+              }
+            }
+          })
+            .then(result => {
+              console.log(result)
+            })
+            .catch(err => {
+              console.error(err)
+            })  
+          
+        }else return false
       }
-    })
-      .then(result => {
-        console.log(result)
-      })
-      .catch(err => {
-        console.error(err)
-      })
+    }
+    eventMade()
   }
 
   return (
     <Form style={props.style} onSubmit={event => onSubmit(event)}>
       {!isLoggedIn && <Redirect to="/login"/>}
       <div className='item-selector-wrap' >
-        <Form.Item style={{ margin: '0 5px 0 0', display: 'inline-block', float: 'left'}}>
-            {getFieldDecorator('date', {})(
+        <Form.Item style={{ margin: '0 5px 0 0', display: 'inline-block', float: 'left' }}>
+            
+          {getFieldDecorator('date', {
+              rules: [{ required: true, message: 'Date required' }]
+            })(
               <DayPicker style={{width: 'fit-content'}}/>
             )}
           </Form.Item>
         <div className='innerwrap'>
           <div className='innerformwrap' style={{}}>
             <Form.Item style={{ float: 'left', marginRight: '8px'}}>
-              {getFieldDecorator('time', {})(
+              {getFieldDecorator('time', {
+                rules: [{required: true, message: 'time required'}]
+              })(
               <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
             )}
             </Form.Item>
             <Form.Item style={{ float: 'left', marginRight: '8px'}}>
               <span>Duration: </span>{getFieldDecorator('duration', {
+              rules: [{required: true}],  
               initialValue: 30
             })(
               <InputNumber min={30} max={60} step={15} />
             )}
             </Form.Item>
             <Form.Item style={{float: 'left',}}>
-            {getFieldDecorator('employeeId', {})(
+              {getFieldDecorator('employeeId', {
+              rules: [{required: true, message: 'provider required'}]
+            })(
               <UserSelect role={UserRole['Employee']} style={{width: 180}} />
             )}
             </Form.Item>
@@ -119,7 +140,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
                 <Descriptions.Item label="Time">{(() => {
                   const time = props.form.getFieldValue('time') as Moment
                   if (time) {
-                    return time.format('HH:m')
+                    return time.format('HH:mm')
                   } else {
                     return 'no time selected'
                   }
@@ -136,7 +157,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
               </Descriptions>
               </div>
 
-              <Form.Item style={{margin: ' 0 auto', display: 'flex', justifyContent: 'space-around', padding: 0}}>
+              <Form.Item style={{ margin: ' 0 auto', display: 'flex', justifyContent: 'space-around', padding: 0 }}>
                 <Button type="primary" htmlType="submit" style={{}}>
                   Create Event
                 </Button>
