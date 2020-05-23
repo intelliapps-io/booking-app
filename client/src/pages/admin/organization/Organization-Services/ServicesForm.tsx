@@ -8,7 +8,7 @@ import { AppContext } from "../../../../lib/helpers/AppContext";
 import TextArea from "antd/lib/input/TextArea";
 
 interface ServicesFormProps {
- 
+
 }
 
 interface formData {
@@ -41,66 +41,74 @@ const _ServicesForm: React.FC<FormComponentProps & ServicesFormProps> = props =>
     event.preventDefault()
     const formData = getFieldsValue() as formData
 
-      createService({
-        variables: {
-          data: {
-            name: formData.name,
-            cost: formData.cost,
-            duration: formData.duration,
-            employeeIds: formData.employeeIds,
-            UPCCode: formData.UPCCode,
-            description: formData.description
-          }
+    createService({
+      variables: {
+        data: {
+          name: formData.name,
+          cost: formData.cost,
+          duration: formData.duration,
+          employeeIds: formData.employeeIds,
+          UPCCode: formData.UPCCode,
+          description: formData.description
         }
+      }
+    })
+      .then(result => {
+        console.log(result)
       })
-        .then(result => {
-          console.log(result)
-        })
-        .catch(err => {
-          console.error(err)
-        })    
+      .catch(err => {
+        console.error(err)
+      })
 
   }
 
-  return(
+  return (
     <div>
-      <Form {...formItemLayout}  onSubmit={handleFormSubmit} className='form'>
-      <Form.Item label='Service'>
-        {getFieldDecorator('name', {
-          rules: [{ min: 2, message: 'create service' }, { required: true }],
+      <Form {...formItemLayout} onSubmit={handleFormSubmit} className='form'>
+        <Form.Item label='Service'>
+          {getFieldDecorator('name', {
+            rules: [{ min: 2, message: 'create service' }, { required: true }],
 
-        })(
-          <Input placeholder='create service' />
-        )}
+          })(
+            <Input placeholder='create service' />
+          )}
         </Form.Item>
         <Form.Item label='cost'>
-        {getFieldDecorator('cost', {
-          rules: [{ message: 'create price' }, { required: true }],
-          
-          initialValue: 0
-        })(
-          
-          <ServicePriceForm />
-        )}
+          {getFieldDecorator('cost', {
+            rules: [
+              {
+                required: true,
+                message: 'create price'
+              },
+              {
+                min: 0
+              }
+            ],
+
+            initialValue: 0
+          })(
+
+            <ServicePriceForm />
+          )}
         </Form.Item>
         <Form.Item label='description'>
-        {getFieldDecorator('description', {
-          rules: [{ message: 'Description reqired' }, { required: true }],
-          initialValue: 0,
-        })(
-          <TextArea />
-        )}
+          {getFieldDecorator('description', {
+            rules: [{ message: 'Description reqired' }, { required: true }],
+            initialValue: 0,
+          })(
+            <TextArea />
+          )}
         </Form.Item>
-        
-      <div className='btn'>
-        <Button type="primary" htmlType="submit" style={{padding: '6px 20px'}}  >
-          Submit
+
+        <div className='btn'>
+          <Button type="primary" htmlType="submit" style={{ padding: '6px 20px' }}  >
+            Submit
         </Button>
-      </div>
-    </Form>
+        </div>
+      </Form>
     </div>
   );
 }
 export const ServicesForm = Form.create<ServicesFormProps & FormComponentProps>(
 
-  )(_ServicesForm);
+)(_ServicesForm);

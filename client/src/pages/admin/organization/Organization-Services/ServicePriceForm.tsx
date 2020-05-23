@@ -22,10 +22,10 @@ export const ServicePriceForm: React.FC<ServicePriceFormProps> = ({ value = {}, 
     }
   }
 
-  const onNumberChange = (e: number | undefined ) => {
+  const onNumberChange = (formVal: number | undefined ) => {
     
-    if (e) setNumber(number)
-    triggerChange({ number: e });
+    if (formVal) setNumber(formVal)
+    triggerChange({ number: formVal });
   }
   // const onNumberChange = (e: { target: { value: any }; }) => {
   //   const newNumber = parseInt(e.target.value)
@@ -52,7 +52,7 @@ export const ServicePriceForm: React.FC<ServicePriceFormProps> = ({ value = {}, 
     <span>
       <InputNumber
   
-        value={value.number || number}
+        value={value.number}
         onChange={onNumberChange}
  
       >
