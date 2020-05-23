@@ -11,6 +11,7 @@ import { ApolloError } from 'apollo-boost';
 import { RichTextEditor } from '../../../components/richTextEditor/RichTextEditor';
 import { ServicesForm } from './Organization-Services/ServicesForm';
 import { QueryService } from './Organization-Services/QueryService';
+import { ServicesPane } from './Organization-Services/ServicesPane';
 
 interface OrganizationFormProps {
 
@@ -263,8 +264,9 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
           </TabPane>
           <TabPane tab="Edit Services" key="3">
             <div>
-              <ServicesForm />
-              <QueryService/>
+              {/* <ServicesForm />
+              <QueryService/> */}
+            <ServicesPane />
             </div>
           </TabPane>
         

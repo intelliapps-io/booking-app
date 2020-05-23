@@ -266,7 +266,7 @@ input ServiceInput {
 
   """duration in minutes"""
   duration: Int!
-  employeeIds: [ID!]!
+  employeeIds: [ID!]
 }
 
 type Timeframe {

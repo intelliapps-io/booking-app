@@ -384,7 +384,7 @@ export type ServiceInput = {
   UPCCode?: Maybe<Scalars['String']>,
   /** duration in minutes */
   duration: Scalars['Int'],
-  employeeIds: Array<Scalars['ID']>,
+  employeeIds?: Maybe<Array<Scalars['ID']>>,
 };
 
 export type Timeframe = {

@@ -1,14 +1,14 @@
 //tsfrc
 import React, { useContext } from "react";
-import { useCreateServiceMutation, useDeleteServiceMutation, Service } from "../../../../lib/codegen";
-import { Form, PageHeader, Spin, Input, Button, TimePicker, notification, Icon, Alert, Divider, Tabs, InputNumber } from 'antd';
+import { useCreateServiceMutation, useServiceQuery, useUpdateServiceMutation } from "../../../../lib/codegen";
+import { Form, Input, Button } from 'antd';
 import { ServicePriceForm } from './ServicePriceForm'
 import { FormComponentProps } from "antd/lib/form";
 import { AppContext } from "../../../../lib/helpers/AppContext";
 import TextArea from "antd/lib/input/TextArea";
 
 interface ServicesFormProps {
-
+  serviceId?: string | null
 }
 
 interface formData {
@@ -32,33 +32,69 @@ const formItemLayout = {
   }
 }
 const _ServicesForm: React.FC<FormComponentProps & ServicesFormProps> = props => {
-  const { getFieldDecorator, getFieldsValue } = props.form
+  const { getFieldDecorator, getFieldsValue, setFieldsValue } = props.form
   const { organization } = useContext(AppContext)// global varables
   const [createService] = useCreateServiceMutation()
-  const [deleteService] = useDeleteServiceMutation()
+  const [updateService] = useUpdateServiceMutation()
+  const serviceQuery = useServiceQuery({
+    variables: { id: props.serviceId! },
+    skip: !props.serviceId,
+    onCompleted: (data) => {
+      // fill empty form with existing data
+      setFieldsValue({
+        name: data.service.name,
+        cost: data.service.cost,
+        description: data.service.description,
+        duration: 0
+      })
+    }
+  })
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = getFieldsValue() as formData
 
-    createService({
-      variables: {
-        data: {
-          name: formData.name,
-          cost: formData.cost,
-          duration: formData.duration,
-          employeeIds: formData.employeeIds,
-          UPCCode: formData.UPCCode,
-          description: formData.description
+    if (props.serviceId) {
+      // update
+      updateService({
+        variables: {
+          id: props.serviceId,
+          data: {
+            name: formData.name,
+            cost: formData.cost,
+            duration: formData.duration,
+            employeeIds: [],
+            UPCCode: formData.UPCCode,
+            description: formData.description
+          }
         }
-      }
-    })
-      .then(result => {
-        console.log(result)
       })
-      .catch(err => {
-        console.error(err)
+        .then(result => {
+          console.log(result)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    } {
+      createService({
+        variables: {
+          data: {
+            name: formData.name,
+            cost: formData.cost,
+            duration: formData.duration,
+            employeeIds: formData.employeeIds,
+            UPCCode: formData.UPCCode,
+            description: formData.description
+          }
+        }
       })
+        .then(result => {
+          console.log(result)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    }
 
   }
 
@@ -75,17 +111,27 @@ const _ServicesForm: React.FC<FormComponentProps & ServicesFormProps> = props =>
         </Form.Item>
         <Form.Item label='cost'>
           {getFieldDecorator('cost', {
-            rules: [
-              {
-                required: true,
-                message: 'create price'
-              },
-              {
-                min: 0
-              }
+            rules: [{
+              required: true,
+              message: 'create price'
+            }
             ],
+            initialValue: 0,
+            
+          })(
 
-            initialValue: 0
+            <ServicePriceForm />
+          )}
+        </Form.Item>
+        <Form.Item label='duration'>
+          {getFieldDecorator('duration', {
+            rules: [{
+              required: true,
+              message: 'create duration'
+            }
+            ],
+            initialValue: 0,
+            
           })(
 
             <ServicePriceForm />

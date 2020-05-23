@@ -26,6 +26,6 @@ export class ServiceInput extends BaseStoreEntityInput {
   @Field(type => Int, { description: 'duration in minutes' })
   duration: number
 
-  @Field(type => [ID])
+  @Field(type => [ID], { nullable: true })
   employeeIds: string[]
 }
