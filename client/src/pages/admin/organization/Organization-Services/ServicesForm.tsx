@@ -34,8 +34,6 @@ const formItemLayout = {
 const _ServicesForm: React.FC<FormComponentProps & ServicesFormProps> = props => {
   const { getFieldDecorator, getFieldsValue, setFieldsValue } = props.form
   const { organization } = useContext(AppContext)// global varables
-  const [createService] = useCreateServiceMutation()
-  const [updateService] = useUpdateServiceMutation()
   const serviceQuery = useServiceQuery({
     variables: { id: props.serviceId! },
     skip: !props.serviceId,
@@ -49,6 +47,8 @@ const _ServicesForm: React.FC<FormComponentProps & ServicesFormProps> = props =>
       })
     }
   })
+  const [createService] = useCreateServiceMutation({ onCompleted: () => serviceQuery.refetch() })
+  const [updateService] = useUpdateServiceMutation({ })
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -82,7 +82,7 @@ const _ServicesForm: React.FC<FormComponentProps & ServicesFormProps> = props =>
             name: formData.name,
             cost: formData.cost,
             duration: formData.duration,
-            employeeIds: formData.employeeIds,
+            employeeIds: [],
             UPCCode: formData.UPCCode,
             description: formData.description
           }
