@@ -15,37 +15,38 @@ import { UserAccountForm } from "../../../account/useraccountform/UserAccountFor
 import TimelineItem from "antd/lib/timeline/TimelineItem"
 import { create } from "domain"
 import { ThankYou } from "../ThankYou"
+import { ServicesSelect } from "../../../../components/servicesSelect/ServicesSelect"
 
 
 interface NewEventFormProps {
   style?: React.CSSProperties
-  onChange?: (day: Moment)  => void
+  onChange?: (day: Moment) => void
 }
 
 interface FormData {
   date: Moment
   time: Moment
   duration: number
-  employeeId: string 
+  employeeId: string
 }
 
 const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props => {
   const { getFieldDecorator, getFieldsValue } = props.form
   const [createEvent] = useCreateEventMutation()
   const { user, meQuery, organization } = useContext(AppContext)
-  const isLoggedIn = user || meQuery.loading   
+  const isLoggedIn = user || meQuery.loading
   const [showThankYou, setShowThankyou] = useState(false)
   const employeeId = props.form.getFieldValue('employeeId') as string | undefined
   const employeeQuery = useUserQuery({
     variables: {
-    id: employeeId!
+      id: employeeId!
     },
     skip: !employeeId
   })
 
   function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const formData = getFieldsValue() as FormData    
+    const formData = getFieldsValue() as FormData
     const mergeDateTime = () => {
       const dateString = formData.date.format('YYYY-MM-DD')
       const timeString = formData.time.format('HH:mm:ss')
@@ -54,9 +55,9 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
     const eventMade = () => {
       if (!formData.date) {
         window.alert('please select date')
-      }else if (!formData.time) {
+      } else if (!formData.time) {
         window.alert('please select time')
-      }else if (!formData.employeeId) {
+      } else if (!formData.employeeId) {
         window.alert('please select provider')
       } else {
         if (window.confirm('confim event?')) {
@@ -75,9 +76,9 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
             })
             .catch(err => {
               console.error(err)
-            })  
-          
-        }else return false
+            })
+
+        } else return false
       }
     }
     eventMade()
@@ -86,45 +87,48 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
   return (
     <Form style={props.style} onSubmit={event => onSubmit(event)}>
       {!isLoggedIn && <Redirect to="/login" />}
-      {showThankYou && <Redirect to="/events/thankyou"/>}
+      {showThankYou && <Redirect to="/events/thankyou" />}
       <div className='item-selector-wrap' >
         <Form.Item style={{ margin: '0 5px 0 0', display: 'inline-block', float: 'left' }}>
-            
+
           {getFieldDecorator('date', {
-              rules: [{ required: true, message: 'Date required' }]
-            })(
-              <DayPicker style={{width: 'fit-content'}}/>
-            )}
-          </Form.Item>
+            rules: [{ required: true, message: 'Date required' }]
+          })(
+            <DayPicker style={{ width: 'fit-content' }} />
+          )}
+        </Form.Item>
         <div className='innerwrap'>
           <div className='innerformwrap' style={{}}>
-            <Form.Item style={{ float: 'left', marginRight: '8px'}}>
+            <Form.Item style={{ float: 'left', marginRight: '8px' }}>
               {getFieldDecorator('time', {
-                rules: [{required: true, message: 'time required'}]
+                rules: [{ required: true, message: 'time required' }]
               })(
-              <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
-            )}
+                <TimePicker use12Hours={true} format='h:mm a' style={{ minWidth: 175 }} />
+              )}
             </Form.Item>
-            <Form.Item style={{ float: 'left', marginRight: '8px'}}>
+            <Form.Item style={{ float: 'left', marginRight: '8px' }}>
               <span>Duration: </span>{getFieldDecorator('duration', {
-              rules: [{required: true}],  
-              initialValue: 30
-            })(
-              <InputNumber min={30} max={60} step={15} />
-            )}
+                rules: [{ required: true }],
+                initialValue: 30
+              })(
+                <InputNumber min={30} max={60} step={15} />
+              )}
             </Form.Item>
-            <Form.Item style={{float: 'left',}}>
+            <Form.Item style={{ float: 'left', }}>
               {getFieldDecorator('employeeId', {
-              rules: [{required: true, message: 'provider required'}]
-            })(
-              <UserSelect role={UserRole['Employee']} style={{width: 180}} />
-            )}
+                rules: [{ required: true, message: 'provider required' }]
+              })(
+                <UserSelect role={UserRole['Employee']} style={{ width: 180 }} />
+              )}
             </Form.Item>
           </div>
+
+          <ServicesSelect />
+
           <div className='innerformwrap' style={{}}>
-            <div className='eventoutline' style={{ }} >
-            <Descriptions title="Appointment Status">
-              <Descriptions.Item label="Date">
+            <div className='eventoutline' style={{}} >
+              <Descriptions title="Appointment Status">
+                <Descriptions.Item label="Date">
                   {(() => {
                     const date = props.form.getFieldValue('date') as Moment
                     if (date) {
@@ -133,7 +137,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
                       return 'no date selected'
                     }
                   })()}
-              </Descriptions.Item>
+                </Descriptions.Item>
                 <Descriptions.Item label="Provider">{(() => {
                   if (employeeQuery.data && employeeQuery.data.user) {
                     return employeeQuery.data.user.name
@@ -141,7 +145,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
                     return 'no Employee selected'
                   }
                 })()}</Descriptions.Item>
-              <Descriptions.Item label="Client">{user? user.name : ''}</Descriptions.Item>
+                <Descriptions.Item label="Client">{user ? user.name : ''}</Descriptions.Item>
                 <Descriptions.Item label="Time">{(() => {
                   const time = props.form.getFieldValue('time') as Moment
                   if (time) {
@@ -150,16 +154,16 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
                     return 'no time selected'
                   }
                 })()}</Descriptions.Item>
-              <Descriptions.Item label="Location">{organization? organization.address : ''}</Descriptions.Item>
-            </Descriptions>
-            </div>
-            <div className='eventoutline' style={{  }} >
-              <div>
-              <Descriptions title="confirm">
-                <Descriptions.Item label="Service(s)">{}</Descriptions.Item>
-                <Descriptions.Item label="Cost">{}</Descriptions.Item>
-                <Descriptions.Item label="Total">{}</Descriptions.Item>
+                <Descriptions.Item label="Location">{organization ? organization.address : ''}</Descriptions.Item>
               </Descriptions>
+            </div>
+            <div className='eventoutline' style={{}} >
+              <div>
+                <Descriptions title="confirm">
+                  <Descriptions.Item label="Service(s)">{}</Descriptions.Item>
+                  <Descriptions.Item label="Cost">{}</Descriptions.Item>
+                  <Descriptions.Item label="Total">{}</Descriptions.Item>
+                </Descriptions>
               </div>
 
               <Form.Item style={{ margin: ' 0 auto', display: 'flex', justifyContent: 'space-around', padding: 0 }}>
@@ -170,7 +174,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
             </div>
           </div>
         </div>
-        
+
       </div>
     </Form>
   )
