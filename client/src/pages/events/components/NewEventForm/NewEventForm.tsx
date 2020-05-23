@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { Form, DatePicker, TimePicker, InputNumber, Button, Descriptions } from "antd"
 import { FormComponentProps } from "antd/lib/form"
 import { UserSelect } from "../../../../components/userSelect/UserSelect"
@@ -14,6 +14,8 @@ import FormItem from "antd/lib/form/FormItem"
 import { UserAccountForm } from "../../../account/useraccountform/UserAccountForm"
 import TimelineItem from "antd/lib/timeline/TimelineItem"
 import { create } from "domain"
+import { ThankYou } from "../ThankYou"
+
 
 interface NewEventFormProps {
   style?: React.CSSProperties
@@ -31,7 +33,8 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
   const { getFieldDecorator, getFieldsValue } = props.form
   const [createEvent] = useCreateEventMutation()
   const { user, meQuery, organization } = useContext(AppContext)
-  const isLoggedIn = user || meQuery.loading    
+  const isLoggedIn = user || meQuery.loading   
+  const [showThankYou, setShowThankyou] = useState(false)
   const employeeId = props.form.getFieldValue('employeeId') as string | undefined
   const employeeQuery = useUserQuery({
     variables: {
@@ -68,6 +71,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
           })
             .then(result => {
               console.log(result)
+              setShowThankyou(true)
             })
             .catch(err => {
               console.error(err)
@@ -81,7 +85,8 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
 
   return (
     <Form style={props.style} onSubmit={event => onSubmit(event)}>
-      {!isLoggedIn && <Redirect to="/login"/>}
+      {!isLoggedIn && <Redirect to="/login" />}
+      {showThankYou && <Redirect to="/events/thankyou"/>}
       <div className='item-selector-wrap' >
         <Form.Item style={{ margin: '0 5px 0 0', display: 'inline-block', float: 'left' }}>
             

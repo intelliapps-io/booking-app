@@ -16,6 +16,7 @@ import { AppError } from "./pages/appError/AppError";
 import { __RouterContext } from "react-router"
 import { Admin } from "./pages/admin/Admin";
 import { SchedulerPage } from "./components/scheduler/schedulerPage/SchedulerPage";
+import { ThankYou } from "./pages/events/components/ThankYou";
 
 export const AppLayout: React.FC = props => {
   const router = React.useContext(__RouterContext)
@@ -47,6 +48,7 @@ export const AppLayout: React.FC = props => {
               <Route exact path="/admin/:subpage" component={Admin} />
               <Route exact path="/account/confirm/:userId" component={ConfirmAccount} />
               <Route exact path="/account/:tabId?" component={Account} />
+              <Route exact path="/events/thankyou" component={ThankYou} />
               <Route exact path="/events" component={Events} />
               <Route exact path="/error/:data" render={({ match }) =>
                 <AppError title={JSON.parse(decodeURI(match.params.data)).title} message={JSON.parse(decodeURI(match.params.data)).message} />} />

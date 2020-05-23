@@ -2,13 +2,15 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../../../lib/helpers/AppContext';
 import { FormComponentProps } from "antd/lib/form";
 import { Form, PageHeader, Spin, Input, Button, TimePicker, notification, Icon, Alert, Divider, Tabs } from 'antd'
-import { useUpdateOrganizationMutation, Organization } from '../../../lib/codegen';
+import { useUpdateOrganizationMutation, Organization, } from '../../../lib/codegen';
 import { transformHoursOfOperation } from './organizationFormHelpers';
 import { validateUrlName } from '../../../lib/helpers/helpers'
 import moment from 'moment';
 import './Organization.less'
 import { ApolloError } from 'apollo-boost';
 import { RichTextEditor } from '../../../components/richTextEditor/RichTextEditor';
+import { ServicesForm } from './Organization-Services/ServicesForm';
+import { QueryService } from './Organization-Services/QueryService';
 
 interface OrganizationFormProps {
 
@@ -25,9 +27,10 @@ const formItemLayout = {
 }
 
 const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = props => {
-  const { organization, meQuery } = useContext(AppContext)// global varables react
+  const { organization, meQuery,  } = useContext(AppContext)// global varables react
   const [urlLocked, setUrlLocked] = useState(true)
   const [updateOrganization] = useUpdateOrganizationMutation()
+
   if (!organization) return <Spin />
 
   const { getFieldDecorator } = props.form
@@ -127,8 +130,8 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
               </Button>
             </div>
 
-            </Form>
-          </TabPane>
+          </Form>
+        </TabPane>
           {/* tabpae #2 */}
           <TabPane tab="Business Hours" key="2">
           <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{width: '95%', border: '1.5px solid rgb(172, 170, 170', padding: '10px 5px', margin: 'auto'}}>
@@ -258,8 +261,14 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
               </div>
             </Form>
           </TabPane>
+          <TabPane tab="Edit Services" key="3">
+            <div>
+              <ServicesForm />
+              <QueryService/>
+            </div>
+          </TabPane>
         
-          <TabPane tab="HTML Editor" key="3">
+          <TabPane tab="HTML Editor" key="4">
             <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{paddingLeft: '5%'}}>
               <Form.Item>
                 {getFieldDecorator('landingHtml', {

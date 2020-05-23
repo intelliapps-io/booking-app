@@ -7,7 +7,7 @@ interface ThankYouProps  {
 
 export const ThankYou: React.FC<ThankYouProps> = Props => {
   return (
-    <div>
+    <div style={{backgroundColor: 'red'}}>
       <h1>Thankyou</h1>
     </div>
   );
