@@ -4,20 +4,25 @@ import Title from "antd/lib/typography/Title";
 import { Row, Col, Card, Button } from "antd";
 import { AppContext } from "../../lib/helpers/AppContext";
 import { Link } from "react-router-dom";
-import HomeContent from "./HomeContent";
+
 import { Footer } from "../../components/footer/Footer";
+import { ServicesMap } from "./ServicesMap";
+import { useServicesQuery, UserRole } from "../../lib/codegen";
+import { PossibleFragmentSpreads } from "graphql/validation/rules/PossibleFragmentSpreads";
+import { userInfo } from "os";
 
 interface IProps {
 
 }
 
 export const Home: React.FC<IProps> = props => {
-  const { organization } = useContext(AppContext)
-  
+  const { organization, user } = useContext(AppContext)
+  if (organization) {
+    
+  }
   // show nothing on loading
   if (!organization)
-    return <div />
-  
+    return <div  />
   // destructure display variables
   const {landingHtml, phone, address, contactEmail, hoursOfOperation } = organization
 
@@ -32,45 +37,34 @@ export const Home: React.FC<IProps> = props => {
             <p style={{ fontSize: '1.5em' }}>Provided to you how and when<br/> you want.</p>
             <Link
               to="/events">
-              <Button type="primary" style={{ width: '30%', boxSizing: 'content-box', padding: '6px 0' }}>
+                <Button type="primary" style={{ boxSizing: 'content-box',  padding: '3px 30px', marginTop: '15px' }}>
                 Book Now
               </Button>
             </Link>
           </div>
         </div>
       </div>
-
-      <div className='herocontent'>
-        <HomeContent />
-        <div className='contentwrap'>
-          <div className='contentpic'></div>
-          <div className='contenttext'>
-            <p style={{ fontSize: '1.5em', fontWeight: 'bold' }}>Service</p>
-            <p style={{fontSize: '1.3em', width: '80%'}}>
-              RandomText is a tool designers and developers
-              can use to quickly grab dummy 
-              text in either Lorem Ipsum or Gibberish format.
-            </p>
-            <Link
-              to="/events">
-              <Button type="primary" style={{ width: '25%', boxSizing: 'content-box', padding: '5px 0', marginTop: '20px' }}>
-                Book Now
-              </Button>
-            </Link>
-          </div>
-        </div>
-        <HomeContent/>
+      <div className='mission'>
+        <span>Our Mission</span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
+        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
+        exercitationullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit 
+        </p>
       </div>
-      <Footer/>
-
-      {/* <div className="footer">
-        <h1>HomePage</h1>
-        <h3>{phone}</h3>
-        <h3>{address}</h3>
-        <h3>contact us {contactEmail}</h3>
-      </div> */}
-      {/** Custom Organizaton HTML */}
-      {/* <div dangerouslySetInnerHTML={{ __html: landingHtml }}/> */}
+      <div className='features'>
+        <span>Our Mission</span>
+      </div>
+      {(() => {
+        if (UserRole) {
+          return <div className='herocontent'><ServicesMap/></div>
+        }
+      })()}
+      <div className='people'>
+        <span>What people are saying . . .</span>
+        
+      </div>
+      <Footer />
     </div>
   );
 }

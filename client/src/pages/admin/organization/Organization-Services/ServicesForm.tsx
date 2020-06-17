@@ -6,6 +6,7 @@ import { ServicePriceForm } from './ServicePriceForm'
 import { FormComponentProps } from "antd/lib/form";
 import { AppContext } from "../../../../lib/helpers/AppContext";
 import TextArea from "antd/lib/input/TextArea";
+import { min } from "moment";
 
 interface ServicesFormProps {
   serviceId?: string | null
@@ -130,11 +131,11 @@ const _ServicesForm: React.FC<FormComponentProps & ServicesFormProps> = props =>
               message: 'create duration'
             }
             ],
-            initialValue: 0,
+            initialValue: 30
             
           })(
 
-            <ServicePriceForm />
+            <ServicePriceForm  />
           )}
         </Form.Item>
         <Form.Item label='description'>

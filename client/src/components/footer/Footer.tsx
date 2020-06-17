@@ -5,6 +5,7 @@ import { Organization } from '../../lib/codegen';
 import Moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Descriptions } from 'antd';
+import { TwitterOutlined, InstagramOutlined, FacebookOutlined } from '@ant-design/icons';
 
 export interface FooterProps {
   
@@ -77,7 +78,7 @@ export const Footer: React.FC<FooterProps> = () => {
       </div>
       <div className='innerdiv' >
         <div className='content' >
-          <Descriptions title="Company" style={{}}>
+          <Descriptions title="Company" style={{width: '100%'}}>
             <Descriptions.Item label="Location">{organization!.address}</Descriptions.Item>
             <br />
             <br/>
@@ -106,8 +107,13 @@ export const Footer: React.FC<FooterProps> = () => {
         </div>
         <div className='content' style={{}} >
           <Descriptions title="social">
-            <Descriptions.Item ><Link to='#'></Link></Descriptions.Item> 
-          </Descriptions>
+            <div style={{ display: 'flex' , alignItems: 'center'}}>
+            <Link to='#'><TwitterOutlined translate={TwitterOutlined} className='icon' /></Link>
+            <Link to='#'><InstagramOutlined translate={InstagramOutlined} className='icon' /></Link>
+            <Link to='#'><FacebookOutlined translate={FacebookOutlined} className='icon' /></Link>
+            </div>
+          </Descriptions> 
+         
         </div>
       </div>
     </div>

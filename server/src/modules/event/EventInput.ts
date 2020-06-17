@@ -1,4 +1,5 @@
 import { InputType, Field, Int, ID } from "type-graphql";
+import { Service } from "../../entity/Store";
 
 
 // Fields 
@@ -12,4 +13,7 @@ export class EventInput {
 
   @Field(type => ID)
   employeeId: string
+
+  // @Field(type => Service)
+  // service: string
 }

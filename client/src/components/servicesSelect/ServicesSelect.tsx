@@ -4,6 +4,7 @@ import { Select } from "antd";
 
 interface ServicesSelectProps {
   serviceIds?: string[]
+  style?: React.CSSProperties
 }
 
 export const ServicesSelect: React.FC<ServicesSelectProps> = props => {
@@ -14,7 +15,7 @@ export const ServicesSelect: React.FC<ServicesSelectProps> = props => {
 
   }
   return (
-    <Select mode="tags" style={{ width: '50%' }} placeholder="Select Service" onChange={handleChange}>
+    <Select mode="tags" style={{width: '300px' }} placeholder="Select Service" onChange={handleChange}>
       {services.map(service => <Select.Option key={service.id} value={service.id}>{service.name}</Select.Option>)}
     </Select>
   );

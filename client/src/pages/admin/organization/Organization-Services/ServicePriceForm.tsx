@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { Input, Select, InputNumber } from 'antd';
 
-// interface priceValues {
-//   number?: number
-//   currency? : 'euro' | 'dollar' | 'yen'| string
-// }
-
 type Currency = 'euro' | 'dollar' | 'yen' | string
 
 interface ServicePriceFormProps {
@@ -33,20 +28,6 @@ export const ServicePriceForm: React.FC<ServicePriceFormProps> = (props) => {
     if (formVal)
       triggerChange(formVal, currency);
   }
-  // const onNumberChange = (e: { target: { value: any }; }) => {
-  //   const newNumber = parseInt(e.target.value)
-
-  //   if (newNumber) {
-  //     setNumber(newNumber)
-  //   }
-  //   // if (Number.isNaN(number)) {
-  //   //   return;
-  //   // }
-  //   // if (!(number in value)) {
-  //   //   setNumber(newNumber);
-  //   // }
-  //   triggerChange({ number: newNumber });
-  // };
   const onCurrencyChange = (newCurrency: string) => {
     // if (!('currency' in value)) {
     //   setCurrency(newCurrency);
@@ -57,10 +38,9 @@ export const ServicePriceForm: React.FC<ServicePriceFormProps> = (props) => {
   return (
     <span>
       <InputNumber
-
         value={props.value || number}
         onChange={onNumberChange}
-
+        min={0}
       >
       </InputNumber>
       {/* <Select></Select> */}

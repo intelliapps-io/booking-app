@@ -25,6 +25,7 @@ export class CreateEventResolver {
       let event = await Event.create({
         customer, 
         employee,
+        // service: data.service,
         datetime: data.datetime,
         duration: data.duration
       }).save().catch(err => reject(err))

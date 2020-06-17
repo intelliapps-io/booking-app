@@ -32,6 +32,10 @@ export class Event extends BaseEntity {
   @Field(type => Int, { description: 'duration in minutes' })
   @Column('int', { comment: 'duration in minutes' })
   duration: number
+
+  // @Field(type => String) 
+  // @Column('string')
+  // service: string
     
   @Field(type => User)
   @ManyToOne(type => User, {eager: true})//data type

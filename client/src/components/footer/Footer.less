@@ -1,3 +1,63 @@
 .div {
-  background-color: red;
+  width: 100%;
+  display: inline-block;
+  background-color: white;
+  
+  .tittlewrap {
+    padding: 10px 3%;
+  }
+
+  .logoandname {
+    color: rgba(0, 0, 0, 0.65);
+  }
+  .logo {
+    padding: 30px;
+    background: url("/images/test-logo2.png");
+    background-size: cover;
+  }
+  .innerdiv {
+    width: 100%;
+    display: inline-block;
+    padding: 10px 3%;  
+    background-color:  rgb(57, 129, 223);  
+    .content {
+      width: 33.3%;
+      float: left;
+      a {
+        color: rgba(0, 0, 0, 0.65);
+      }
+      .ant-descriptions-item {
+        display: flex;
+        align-items: center;
+        padding: 2.3px 0;
+      }
+      .ant-descriptions-item-content {
+        font-size: .93em;
+        text-align: left;
+      }
+      .ant-descriptions-item-label {
+        font-size: .85em;
+      }
+      .icon {
+        font-size: 3em;
+        float: left;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .div {
+    width: 100%;
+    .innerdiv{
+      width: 100%;
+      .content {
+        width: 100%;
+        display: inline-block;
+        .ant-descriptions-item {
+          padding:  0;
+        }
+      } 
+    }
+  }
 }

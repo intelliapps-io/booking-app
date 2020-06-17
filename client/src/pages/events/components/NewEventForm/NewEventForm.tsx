@@ -28,6 +28,7 @@ interface FormData {
   time: Moment
   duration: number
   employeeId: string
+  service: string
 }
 
 const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props => {
@@ -66,7 +67,8 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
               data: {
                 datetime: mergeDateTime(),
                 duration: formData.duration,
-                employeeId: formData.employeeId
+                employeeId: formData.employeeId,
+                // service: formData.service
               }
             }
           })
@@ -99,6 +101,13 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
         </Form.Item>
         <div className='innerwrap'>
           <div className='innerformwrap' style={{}}>
+          <Form.Item style={{ float: 'left', marginRight: '8px' }}>
+              {getFieldDecorator('service', {
+                rules: [{ required: true, message: 'service required' }]
+              })(
+                <ServicesSelect style={{width: 100}} />
+              )}
+            </Form.Item>
             <Form.Item style={{ float: 'left', marginRight: '8px' }}>
               {getFieldDecorator('time', {
                 rules: [{ required: true, message: 'time required' }]
@@ -122,9 +131,6 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
               )}
             </Form.Item>
           </div>
-
-          <ServicesSelect />
-
           <div className='innerformwrap' style={{}}>
             <div className='eventoutline' style={{}} >
               <Descriptions title="Appointment Status">
