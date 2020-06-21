@@ -56,6 +56,8 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
     const eventMade = () => {
       if (!formData.date) {
         window.alert('please select date')
+      } else if (!formData.service) {
+        window.alert('please select service')
       } else if (!formData.time) {
         window.alert('please select time')
       } else if (!formData.employeeId) {
@@ -166,7 +168,12 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
             <div className='eventoutline' style={{}} >
               <div>
                 <Descriptions title="confirm">
-                  <Descriptions.Item label="Service(s)">{}</Descriptions.Item>
+                  <Descriptions.Item label="Service(s)">{(() => {
+                    const services = props.form.getFieldValue('service')
+                    if (services) {
+                      return [services]
+                    }else return 'no service selceted'
+                  })()}</Descriptions.Item>
                   <Descriptions.Item label="Cost">{}</Descriptions.Item>
                   <Descriptions.Item label="Total">{}</Descriptions.Item>
                 </Descriptions>

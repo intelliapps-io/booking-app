@@ -10,6 +10,7 @@ import { ServicesMap } from "./ServicesMap";
 import { useServicesQuery, UserRole } from "../../lib/codegen";
 import { PossibleFragmentSpreads } from "graphql/validation/rules/PossibleFragmentSpreads";
 import { userInfo } from "os";
+import { OrganizationInfo } from "./OrganizationInfo";
 
 interface IProps {
 
@@ -44,17 +45,7 @@ export const Home: React.FC<IProps> = props => {
           </div>
         </div>
       </div>
-      <div className='mission'>
-        <span>Our Mission</span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-        exercitationullamco laboris nisi ut aliquip ex ea commodo consequat.
-        Duis aute irure dolor in reprehenderit in voluptate velit 
-        </p>
-      </div>
-      <div className='features'>
-        <span>Our Mission</span>
-      </div>
+      <OrganizationInfo/>
       {(() => {
         if (UserRole) {
           return <div className='herocontent'><ServicesMap/></div>

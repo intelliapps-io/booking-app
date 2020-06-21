@@ -38,7 +38,7 @@ export const Account: React.FC<IProps & RouteComponentProps<{ tabId?: TabID }>> 
   return (
     <div>
       <div style={{
-        display: 'flex', padding: '15px 0', alignItems: 'center',
+        display: 'flex', padding: '15px 3%', alignItems: 'center',
         borderBottom: '3px solid #fff', width: 'fit-content', marginBottom: '3%'
       }}>
         {user.role}:
@@ -48,7 +48,7 @@ export const Account: React.FC<IProps & RouteComponentProps<{ tabId?: TabID }>> 
         </div>
       </div>
 
-      <div>
+      <div style={{padding: '0 3%'}}>
         <Tabs
           defaultActiveKey={props.match.params.tabId}
           activeKey={isTabIdValid(props.match.params.tabId) ? props.match.params.tabId : 'overview'}
