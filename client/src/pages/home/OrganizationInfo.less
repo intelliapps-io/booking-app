@@ -9,6 +9,20 @@
     padding: 15px;
     border-radius: 3px;
     box-shadow: 0 6px 6px #BABABA;
+
+    .contact {  
+      float: left;
+      .icon {
+        color: rgb(59, 104, 230);
+        margin: 0 3px 0 0;
+        font-size: 2em;
+      }
+    }
+
+    .ant-descriptions-title {
+  
+      font-size: 1.25em;
+    }
     background-color: #fff;
     .ant-descriptions-item {
       display: flex;
@@ -17,11 +31,11 @@
       padding: 7px 0;
     }
     .ant-descriptions-item-content {
-      font-size: 1em;
+      font-size: .95em;
       text-align: left;
     }
     .ant-descriptions-item-label {
-      font-size: 1em;
+      font-size: 1.05em;
       font-weight: bold;
     }
   }
@@ -32,10 +46,48 @@
   }
 }
 
+@media screen and (max-width: 996px) {
+  .hero-info {
+    width: 100%;
+    display: flex;
+
+    .infowrap {
+      width: 28%;
+    }
+    #about {
+      width: 40%;
+      font-size: 1.1em;
+    }
+  }
+}
+@media screen and (max-width: 850px) {
+  .hero-info {
+    width: 100%;
+    display: flex;
+    .infowrap {
+      width: 32%;
+    }
+    #about {
+      width: 32%;
+      font-size: 1.2em;
+    }
+
+  }
+
+}
 @media screen and (max-width: 768px) {
   .hero-info {
     width: 100%;
-    background-color: yellow;
+    display: inline-block;
+   
+    .infowrap {
+      width: 100% ;
+    }
+    #about {
+      width: 100%;
+      font-size: 1.2em;
+      margin: 2% 0;
+    }
 
   }
 

@@ -3,6 +3,7 @@ import { AppContext } from '../../lib/helpers/AppContext';
 import './OrganizationInfo.less'
 import { Descriptions } from 'antd';
 import { Link } from 'react-router-dom';
+import { SendOutlined, PhoneOutlined, CompassOutlined } from '@ant-design/icons';
 interface OrganizationInfoProps {
 
 }
@@ -77,17 +78,27 @@ export const OrganizationInfo: React.FC<OrganizationInfoProps> = props => {
           <Descriptions.Item >
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor 
             incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-            exercitationullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit 
+            exercitationullamco laboris nisi ut aliquip ex ea commodo consequat
             </p>
           </Descriptions.Item>
         </Descriptions>
       </div>
       <div className="infowrap">
         <Descriptions title="Contact" style={{width: '100%'}}>
-          <Descriptions.Item label="Where">{organization!.address}</Descriptions.Item>
-          <Descriptions.Item label="Phone">{organization!.phone}</Descriptions.Item>
-          <Descriptions.Item label="Emial">{organization!.contactEmail}</Descriptions.Item>
+          <span className='contact'>
+            <CompassOutlined translate={CompassOutlined} className='icon'/>
+            {organization!.address}
+          </span>
+          <br/>
+          <span className='contact'>
+            <PhoneOutlined translate={PhoneOutlined} className='icon' />
+            {organization!.phone}
+          </span>
+          <br/>
+          <span className='contact'>
+            <SendOutlined translate={SendOutlined} className='icon' /> 
+            {organization!.contactEmail}
+          </span>
         </Descriptions>
         <Link to="/login">Login</Link>
         <br/>

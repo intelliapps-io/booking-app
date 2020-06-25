@@ -77,7 +77,7 @@ export const Footer: React.FC<FooterProps> = () => {
         </div>
       </div>
       <div className='innerdiv' >
-        <div className='content' >
+        {/* <div className='content' >
           <Descriptions title="Company" style={{width: '100%'}}>
             <Descriptions.Item label="Location">{organization!.address}</Descriptions.Item>
             <br />
@@ -93,7 +93,7 @@ export const Footer: React.FC<FooterProps> = () => {
             <br/>
             <Descriptions.Item label=""><Link to="/signup">Signup</Link></Descriptions.Item>
           </Descriptions>
-        </div>
+        </div> */}
         {/* <div className='content' style={{}} >
           <Descriptions title="Office Hours">
             <Descriptions.Item label="Sunday">{sundayHours()}</Descriptions.Item> 
@@ -106,15 +106,15 @@ export const Footer: React.FC<FooterProps> = () => {
          </Descriptions>
         </div> */}
         <div className='content' style={{}} >
-          <Descriptions title="social">
-            <div style={{ display: 'flex' , alignItems: 'center'}}>
+          <div className='socialwrap' style={{  }}>
             <Link to='#'><TwitterOutlined translate={TwitterOutlined} className='icon' /></Link>
             <Link to='#'><InstagramOutlined translate={InstagramOutlined} className='icon' /></Link>
             <Link to='#'><FacebookOutlined translate={FacebookOutlined} className='icon' /></Link>
-            </div>
-          </Descriptions> 
-         
+          </div>
         </div>
+      </div>
+      <div style={{textAlign: 'center', backgroundColor: 'rgb(66, 104, 207)', padding: '4px 0'}}>
+        &trade;<Link style={{color: 'rgba(0, 0, 0, 0.65)'}} to='#'>WorkSoft</Link>
       </div>
     </div>
   );

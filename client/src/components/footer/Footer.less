@@ -1,10 +1,11 @@
 .div {
   width: 100%;
   display: inline-block;
-  background-color: white;
+  background-color:  white;
   
   .tittlewrap {
     padding: 10px 3%;
+    border-bottom: 2px solid rgb(66, 104, 207)
   }
 
   .logoandname {
@@ -18,13 +19,21 @@
   .innerdiv {
     width: 100%;
     display: inline-block;
-    padding: 10px 3%;  
-    background-color:  rgb(57, 129, 223);  
+    padding: 30px 3%;  
+  
     .content {
-      width: 33.3%;
-      float: left;
+      width: 100%;
+      //float: left;
       a {
-        color: rgba(0, 0, 0, 0.65);
+        color: rgb(66, 104, 207);
+        float: left;
+      }
+      .socialwrap {
+        display: block;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+
       }
       .ant-descriptions-item {
         display: flex;
