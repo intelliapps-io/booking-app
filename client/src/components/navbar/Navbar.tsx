@@ -60,7 +60,7 @@ export const Navbar: React.FC<NavbarProps> = props => {
     <div className="navbar">
       <div style={{ display: 'flex', alignItems: 'center', alignContent: 'center' }}>
         <Link id="logolink" to="/"><div className="logo"></div></Link>
-        <span style={{ marginLeft: '10px', fontWeight: "bold" }}>{name}</span>
+        {/* <span style={{ marginLeft: '10px', fontWeight: "bold" }}>{name}</span> */}
       </div>
       <Menu className="menu" mode="horizontal" selectedKeys={[router.location ? router.location.pathname : '']}>
         {user && user.id ? UserMenu() : PublicMenu()}

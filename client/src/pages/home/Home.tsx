@@ -48,13 +48,15 @@ export const Home: React.FC<IProps> = props => {
       <OrganizationInfo/>
       {(() => {
         if (UserRole) {
-          return <div className='herocontent'><ServicesMap/></div>
+          return <div className='herocontent'>
+           <div className='innerherocontent'> <ServicesMap /></div>
+          </div>
         }
       })()}
-      <div className='people'>
+      {/* <div className='people'>
         <span>What people are saying . . .</span>
         
-      </div>
+      </div> */}
       <Footer />
     </div>
   );

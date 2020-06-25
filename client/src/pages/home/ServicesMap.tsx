@@ -4,6 +4,8 @@ import { ServicePriceForm } from '../admin/organization/Organization-Services/Se
 import ServiceDisplay from './ServiceDisplay';
 import { ServiceDisplayTwo } from './ServiceDisplayTwo';
 import { AppContext } from '../../lib/helpers/AppContext';
+import { NewServiceDisplay } from './NewServiceDisplay';
+
 interface ServicesMapProps {
 
 }
@@ -19,7 +21,7 @@ export const ServicesMap: React.FC<ServicesMapProps> = props => {
       }
     }
   })
-  if (!servicesQuery.data || !servicesQuery.data.services) return <div>can not query services</div>
+  if (!servicesQuery.data || !servicesQuery.data.services) return <div></div>
   if (organization) console.log(organization.name)
   const { items, total } = servicesQuery.data.services
   console.log(items)
@@ -28,24 +30,23 @@ export const ServicesMap: React.FC<ServicesMapProps> = props => {
   return(
     <div>
       {items.map((item, index) =>
-      {
-        if (index === 0  )
-          return <li key={item.id} style={{ listStyleType: 'none' }} >
-            <ServiceDisplay key={item.id}  service={item as any} servicesQuery={servicesQuery as any} />
-          </li>
-        else if (index === 1) 
-          return <ServiceDisplayTwo key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
-        else if (index === 2)
-          return <ServiceDisplay key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
-        else if (index === 3) 
-          return <ServiceDisplayTwo key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
-        else if (index === 4)
-          return <ServiceDisplay key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
-      }
-        // <li key={item.id} style={{ listStyleType: 'none' }}>
-        //   <ServiceDisplay key={item.id}  service={item as any} servicesQuery={servicesQuery as any} />
-        //   <ServiceDisplayTwo key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
-        // </li>
+      // {
+        // if (index === 0  )
+        //   return <li key={item.id} style={{ listStyleType: 'none' }} >
+        //     <ServiceDisplay key={item.id}  service={item as any} servicesQuery={servicesQuery as any} />
+        //   </li>
+        // else if (index === 1) 
+        //   return <ServiceDisplayTwo key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
+        // else if (index === 2)
+        //   return <ServiceDisplay key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
+        // else if (index === 3) 
+        //   return <ServiceDisplayTwo key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
+        // else if (index === 4)
+        //   return <ServiceDisplay key={item.id} service={item as any} servicesQuery={servicesQuery as any} />
+        //}
+        <li key={item.id} style={{ listStyleType: 'none' }}>
+          <NewServiceDisplay key={item.id}  service={item as any} servicesQuery={servicesQuery as any} />
+        </li>
       )}
     </div>
   );
