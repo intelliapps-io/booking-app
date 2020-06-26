@@ -17,6 +17,7 @@
 .herocontent {
   width: 100%;
   padding: 5px 3%;
+  margin-bottom: 40px;
   display: flex;
   .innerherocontent {
     width: 100%;
@@ -39,8 +40,74 @@
   }
 
   .contentpic {
-    padding: 125px 0;
+    padding: 115px 0;
     background-color: rgb(228, 220, 220);
     border-radius:  3px 3px 0 0 ;
   }
+}
+
+@media screen and (max-width: 920px) {
+  .home-root {
+    .herolanding {
+
+    }
+    .intro-wrap {
+
+    }
+
+    .herocontent {
+      .innerherocontent {
+        padding: 25px 3.5% 25px 0;
+      }
+      .contentwrap {
+        width: 45%;
+        margin-left: 4.5%;
+      }
+      .contenttext {
+
+      }
+
+      .contentpic {
+
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home-root {
+    .herolanding {
+
+    }
+    .intro-wrap {
+
+    }
+
+    .herocontent {
+      .innerherocontent {
+        padding: 25px 0;
+      }
+
+      .contentwrap {
+        width: 100%;
+        margin-left: 0;
+     
+      }
+      .contenttext {
+        .pricedesc {
+          display: none;
+        }
+        .button {
+          width: 80%;
+          display: block;
+          margin-left:  auto;
+          margin-right: auto;
+        }
+      }
+      .contentpic {
+        padding: 125px 0;
+      }
+    }
+  }
+
 }

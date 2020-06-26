@@ -45,7 +45,13 @@ export const Home: React.FC<IProps> = props => {
           </div>
         </div>
       </div>
-      <OrganizationInfo/>
+      <OrganizationInfo />
+      {(() => {
+        if (UserRole.Customer) {
+          return <div style={{ textAlign: 'center', color: 'rgb(59, 104, 230)', fontSize: '1.5em', fontWeight:'bold'}}>Services</div>
+        }
+      })()}
+      
       {(() => {
         if (UserRole) {
           return <div className='herocontent'>
