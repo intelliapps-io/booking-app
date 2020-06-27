@@ -33,7 +33,7 @@ class QueryServicesInput extends PaginatedResponseInput {
 @Resolver()
 export class QueryServicesResolver {
   @Query(type => PaginatedServiesResponse)
-  @Authorized([UserRole['CUSTOMER']])//important
+  //@Authorized([UserRole['CUSTOMER']])//important
   services(@Arg('data') data: QueryServicesInput) {
     return new Promise(async (resolve, reject) => {
       const { limit, offset, cost, costOperator, employeeIds, name } = data;

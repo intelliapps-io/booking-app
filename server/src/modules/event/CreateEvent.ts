@@ -29,7 +29,7 @@ export class CreateEventResolver {
         datetime: data.datetime,
         duration: data.duration
       }).save().catch(err => reject(err))
-      if (!event) {
+      if (!event) {           
         reject(new Error('error event not created'))
         return
       }

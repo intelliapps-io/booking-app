@@ -3,6 +3,7 @@ import { Organization, validateHoursOfOperation } from "../../entity/Organizatio
 import { UserRole, User } from "../../entity/User";
 import { OrganizationInput } from "./OrganizationInput";
 import { MyContext } from "../../ts/context";
+import { nodeLogger } from "../../helpers/helpers";
 
 @Resolver()
 export class UpdateOrganizationResolver {
@@ -38,6 +39,7 @@ export class UpdateOrganizationResolver {
         if (existingOrganization)
           return reject(new Error(`${data.urlName} is already in use by another organization`))
       }
+      nodeLogger(data.hoursOfOperation)
       
       // validate urlName length
       if (data.urlName.trim().toLowerCase().length < 4)

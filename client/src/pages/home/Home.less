@@ -1,16 +1,32 @@
 .home-root {
   
   .herolanding {
-    padding: 60px 3%;
+    padding: 65px 3%;
     display: flex;
-    background-color: red;
-    //background: url("/images/landingtest.jpg");
-    //background-size: cover;
+    align-items: center;
+    background: url("/images/landingtest.jpg");
+    background-size: cover;
   }
   
   .intro-wrap {
     width: 50%;
     color: #fff;
+
+    .catchphrase {
+      font-size: 3em;
+      font-weight: bold ;
+      margin: 0 0 20px 0;
+    }
+
+    .support {
+      font-size: 1.4em;
+    }
+
+  }
+  #name {
+    text-align: center;
+    font-size: 2.5em;
+    
   }
   
 }
@@ -46,13 +62,31 @@
   }
 }
 
+@media screen and (max-width: 960px) {
+  .home-root {
+    .home-landing {
+      padding: 60px 3%;
+    }
+    .intro-wrap {
+      .catchphrase {
+        font-size: 2.4em;
+      }
+      .support {
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 920px) {
   .home-root {
     .herolanding {
-
-    }
+      padding: 55px 3%;
+    } 
     .intro-wrap {
-
+      .catchphrase {
+        font-size: 2.2em;
+      }
     }
 
     .herocontent {
@@ -77,10 +111,17 @@
 @media screen and (max-width: 768px) {
   .home-root {
     .herolanding {
-
+      padding: 45px 3%;
     }
     .intro-wrap {
-
+      width: 100%;
+      .catchphrase {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+    }
+    #name {
+      display: none;
     }
 
     .herocontent {

@@ -25,17 +25,18 @@ export const Home: React.FC<IProps> = props => {
   if (!organization)
     return <div  />
   // destructure display variables
-  const {landingHtml, phone, address, contactEmail, hoursOfOperation } = organization
+  const { name,landingHtml, phone, address, contactEmail, hoursOfOperation } = organization
 
 
   return (
     <div className="home-root">
       <div className='herolanding'>
-        <div className='intro-wrap'></div>
+        <div className='intro-wrap' id='name'></div>
+        {/* <div className='intro-wrap' id='name'>{name}</div> */}
         <div className='intro-wrap'>
           <div style={{width: '90%', margin: '15% auto' }}>
-            <p style={{fontSize: '3em', fontWeight: 'bold', marginBottom: '20px'}}>Exceptional Services</p>
-            <p style={{ fontSize: '1.5em' }}>Provided to you how and when<br/> you want.</p>
+            <p className='catchphrase' style={{}}>Exceptional Services</p>
+            <p className='support' style={{ }}>Provided to you how and when<br/> you want.</p>
             <Link
               to="/events">
                 <Button type="primary" style={{ boxSizing: 'content-box',  padding: '3px 30px', marginTop: '15px' }}>

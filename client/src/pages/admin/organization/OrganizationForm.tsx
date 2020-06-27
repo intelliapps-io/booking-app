@@ -206,7 +206,7 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
             {/* Friday */}
               <div style={{ display: 'flex',justifyContent: 'space-around' }}>
                 <Form.Item label="Fri Start" style={{  }}>
-                  {getFieldDecorator('firday_start', {
+                  {getFieldDecorator('friday_start', {
                     rules: [{ required: true }],
                     initialValue: moment().startOf('day').add(organization.hoursOfOperation.friday.start, "minutes")
                   })(<TimePicker format=" HH:mm" style={{ marginLeft: '2%', width: '90%' }} />)
