@@ -1,15 +1,17 @@
 import React from "react";
-import { User, MeQuery, MeQueryVariables, Organization, OrganizationQuery, OrganizationQueryVariables } from "../codegen";
+import { User, MeQuery, MeQueryVariables, Organization, OrganizationQuery, OrganizationQueryVariables, UserFragment } from "../codegen";
 import { QueryResult } from "react-apollo";
 import { RouteComponentProps } from "@reach/router";
 import { StaticContext } from "react-router";
+import { CartState, CartReducerAction } from "./hooks/cartReducer";
 
 interface IAppContext {
-  user: User | null,
+  user: UserFragment | null,
   meQuery: QueryResult<MeQuery, MeQueryVariables>,
   organization: Organization | null,
   organizationQuery: QueryResult<OrganizationQuery, OrganizationQueryVariables>
-  router: RouteComponentProps<{}>
+  router: RouteComponentProps<{}>,
+  cartReducer: [CartState, React.Dispatch<CartReducerAction>]
 }
 
 export const AppContext = React.createContext<IAppContext>({
@@ -18,6 +20,7 @@ export const AppContext = React.createContext<IAppContext>({
   organization: null,
   organizationQuery: null as any,
   router: null as any,
+  cartReducer: null as any
 });
 
 // for organization query

@@ -3,7 +3,7 @@ import { AppContext } from '../../lib/helpers/AppContext';
 import './OrganizationInfo.less'
 import { Descriptions } from 'antd';
 import { Link } from 'react-router-dom';
-import { SendOutlined, PhoneOutlined, CompassOutlined } from '@ant-design/icons';
+// import { SendOutlined, PhoneOutlined, CompassOutlined } from '@ant-design/icons';
 interface OrganizationInfoProps {
 
 }
@@ -86,17 +86,17 @@ export const OrganizationInfo: React.FC<OrganizationInfoProps> = props => {
       <div className="infowrap">
         <Descriptions title="Contact" style={{width: '100%'}}>
           <span className='contact'>
-            <CompassOutlined translate={CompassOutlined} className='icon'/>
+            {/* <CompassOutline translate={CompassOutline} className='icon'/> */}
             {organization!.address}
           </span>
           <br/>
           <span className='contact'>
-            <PhoneOutlined translate={PhoneOutlined} className='icon' />
+            {/* <PhoneOutline translate={PhoneOutline} className='icon' /> */}
             {organization!.phone}
           </span>
           <br/>
           <span className='contact'>
-            <SendOutlined translate={SendOutlined} className='icon' /> 
+            {/* <SendOutlined translate={SendOutline} className='icon' />  */}
             {organization!.contactEmail}
           </span>
         </Descriptions>

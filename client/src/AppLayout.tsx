@@ -17,24 +17,28 @@ import { __RouterContext } from "react-router"
 import { Admin } from "./pages/admin/Admin";
 import { SchedulerPage } from "./components/scheduler/schedulerPage/SchedulerPage";
 import { ThankYou } from "./pages/events/components/ThankYou";
+import { CartPage } from "./pages/cart/CartPage";
+import { cartReducer as CartReducer, initializeCartState } from "./lib/helpers/hooks/cartReducer";
 
 export const AppLayout: React.FC = props => {
   const router = React.useContext(__RouterContext)
   const organizationUrlName = getOrganizationUrlName()
   const meQuery = useMeQuery()
+  const cartReducer = React.useReducer(CartReducer, initializeCartState())
   const organizationQuery = useOrganizationQuery({
     variables: { data: { urlName: organizationUrlName } },
     skip: !organizationUrlName,
     onError: () => router.history.push(`/error/${encodeURI(JSON.stringify({ title: 'Organization not found!', message: 'Please make sure you typed it correctly' }))}`)
   })
-  
+
   return (
     <AppContext.Provider value={{
       user: meQuery.data && meQuery.data.me ? meQuery.data.me : null,
       meQuery,
       organization: organizationQuery.data && organizationQuery.data.organization ? organizationQuery.data.organization : null,
       organizationQuery,
-      router: router as any
+      router: router as any,
+      cartReducer
     }}>
       <Layout className="app-layout">
         {/** shows for organization url */}
@@ -50,6 +54,7 @@ export const AppLayout: React.FC = props => {
               <Route exact path="/account/:tabId?" component={Account} />
               <Route exact path="/events/thankyou" component={ThankYou} />
               <Route exact path="/events" component={Events} />
+              <Route exact path="/cart" component={CartPage} />
               <Route exact path="/error/:data" render={({ match }) =>
                 <AppError title={JSON.parse(decodeURI(match.params.data)).title} message={JSON.parse(decodeURI(match.params.data)).message} />} />
               <Route path="/" component={Home} />
