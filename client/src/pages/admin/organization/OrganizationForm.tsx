@@ -266,9 +266,14 @@ const _OrganizationForm: React.FC<OrganizationFormProps & FormComponentProps> = 
               {/* <ServicesForm */}
               <ServicesPane />
             </div>
+         </TabPane>
+        
+          <TabPane tab="Edit Products" key="4">
+          
+          
           </TabPane>
         
-          <TabPane tab="HTML Editor" key="4">
+          <TabPane tab="HTML Editor" key="5">
             <Form {...formItemLayout} onSubmit={handleFormSubmit} style={{paddingLeft: '5%'}}>
               <Form.Item>
                 {getFieldDecorator('landingHtml', {

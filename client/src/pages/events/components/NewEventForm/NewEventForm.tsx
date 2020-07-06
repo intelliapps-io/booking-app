@@ -56,9 +56,7 @@ const _NewEventForm: React.FC<NewEventFormProps & FormComponentProps> = props =>
     const eventMade = () => {
       if (!formData.date) {
         window.alert('please select date')
-      } else if (!formData.service) {
-        window.alert('please select service')
-      } else if (!formData.time) {
+      }else if (!formData.time) {
         window.alert('please select time')
       } else if (!formData.employeeId) {
         window.alert('please select provider')

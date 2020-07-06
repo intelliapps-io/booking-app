@@ -48,7 +48,8 @@ class Login extends React.Component<IProps, IState> {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Card className="login">
+      <div style={{padding: '5% 3%',}}>
+        <Card className="login">
         <h2>Login</h2>
         {this.renderMessage()}
         <Form onSubmit={(event) => this.onSubmit(event)}>
@@ -80,6 +81,7 @@ class Login extends React.Component<IProps, IState> {
           </div>
         </Form>
       </Card>
+      </div>
     );
   };
 }
