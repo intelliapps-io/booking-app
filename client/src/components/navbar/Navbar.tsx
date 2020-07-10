@@ -26,15 +26,19 @@ export const Navbar: React.FC<NavbarProps> = props => {
 
   function PublicMenu() {
     return [
-      <Menu.Item key="/login"><Link to="/login">Login</Link></Menu.Item>,
-      <Menu.Item key="/signup"><Link to="/signup">Signup</Link></Menu.Item>,
+      <Menu.Item key="/cart"><Link to="/cart">Cart</Link></Menu.Item>,
+      <Menu.Item key="/login"><Link to="/login">Log in</Link></Menu.Item>,
+      //<Menu.Item key="/signup"><Link to="/signup">Signup</Link></Menu.Item>,
+      
     ]
   }
 
   function UserMenu() {
     let menuItems: React.ReactNode[] = [
       <Menu.Item key="/events"><Link to="/events"><Icon type="calendar" /> Events</Link></Menu.Item>,
-      <Menu.Item key="/account"><Link to="/account"><Icon type="user" /> Account</Link></Menu.Item>
+      <Menu.Item key="/account"><Link to="/account"><Icon type="user" /> Account</Link></Menu.Item>,
+      <Menu.Item key="/cart"><Link to="/cart">Cart</Link></Menu.Item>
+
     ]
 
     if (user && user.role === UserRole['Admin'])
@@ -49,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = props => {
 
     menuItems.push(
       <Menu.Item key="4" className="account" onClick={() => handleLogout()}>
-        <Icon type="logout" /> Logout
+        Logout
       </Menu.Item>
     )
 
@@ -65,6 +69,8 @@ export const Navbar: React.FC<NavbarProps> = props => {
       <Menu className="menu" mode="horizontal" selectedKeys={[router.location ? router.location.pathname : '']}>
         {user && user.id ? UserMenu() : PublicMenu()}
       </Menu>
+      
     </div>
+    
   );
 }

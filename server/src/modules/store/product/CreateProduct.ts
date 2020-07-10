@@ -8,7 +8,7 @@ import { ProductInput } from "../storeInput";
 export class CreateProductResolver {
   @Mutation(type => Product)
   @Authorized([UserRole['ADMIN']])
-  createService(@Arg('data') data: ProductInput) {
+  createProduct(@Arg('data') data: ProductInput) {
     return new Promise(async (resolve, reject) => {
       const { name, cost, description, UPCCode, inventory } = data;
 
