@@ -3,17 +3,10 @@ import { PaginatedResponse, PaginatedResponseInput } from "../../../helpers/grap
 import { Product } from "../../../entity/Store";
 import { UserRole } from "../../../entity/User";
 import { joinRelation, nodeLogger, queryPaginatedResponse, toSqlArray } from "../../../helpers/helpers";
-
-enum NumberOperator {
-  'GREATER' = 'GREATER',
-  'LESSER' = 'LESSER',
-  'EQUAL' = 'EQUAL'
-}
-
-registerEnumType(NumberOperator, { name: 'NumberOperator' })
+import {NumberOperator} from '../service/QueryServices'
 
 @ObjectType()
-class PaginatedServiesResponse extends PaginatedResponse(Product) { }
+class PaginatedProductsResponse extends PaginatedResponse(Product) { }
 
 @InputType()
 class QueryProductsInput extends PaginatedResponseInput {
@@ -25,18 +18,15 @@ class QueryProductsInput extends PaginatedResponseInput {
 
   @Field(type => NumberOperator, { nullable: true })
   costOperator?: NumberOperator
-
-  @Field(type => [ID], { nullable: true })
-  employeeIds?: string[]
 }
 
 @Resolver()
 export class QueryProductsResolver {
-  @Query(type => PaginatedServiesResponse)
+  @Query(type => PaginatedProductsResponse)
   //@Authorized([UserRole['CUSTOMER']])//important
-  services(@Arg('data') data: QueryProductsInput) {
+  products(@Arg('data') data: QueryProductsInput) {
     return new Promise(async (resolve, reject) => {
-      const { limit, offset, cost, costOperator, employeeIds, name } = data;
+      const { limit, offset, cost, costOperator, name } = data;
       const query = Product.createQueryBuilder()
 
       // handle pagination
@@ -58,10 +48,6 @@ export class QueryProductsResolver {
             query.andWhere(`Product.cost <= ${cost}`)
             break;
         }
-      }
-
-      if (employeeIds) {
-        query.andWhere(`"employees"."id" IN (${toSqlArray(employeeIds)})`)
       }
 
       queryPaginatedResponse(query)

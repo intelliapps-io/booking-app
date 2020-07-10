@@ -100,7 +100,7 @@ type Mutation {
   updateUser(data: UpdateUserInput!): User!
   createEvent(data: EventInput!): Event!
   deleteEvent(id: String!): Boolean!
-  createService(data: ServiceInput!): Service!
+  createService(data: ProductInput!): Product!
   updateService(data: ServiceInput!, id: String!): Service!
   deleteService(id: String!): ID!
   createEmployeeSchedule(data: EmployeeScheduleInput!): EmployeeSchedule!
@@ -108,6 +108,8 @@ type Mutation {
   deleteEmployeeSchedule(id: String!): String!
   updateOrganization(data: OrganizationInput!, id: String!): Organization!
   deleteUser(id: String!): User!
+  updateProduct(data: ProductInput!, id: String!): Product!
+  deleteProduct(id: String!): ID!
 }
 
 enum NumberOperator {
@@ -139,6 +141,11 @@ input OrganizationInput {
 
 type PaginatedEventsResponse {
   items: [Event!]!
+  total: Int!
+}
+
+type PaginatedProductsResponse {
+  items: [Product!]!
   total: Int!
 }
 
@@ -190,6 +197,8 @@ type Query {
   employeeSchedule(id: String!): EmployeeSchedule!
   employeeSchedules(data: QueryEmployeeSchedulesInput): [EmployeeSchedule!]!
   organization(data: QueryOrganizationInput!): Organization!
+  product(id: String!): Product!
+  products(data: QueryProductsInput!): PaginatedProductsResponse!
 }
 
 input QueryEmployeeSchedulesInput {
@@ -214,6 +223,14 @@ input QueryEventsInput {
 input QueryOrganizationInput {
   id: String
   urlName: String
+}
+
+input QueryProductsInput {
+  offset: Float
+  limit: Float
+  name: String
+  cost: Float
+  costOperator: NumberOperator
 }
 
 input QueryServicesInput {

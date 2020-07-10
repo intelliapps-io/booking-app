@@ -4,6 +4,7 @@ fragment Service on Service {
   cost
   description
   UPCCode
+  duration
   employees {
     ...User
   }
@@ -37,5 +38,45 @@ query Services($data: QueryServicesInput!) {
 query Service($id: String!) {
   service(id: $id) {
 		...Service
+  }
+}
+
+fragment Product on Product {
+  id
+  name
+  cost
+  description
+  UPCCode
+  inventory
+}
+
+mutation CreateProduct($data: ProductInput!) {
+  createProduct(data: $data) {
+    ...Product
+  }
+}
+
+mutation UpdateProduct($id: String!, $data: ProductInput!) {
+  updateProduct(id: $id, data: $data) {
+    ...Product
+  }
+}
+
+mutation DeleteProduct($id: String!) {
+  deleteProduct(id: $id)
+}
+
+query Products($data: QueryProductsInput!) {
+  products(data: $data) {
+    total
+    items {
+      ...Product
+    }
+  }
+}
+
+query Product($id: String!) {
+  product(id: $id) {
+		...Product
   }
 }

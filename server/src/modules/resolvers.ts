@@ -28,6 +28,11 @@ import { QueryEmployeeSchedules } from "./employeeSchedule/QueryEmployeeSchedule
 import { UpdateOrganizationResolver } from "./organization/UpdateOrganizationResolver";
 import { QueryOrganizationResolver } from "./organization/QueryOrganizationResolver";
 import { DeleteUserResolver } from "./user/DeleteUserResolver";
+import { CreateProductResolver } from "./store/product/CreateProduct";
+import { UpdateProductResolver } from "./store/product/UpdateProduct";
+import { DeleteProductResolver } from "./store/product/DeleteProduct";
+import { QueryProductResolver } from "./store/product/QueryProduct";
+import { QueryProductsResolver } from "./store/product/QueryProducts";
 
 export const resolvers = [
   // User
@@ -53,6 +58,13 @@ export const resolvers = [
   DeleteServiceResolver,
   QueryServicesResolver,
   QueryServiceResolver,
+
+  //Product
+  CreateProductResolver,
+  UpdateProductResolver,
+  DeleteProductResolver,
+  QueryProductResolver,
+  QueryProductsResolver,
 
   // Employee Schedule
   CreateEmployeeSchedule,

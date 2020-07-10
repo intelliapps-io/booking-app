@@ -4,7 +4,7 @@ import { Service } from "../../../entity/Store";
 import { UserRole } from "../../../entity/User";
 import { joinRelation, nodeLogger, queryPaginatedResponse, toSqlArray } from "../../../helpers/helpers";
 
-enum NumberOperator {
+export enum NumberOperator {
   'GREATER' = 'GREATER',
   'LESSER' = 'LESSER',
   'EQUAL' = 'EQUAL'

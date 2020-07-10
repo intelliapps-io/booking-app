@@ -8,7 +8,7 @@ import { joinRelation, nodeLogger, queryPaginatedResponse, toSqlArray } from "..
 export class QueryProductResolver {
   @Query(type => Product)
   @Authorized([UserRole['CUSTOMER']])
-  service(@Arg('id') id: string) {
+  product(@Arg('id') id: string) {
     return new Promise(async (resolve, reject) => {
       Product.findOne({ where: { id } })
         .then(service => resolve(service))
